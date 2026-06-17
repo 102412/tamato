@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio · Tamato</title>
+<link rel="icon" href="/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/studio.css">
+<script>(function(){var t=localStorage.getItem('tm_theme')||'dark';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;})();</script>
+</head>
+<body>
+<div class="st-app">
+  <div class="st-top">
+    <a href="/dashboard.html"><img src="/assets/logo.svg" alt="Tamato" width="104"></a>
+    <div class="tm-row">
+      <span class="tm-credit-pill"><span class="tomato">🍅</span> <span id="creditCount">—</span></span>
+      <button class="tm-theme-toggle" id="themeBtn">◐</button>
+      <div class="tm-avatar" id="avatar" style="cursor:pointer" onclick="location.href='/account.html'">?</div>
+    </div>
+  </div>
+
+  <!-- SCREEN 1: HOME -->
+  <section class="st-screen active" id="screenHome">
+    <div class="st-home">
+      <div class="st-home-head">
+        <div><h1 style="font-size:24px">Design systems</h1><p class="tm-dim" id="freeNote"></p></div>
+        <button class="tm-btn tm-btn-primary" id="newDsBtn">New Design System</button>
+      </div>
+      <div class="ds-grid" id="dsGrid"><p class="tm-muted">Loading…</p></div>
+    </div>
+  </section>
+
+  <!-- SCREEN 2: UPLOAD -->
+  <section class="st-screen" id="screenUpload">
+    <div class="st-upload">
+      <button class="tm-btn tm-btn-text" id="uploadBack" style="float:left">← Back</button>
+      <h2 style="margin-bottom:var(--sp-2)">Extract a design system</h2>
+      <p class="tm-dim" style="margin-bottom:var(--sp-6)">Upload up to 3 images. <b id="costNote">This will use 30 credits.</b></p>
+      <div class="drop-zone" id="dropZone">
+        <p>Drop images here, or click to choose.</p>
+        <p class="tm-dim" style="font-size:13px;margin-top:var(--sp-2)">PNG, JPG, GIF, WebP, SVG</p>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" multiple hidden>
+      <div class="upload-thumbs" id="uploadThumbs"></div>
+      <button class="tm-btn tm-btn-primary tm-btn-lg" id="extractBtn" disabled>Extract design system</button>
+    </div>
+  </section>
+
+  <!-- SCREEN 3: EDITOR -->
+  <section class="st-screen" id="screenEditor">
+    <div class="st-top" style="border-top:1px solid var(--tm-border)">
+      <div class="tm-row"><button class="tm-btn tm-btn-text" id="editorBack">← Home</button>
+        <input class="bd-sitename" id="dsName" value="Untitled Design System" style="font-size:15px"></div>
+      <div class="tm-row"><button class="tm-btn tm-btn-ghost tm-btn-sm" id="saveDsBtn">Save</button>
+        <button class="tm-btn tm-btn-primary tm-btn-sm" id="toExportBtn">Export →</button></div>
+    </div>
+    <div class="st-editor">
+      <div class="st-tokens" id="tokenEditor"></div>
+      <div class="st-preview"><div class="st-preview-inner" id="preview"></div></div>
+    </div>
+  </section>
+
+  <!-- SCREEN 4: EXPORT -->
+  <section class="st-screen" id="screenExport">
+    <div class="st-export">
+      <button class="tm-btn tm-btn-text" id="exportBack" style="margin-bottom:var(--sp-4)">← Editor</button>
+      <h2 style="margin-bottom:var(--sp-4)">Export</h2>
+      <pre class="export-code" id="exportCode"></pre>
+      <div class="tm-row" style="margin-top:var(--sp-4)">
+        <button class="tm-btn tm-btn-primary" id="copyBtn">Copy</button>
+        <button class="tm-btn tm-btn-ghost" id="openBuildBtn">Open in Tamato Build</button>
+        <button class="tm-btn tm-btn-ghost" id="openAiBtn">Open in Tamato AI</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="st-loading" id="loading"><div class="tm-spinner"></div><p>Megisto is analyzing your design…</p></div>
+
+<script type="module">
+import { requireAuth, getProfile, syncThemeFromProfile, toggleTheme, initials, timeAgo, toast, listDesignSystems, createDesignSystem, saveDesignSystem } from '/js/supabase.js';
+import { getTier, getModelSelectorState, recordStudioCreation, getRemainingCounts } from '/js/tiers.js';
+import { totalCredits, hasEnough, deductFlat, STUDIO_FLAT } from '/js/credits.js';
+import { extract, DEFAULT_TOKENS } from '/js/studio/extractor.js';
+import { renderTokenEditor } from '/js/studio/editor.js';
+import { renderPreview } from '/js/studio/preview.js';
+import { buildExport, openInBuild, openInAI } from '/js/studio/export.js';
+
+const $ = id => document.getElementById(id);
+let profile, tier, current = null, files = [], previewTimer = null;
+
+(async function init() {
+  if (!await requireAuth()) return;
+  profile = await getProfile(); tier = getTier(profile);
+  syncThemeFromProfile(profile);
+  $('avatar').textContent = initials(profile.email);
+  $('creditCount').textContent = totalCredits(profile).toLocaleString();
+  if (tier.studio.creationLifetime !== Infinity) {
+    const rem = getRemainingCounts(profile).studioCreations;
+    $('freeNote').textContent = `${rem} creation${rem === 1 ? '' : 's'} remaining`;
+  }
+  await renderHome();
+  wire();
+  const params = new URLSearchParams(location.search);
+  if (params.get('ds')) { const all = await listDesignSystems(); const ds = all.find(d => d.id === params.get('ds')); if (ds) openEditor(ds); }
+})();
+
+function screen(id) { document.querySelectorAll('.st-screen').forEach(s => s.classList.remove('active')); $(id).classList.add('active'); }
+
+async function renderHome() {
+  const systems = await listDesignSystems();
+  const grid = $('dsGrid');
+  if (!systems.length) { grid.innerHTML = '<p class="tm-muted">No design systems yet. Create your first.</p>'; return; }
+  grid.innerHTML = systems.map(d => {
+    const colors = d.tokens && d.tokens.colors ? Object.values(d.tokens.colors).filter(v => /^#/.test(v)).slice(0, 5) : [];
+    return `<div class="ds-card" data-id="${d.id}" data-primary="${colors[0] || '#B85C52'}">
+      <h4>${escapeHtml(d.name || 'Untitled')}</h4>
+      <div class="ds-swatches">${colors.map(c => `<span class="ds-swatch" style="background:${c}"></span>`).join('')}</div>
+      <div class="ds-time">${timeAgo(d.updated_at)}</div></div>`;
+  }).join('');
+  grid.querySelectorAll('.ds-card').forEach(card => {
+    const primary = card.dataset.primary;
+    card.addEventListener('mouseenter', () => { card.style.background = tint(primary, .12); card.style.borderColor = tint(primary, .4); });
+    card.addEventListener('mouseleave', () => { card.style.background = ''; card.style.borderColor = ''; });
+    card.addEventListener('click', async () => { const all = await listDesignSystems(); openEditor(all.find(d => d.id === card.dataset.id)); });
+  });
+}
+
+function openEditor(ds) {
+  current = ds;
+  $('dsName').value = ds.name || 'Untitled Design System';
+  renderTokenEditor($('tokenEditor'), ds.tokens, debouncedPreview);
+  renderPreview($('preview'), ds.tokens);
+  screen('screenEditor');
+}
+function debouncedPreview(tokens) { clearTimeout(previewTimer); previewTimer = setTimeout(() => renderPreview($('preview'), tokens), 100); }
+
+/* ── Upload + extraction ───────────────────────────────────────── */
+function canCreateFree() {
+  if (tier.studio.creationLifetime !== Infinity) return getRemainingCounts(profile).studioCreations > 0;
+  if (tier.studio.freeMonthly > 0) return (profile.studio_creations_count || 0) < tier.studio.freeMonthly;
+  return false;
+}
+
+function wire() {
+  $('themeBtn').addEventListener('click', toggleTheme);
+  $('newDsBtn').addEventListener('click', () => { files = []; renderThumbs(); $('costNote').textContent = canCreateFree() ? 'This creation is included free.' : 'This will use 30 credits.'; screen('screenUpload'); });
+  $('uploadBack').addEventListener('click', () => screen('screenHome'));
+  $('editorBack').addEventListener('click', () => { renderHome(); screen('screenHome'); });
+  $('exportBack').addEventListener('click', () => screen('screenEditor'));
+
+  const dz = $('dropZone'), fi = $('fileInput');
+  dz.addEventListener('click', () => fi.click());
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+  dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('over'); addFiles(e.dataTransfer.files); });
+  fi.addEventListener('change', e => addFiles(e.target.files));
+
+  $('extractBtn').addEventListener('click', runExtract);
+  $('dsName').addEventListener('change', () => { if (current) current.name = $('dsName').value; });
+  $('saveDsBtn').addEventListener('click', saveCurrent);
+  $('toExportBtn').addEventListener('click', () => { $('exportCode').textContent = buildExport($('dsName').value, current.tokens); screen('screenExport'); });
+  $('copyBtn').addEventListener('click', () => navigator.clipboard.writeText($('exportCode').textContent).then(() => toast('Copied.', 'success')));
+  $('openBuildBtn').addEventListener('click', () => openInBuild($('dsName').value, current.tokens));
+  $('openAiBtn').addEventListener('click', () => openInAI($('dsName').value, current.tokens));
+}
+
+function addFiles(fl) { files = [...files, ...Array.from(fl)].slice(0, 3); renderThumbs(); }
+function renderThumbs() {
+  $('extractBtn').disabled = !files.length;
+  $('uploadThumbs').innerHTML = files.map((f, i) => `<div class="upload-thumb"><img src="${URL.createObjectURL(f)}"><button class="rm" data-i="${i}">✕</button></div>`).join('');
+  $('uploadThumbs').querySelectorAll('.rm').forEach(b => b.addEventListener('click', () => { files.splice(+b.dataset.i, 1); renderThumbs(); }));
+}
+
+async function runExtract() {
+  if (tier.studio.exportLocked && tier.studio.creationLifetime !== Infinity && getRemainingCounts(profile).studioCreations <= 0) {
+    return toast('Upgrade to create more design systems.', 'error', 5000);
+  }
+  const free = canCreateFree();
+  if (!free && !hasEnough(profile, 'studio', STUDIO_FLAT)) return toast(`Need ${STUDIO_FLAT} credits to extract.`, 'error', 5000);
+
+  $('loading').classList.add('show');
+  try {
+    const { tokens, urls } = await extract(files);
+    if (!free) await deductFlat(profile, { product: 'studio', amount: STUDIO_FLAT, description: 'design system creation', modelId: 'MEGISTO' });
+    await recordStudioCreation(profile);
+    const ds = await createDesignSystem({ name: 'Untitled Design System', tokens, source_images: urls });
+    profile = await getProfile();
+    $('creditCount').textContent = totalCredits(profile).toLocaleString();
+    openEditor(ds || { name: 'Untitled Design System', tokens, id: null });
+  } catch (e) {
+    toast('Extraction failed: ' + (e.message || 'try again'), 'error', 5000);
+  } finally { $('loading').classList.remove('show'); }
+}
+
+async function saveCurrent() {
+  if (!current) return;
+  current.name = $('dsName').value;
+  if (current.id) await saveDesignSystem(current.id, { name: current.name, tokens: current.tokens });
+  else { const ds = await createDesignSystem({ name: current.name, tokens: current.tokens }); if (ds) current = ds; }
+  toast('Saved.', 'success');
+}
+
+function tint(hex, a) { if (!/^#/.test(hex)) return `rgba(184,92,82,${a})`; let h = hex.slice(1); if (h.length === 3) h = h.split('').map(c => c + c).join(''); const n = parseInt(h, 16); return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`; }
+function escapeHtml(s) { return (s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+</script>
+</body>
+</html>

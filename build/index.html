@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build · Tamato</title>
+<link rel="icon" href="/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/build.css">
+<script>(function(){var t=localStorage.getItem('tm_theme')||'dark';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;})();</script>
+</head>
+<body>
+<div class="bd-app tm-shell">
+  <!-- TOP BAR -->
+  <div class="bd-top tm-shell">
+    <a href="/dashboard.html"><img src="/assets/logo.svg" alt="Tamato" width="104"></a>
+    <input class="bd-sitename" id="siteName" value="Untitled Site" aria-label="Site name">
+    <button class="tm-btn tm-btn-text tm-btn-sm" id="sitesBtn">Sites ▾</button>
+    <div class="bd-viewtoggle" id="viewToggle">
+      <button class="active" data-view="desktop">Desktop</button>
+      <button data-view="mobile">Mobile</button>
+    </div>
+    <div class="tm-grow"></div>
+    <span class="bd-save" id="saveStatus"></span>
+    <span class="tm-credit-pill"><span class="tomato">🍅</span> <span id="creditCount">—</span></span>
+    <button class="tm-btn tm-btn-ghost tm-btn-sm" id="codeBtn">Code</button>
+    <button class="tm-btn tm-btn-ghost tm-btn-sm" id="helpBtn">Help</button>
+    <button class="tm-btn tm-btn-primary tm-btn-sm" id="exportBtn">Export</button>
+    <div class="tm-avatar" id="avatar" style="cursor:pointer" onclick="location.href='/account.html'">?</div>
+  </div>
+
+  <!-- CANVAS -->
+  <div class="bd-canvas-wrap">
+    <div class="bd-empty" id="empty">
+      <img src="/assets/logo.svg" width="160" style="opacity:.5">
+      <p>Describe your business, product, or idea below to generate a unique website.</p>
+    </div>
+    <iframe class="bd-canvas tm-hidden" id="canvas" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+
+    <!-- Split generation panel -->
+    <div class="bd-split tm-hidden" id="split">
+      <div class="bd-split-pane"><iframe id="livePreview" sandbox="allow-scripts allow-same-origin"></iframe></div>
+      <div class="bd-split-pane"><div class="bd-stream" id="streamBox"></div></div>
+      <div class="bd-gen-controls" id="genControls">
+        <button class="tm-btn tm-btn-ghost tm-btn-sm" id="pauseBtn">⏸ Pause</button>
+        <button class="tm-btn tm-btn-ghost tm-btn-sm" id="newPromptBtn">↺ New Prompt</button>
+        <button class="tm-btn tm-btn-ghost tm-btn-sm" id="cancelBtn">✕ Cancel</button>
+      </div>
+    </div>
+
+    <!-- Dev mode panel -->
+    <div class="bd-dev" id="devPanel">
+      <iframe class="bd-canvas" id="devPreview" sandbox="allow-scripts allow-same-origin"></iframe>
+      <div class="bd-dev-side" id="devHost"></div>
+    </div>
+
+    <!-- Melio guided form mounts here when applicable -->
+    <div id="melioMount"></div>
+  </div>
+
+  <!-- CHAT THREAD -->
+  <div class="bd-chat" id="chatThread"></div>
+
+  <!-- PROMPT BAR -->
+  <div class="bd-promptbar">
+    <div class="bd-prompt-inner">
+      <div class="bd-prompt-col">
+        <div class="bd-model-wrap" style="margin-bottom:var(--sp-2)">
+          <button class="bd-model-btn" id="modelBtn">Pythm-4.5o mini ▾</button>
+          <div class="bd-model-menu" id="modelMenu"></div>
+        </div>
+        <textarea class="bd-prompt-textarea" id="prompt" placeholder="Describe your business, product, or idea…" rows="1"></textarea>
+      </div>
+      <button class="tm-btn tm-btn-primary" id="generateBtn">Generate ▶</button>
+      <button class="tm-btn tm-btn-ghost" id="editBtn">Edit ✎</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sites dropdown -->
+<div class="tm-modal-overlay tm-hidden" id="sitesModal">
+  <div class="tm-modal" style="position:relative">
+    <div class="tm-spread" style="margin-bottom:var(--sp-4)"><h2 class="tm-modal-title">Your sites</h2><button class="tm-btn tm-btn-ghost tm-btn-sm" id="newSite">New Site</button></div>
+    <div id="sitesList" class="tm-col"></div>
+    <div class="tm-row" style="justify-content:flex-end;margin-top:var(--sp-4)"><button class="tm-btn tm-btn-ghost" id="sitesClose">Close</button></div>
+  </div>
+</div>
+
+<script type="module">
+import { requireAuth, getProfile, syncThemeFromProfile, initials, toast, listSites, getSite, deleteSite, timeAgo } from '/js/supabase.js';
+import { getTier, getModelSelectorState } from '/js/tiers.js';
+import { totalCredits } from '/js/credits.js';
+import { getModel, callModel } from '/js/models.js';
+import * as Gen from '/js/build/generation.js';
+import { injectEditor, listenForEdits } from '/js/build/editor.js';
+import { runExport } from '/js/build/export.js';
+import { devModeStatus, openDevMode, showDevUpgrade } from '/js/build/devmode.js';
+import { openHostingHelp } from '/js/build/hostingHelp.js';
+
+const $ = id => document.getElementById(id);
+let profile, tier, view = 'desktop';
+
+/* ── DOM refs ──────────────────────────────────────────────────── */
+const canvas = $('canvas'), empty = $('empty'), split = $('split'), streamBox = $('streamBox'),
+      livePreview = $('livePreview'), chatThread = $('chatThread'), promptEl = $('prompt');
+
+(async function init() {
+  if (!await requireAuth()) return;
+  profile = await getProfile();
+  tier = getTier(profile);
+  syncThemeFromProfile(profile);
+  $('avatar').textContent = initials(profile.email);
+  $('creditCount').textContent = totalCredits(profile).toLocaleString();
+
+  const params = new URLSearchParams(location.search);
+  let site = null;
+  if (params.get('site')) site = await getSite(params.get('site'));
+
+  Gen.init({ profile, site, ui: handlers });
+  if (site) { $('siteName').value = site.name || 'Untitled Site'; showCanvas(); }
+
+  renderModelMenu();
+  wire();
+
+  // Melio users get the guided 4-step form
+  if (tier.id === 'melio' && !site) mountMelio();
+
+  // prefilled prompt (e.g. from Studio "Open in Build")
+  const pre = sessionStorage.getItem('tm_prefill_prompt');
+  if (pre) { promptEl.value = pre; sessionStorage.removeItem('tm_prefill_prompt'); }
+
+  listenForEdits(async (html, immediate) => {
+    Gen.setHtml(view, html);
+    if (!immediate) { await Gen.persist(); flashSaved(); }
+  });
+  setInterval(() => { /* 30s autosave */ Gen.persist().then(flashSaved); }, 30000);
+})();
+
+/* ── UI handlers passed to generation core ─────────────────────── */
+const handlers = {
+  renderCanvas: (html, v) => renderCanvas(html, v),
+  genStart() { empty.classList.add('tm-hidden'); canvas.classList.add('tm-hidden'); split.classList.remove('tm-hidden'); streamBox.innerHTML = ''; },
+  streamDelta(which, chunk) {
+    streamBox.append(chunk);
+    streamBox.scrollTop = streamBox.scrollHeight;
+    // live preview every ~2s handled by throttle below
+    throttledPreview();
+  },
+  streamDone(which) { streamBox.innerHTML += `\n<span class="tag">— ${which} complete —</span>\n`; },
+  genComplete(html) { split.classList.add('tm-hidden'); showCanvas(); renderCanvas(html[view], view); flashSaved('Saved'); refreshCredits(); },
+  genCancelled() { split.classList.add('tm-hidden'); if (Gen.getCurrentState().html.desktop) showCanvas(); else empty.classList.remove('tm-hidden'); },
+  genError(msg) { split.classList.add('tm-hidden'); inlineError(msg, () => doGenerate()); },
+  editStart() { showLoading(true); },
+  editComplete(html) { showLoading(false); renderCanvas(html[view], view); flashSaved('Saved'); refreshCredits(); },
+  editError(msg) { showLoading(false); inlineError(msg, () => doEdit()); },
+  blocked(msg) { inlineError(msg); },
+  gateFail(reason) { gateMessage(reason); },
+  needCredits(cost, have) { toast(`Need ~${cost} credits (you have ${have}). Add credits to continue.`, 'error', 5000); },
+  chatUser(msg) { addChat('user', msg); },
+  chatReply(text) { addChat('ai', text); },
+  saved() { flashSaved('Saved'); },
+};
+
+let lastPreview = 0;
+function throttledPreview() {
+  const now = Date.now();
+  if (now - lastPreview < 2000) return;
+  lastPreview = now;
+  livePreview.srcdoc = streamBox.textContent;
+}
+
+function renderCanvas(html, v) {
+  view = v || view;
+  canvas.classList.toggle('mobile', view === 'mobile');
+  canvas.srcdoc = injectEditor(html || '');
+}
+function showCanvas() { empty.classList.add('tm-hidden'); canvas.classList.remove('tm-hidden'); }
+function showLoading(on) {
+  let ov = $('loadingOv');
+  if (on && !ov) { ov = document.createElement('div'); ov.id = 'loadingOv'; ov.className = 'bd-loading-overlay'; ov.innerHTML = '<div class="tm-spinner"></div>'; canvas.parentElement.appendChild(ov); }
+  else if (!on && ov) ov.remove();
+}
+function flashSaved(t) { const el = $('saveStatus'); el.textContent = t || 'Saving…'; if (t) setTimeout(() => { if (el.textContent === t) el.textContent = ''; }, 2000); }
+async function refreshCredits() { profile = await getProfile(); $('creditCount').textContent = totalCredits(profile).toLocaleString(); }
+
+function inlineError(msg, retry) {
+  const wrap = canvas.parentElement;
+  const old = $('inlineErr'); if (old) old.remove();
+  const el = document.createElement('div'); el.id = 'inlineErr'; el.className = 'inline-error';
+  el.innerHTML = `<span class="tm-grow">${msg}</span>`;
+  if (retry) { const b = document.createElement('button'); b.className = 'tm-btn tm-btn-ghost tm-btn-sm'; b.textContent = 'Retry'; b.onclick = () => { el.remove(); retry(); }; el.appendChild(b); }
+  wrap.prepend(el);
+  setTimeout(() => el.remove(), 8000);
+}
+function gateMessage(reason) {
+  const map = { suspended: 'Your account is suspended.', model_locked: 'That model is not available on your plan.', gen_limit: "You've used your lifetime generation. Upgrade to keep building.", daily_cap: "You've hit today's generation cap (5/day). Try again tomorrow.", site_cap: "You've reached your site limit. Delete a site or upgrade.", edit_limit: "You've used your free edits. Upgrade for unlimited edits.", no_site: 'Generate a site first, then edit it.' };
+  toast(map[reason] || 'Action not available on your plan.', 'error', 5000);
+}
+
+/* ── Prompt bar / routing ──────────────────────────────────────── */
+async function submitPrompt(forceMode) {
+  const text = promptEl.value.trim();
+  if (!text) { promptEl.classList.remove('tm-shake'); void promptEl.offsetWidth; promptEl.classList.add('tm-shake'); return; }
+  const mode = forceMode || await Gen.route(text);
+  promptEl.value = '';
+  if (mode === 'GENERATE') Gen.generate(text);
+  else if (mode === 'EDIT') Gen.aiEdit(text);
+  else { chatThread.classList.add('show'); Gen.chat(text, tier.name); }
+}
+function doGenerate() { submitPrompt('GENERATE'); }
+function doEdit() { submitPrompt('EDIT'); }
+
+function addChat(role, msg) {
+  chatThread.classList.add('show');
+  const el = document.createElement('div'); el.className = 'bd-chat-msg ' + role; el.textContent = msg;
+  chatThread.appendChild(el); chatThread.scrollTop = chatThread.scrollHeight;
+}
+
+/* ── Model selector ────────────────────────────────────────────── */
+function renderModelMenu() {
+  const menu = $('modelMenu');
+  const rows = getModelSelectorState(profile, 'build');
+  menu.innerHTML = rows.map(r => `
+    <div class="bd-model-row ${r.state !== 'available' ? 'disabled' : ''}" data-id="${r.id}" title="${r.tooltip}">
+      <div class="mr-name"><span>${r.name}</span><span class="mr-cost">${r.credits_per_unit === 0 ? 'free' : r.credits_per_unit + '/unit'}</span></div>
+      <div class="mr-desc">${r.description}</div>
+    </div>`).join('');
+  menu.querySelectorAll('.bd-model-row:not(.disabled)').forEach(row => row.addEventListener('click', () => {
+    Gen.setCurrentModel(row.dataset.id);
+    $('modelBtn').textContent = getModel(row.dataset.id).name + ' ▾';
+    menu.classList.remove('open');
+  }));
+}
+
+/* ── Wiring ────────────────────────────────────────────────────── */
+function wire() {
+  $('generateBtn').addEventListener('click', doGenerate);
+  $('editBtn').addEventListener('click', doEdit);
+  promptEl.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitPrompt(); } });
+  promptEl.addEventListener('input', () => { promptEl.style.height = 'auto'; promptEl.style.height = Math.min(promptEl.scrollHeight, 112) + 'px'; });
+
+  $('modelBtn').addEventListener('click', () => $('modelMenu').classList.toggle('open'));
+  document.addEventListener('click', e => { if (!e.target.closest('.bd-model-wrap')) $('modelMenu').classList.remove('open'); });
+
+  $('viewToggle').querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    $('viewToggle').querySelectorAll('button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active'); view = b.dataset.view; Gen.switchView(view);
+  }));
+
+  $('siteName').addEventListener('change', () => { Gen.setSiteName($('siteName').value); Gen.persist().then(() => flashSaved('Saved')); });
+
+  // generation controls
+  $('pauseBtn').addEventListener('click', () => Gen.pause());
+  $('cancelBtn').addEventListener('click', () => Gen.cancel());
+  $('newPromptBtn').addEventListener('click', () => { Gen.cancel(); split.classList.add('tm-hidden'); empty.classList.remove('tm-hidden'); promptEl.focus(); });
+
+  // export + hosting help
+  $('exportBtn').addEventListener('click', () => runExport(Gen.getCurrentState(), profile, { onHostingHelp: openHostingHelp }));
+  $('helpBtn').addEventListener('click', openHostingHelp);
+
+  // dev mode
+  $('codeBtn').addEventListener('click', async () => {
+    const status = devModeStatus(profile);
+    if (status !== 'enabled') return showDevUpgrade(profile);
+    const panel = $('devPanel');
+    if (panel.classList.contains('open')) { panel.classList.remove('open'); return; }
+    panel.classList.add('open');
+    const state = Gen.getCurrentState();
+    $('devPreview').srcdoc = state.html[view] || '';
+    await openDevMode($('devHost'), state, (v, html) => {
+      Gen.setHtml(v, html);
+      if (v === view) $('devPreview').srcdoc = html;
+      Gen.persist().then(() => flashSaved('Saved'));
+    });
+  });
+
+  // sites
+  $('sitesBtn').addEventListener('click', openSites);
+  $('sitesClose').addEventListener('click', () => $('sitesModal').classList.add('tm-hidden'));
+  $('newSite').addEventListener('click', () => { location.href = '/build/'; });
+}
+
+async function openSites() {
+  const modal = $('sitesModal'); modal.classList.remove('tm-hidden');
+  const list = $('sitesList'); list.innerHTML = '<p class="tm-muted">Loading…</p>';
+  const sites = await listSites();
+  if (!sites.length) { list.innerHTML = '<p class="tm-muted">No sites yet.</p>'; return; }
+  list.innerHTML = sites.map(s => `
+    <div class="tm-row tm-card" style="padding:var(--sp-3);justify-content:space-between" data-id="${s.id}">
+      <div class="tm-row"><span class="tm-dot" style="background:${s.primary_color || 'var(--tm-accent)'}"></span>
+        <div><div style="font-weight:600">${s.name || 'Untitled'}</div><div class="tm-dim" style="font-size:12px">${timeAgo(s.updated_at)}</div></div></div>
+      <div class="tm-row"><button class="tm-btn tm-btn-ghost tm-btn-sm" data-load="${s.id}">Open</button><button class="tm-btn tm-btn-danger tm-btn-sm" data-del="${s.id}">Delete</button></div>
+    </div>`).join('');
+  list.querySelectorAll('[data-load]').forEach(b => b.addEventListener('click', () => location.href = '/build/?site=' + b.dataset.load));
+  list.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => { await deleteSite(b.dataset.del); openSites(); }));
+}
+
+/* ── Melio guided 4-step form ──────────────────────────────────── */
+function mountMelio() {
+  empty.classList.add('tm-hidden');
+  const mount = $('melioMount');
+  mount.innerHTML = `
+    <div class="melio-form"><div class="melio-form-card">
+      <div class="step-dots" style="margin-bottom:var(--sp-6)">
+        <span class="step-dot on"></span><span class="step-dot"></span><span class="step-dot"></span><span class="step-dot"></span>
+      </div>
+      <section class="melio-step active" data-s="1">
+        <h2 style="margin-bottom:var(--sp-4)">Business basics</h2>
+        <div class="auth-field"><label class="tm-label">Business name</label><input class="tm-input" id="m_name"></div>
+        <div class="auth-field"><label class="tm-label">Industry</label><select class="tm-select" id="m_industry"><option>Restaurant</option><option>Retail</option><option>Service</option><option>Creative</option><option>Tech</option><option>Healthcare</option><option>Education</option><option>Other</option></select></div>
+        <div class="auth-field"><label class="tm-label">One-sentence description</label><textarea class="tm-textarea" id="m_desc" maxlength="200" rows="2"></textarea></div>
+        <button class="tm-btn tm-btn-primary" data-next="2">Next</button>
+      </section>
+      <section class="melio-step" data-s="2">
+        <h2 style="margin-bottom:var(--sp-4)">Your customer</h2>
+        <div class="auth-field"><label class="tm-label">Who is your typical customer?</label><textarea class="tm-textarea" id="m_cust" rows="3"></textarea></div>
+        <div class="auth-field"><label class="tm-label">What problem do you solve?</label><textarea class="tm-textarea" id="m_prob" rows="3"></textarea></div>
+        <div class="tm-row"><button class="tm-btn tm-btn-ghost" data-next="1">Back</button><button class="tm-btn tm-btn-primary" data-next="3">Next</button></div>
+      </section>
+      <section class="melio-step" data-s="3">
+        <h2 style="margin-bottom:var(--sp-4)">Your goal</h2>
+        <div class="auth-field"><label class="tm-label">Primary call to action</label><select class="tm-select" id="m_cta"><option>Call us</option><option>Buy something</option><option>Book appointment</option><option>Learn about us</option><option>Contact us</option></select></div>
+        <div class="auth-field"><label class="tm-label">Brand colors?</label><select class="tm-select" id="m_color"><option value="no">No — choose for me</option><option value="yes">Yes — I'll describe them</option></select></div>
+        <div class="auth-field tm-hidden" id="m_colorWrap"><input class="tm-input" id="m_colorDesc" placeholder="e.g. warm earthy tones, deep green"></div>
+        <div class="tm-row"><button class="tm-btn tm-btn-ghost" data-next="2">Back</button><button class="tm-btn tm-btn-primary" data-next="4">Review</button></div>
+      </section>
+      <section class="melio-step" data-s="4">
+        <h2 style="margin-bottom:var(--sp-4)">Review</h2>
+        <div class="tm-card" style="padding:var(--sp-4);margin-bottom:var(--sp-4)" id="m_summary"></div>
+        <div class="tm-row"><button class="tm-btn tm-btn-ghost" data-next="3">Back</button><button class="tm-btn tm-btn-primary" id="m_build">Build My Site</button></div>
+      </section>
+    </div></div>`;
+
+  const steps = mount.querySelectorAll('.melio-step');
+  const dots = mount.querySelectorAll('.step-dot');
+  function go(n) { steps.forEach(s => s.classList.toggle('active', +s.dataset.s === n)); dots.forEach((d, i) => d.classList.toggle('on', i < n)); if (n === 4) summarize(); }
+  mount.querySelectorAll('[data-next]').forEach(b => b.addEventListener('click', () => go(+b.dataset.next)));
+  mount.querySelector('#m_color').addEventListener('change', e => mount.querySelector('#m_colorWrap').classList.toggle('tm-hidden', e.target.value !== 'yes'));
+
+  function answers() {
+    return {
+      business_name: mount.querySelector('#m_name').value,
+      industry: mount.querySelector('#m_industry').value,
+      description: mount.querySelector('#m_desc').value,
+      customer: mount.querySelector('#m_cust').value,
+      problem: mount.querySelector('#m_prob').value,
+      cta: mount.querySelector('#m_cta').value,
+      colors: mount.querySelector('#m_color').value === 'yes' ? mount.querySelector('#m_colorDesc').value : 'designer choice',
+    };
+  }
+  function summarize() {
+    const a = answers();
+    mount.querySelector('#m_summary').innerHTML = Object.entries(a).map(([k, v]) => `<div class="tm-spread" style="padding:4px 0"><span class="tm-dim tm-mono" style="font-size:12px">${k}</span><span style="text-align:right">${v || '—'}</span></div>`).join('');
+  }
+
+  mount.querySelector('#m_build').addEventListener('click', async () => {
+    const btn = mount.querySelector('#m_build'); btn.disabled = true; btn.textContent = 'Writing brief…';
+    let prompt;
+    try {
+      const { text } = await callModel({ modelId: 'PYTHM_MINI',
+        system: 'You are a website brief writer. Turn these business details into a clear, detailed, specific website generation prompt. Return only the prompt. No preamble.',
+        messages: [{ role: 'user', content: JSON.stringify(answers()) }], maxTokens: 800 });
+      prompt = text.trim();
+    } catch { prompt = `Website for ${answers().business_name}, a ${answers().industry} business. ${answers().description}`; }
+    mount.innerHTML = '';
+    Gen.generate(prompt);
+  });
+}
+</script>
+</body>
+</html>
+</body>
+</html>

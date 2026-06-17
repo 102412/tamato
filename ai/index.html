@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI · Tamato</title>
+<link rel="icon" href="/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/ai.css">
+<script>(function(){var t=localStorage.getItem('tm_theme')||'dark';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;})();</script>
+</head>
+<body>
+<div class="ai-app">
+  <!-- SIDEBAR -->
+  <aside class="ai-sidebar">
+    <div class="ai-sb-head">
+      <a href="/dashboard.html"><img src="/assets/logo.svg" alt="Tamato" width="100"></a>
+      <button class="tm-btn tm-btn-ghost tm-btn-sm" id="newConvBtn">+ New</button>
+    </div>
+    <div class="ai-conv-list" id="convList"></div>
+    <div class="ai-sb-foot">
+      <a class="tm-btn tm-btn-text tm-btn-sm tm-grow" href="/dashboard.html">Dashboard</a>
+      <button class="tm-theme-toggle" id="themeBtn">◐</button>
+    </div>
+  </aside>
+
+  <!-- CENTER -->
+  <section class="ai-center">
+    <div class="ai-topbar">
+      <b>Tamato AI</b>
+      <div class="tm-row">
+        <span class="tm-credit-pill"><span class="tomato">🍅</span> <span id="creditCount">—</span></span>
+        <div class="tm-avatar" id="avatar" style="cursor:pointer" onclick="location.href='/account.html'">?</div>
+      </div>
+    </div>
+
+    <div class="ai-messages" id="messages"></div>
+
+    <div class="ai-input-wrap">
+      <div class="ai-input-inner">
+        <div class="ai-thumbs" id="thumbs"></div>
+        <div class="ai-input-controls">
+          <div class="ai-model-wrap">
+            <button class="ai-model-btn" id="modelBtn">Pythm-4.5o mini ▾</button>
+            <div class="ai-model-menu" id="modelMenu"></div>
+          </div>
+        </div>
+        <div class="ai-input-row" style="position:relative">
+          <button class="ai-icon-btn" id="attachBtn" title="Attach image">📎</button>
+          <input type="file" id="fileInput" accept="image/png,image/jpeg,image/gif,image/webp" multiple hidden>
+          <div class="tm-grow" style="position:relative">
+            <textarea class="ai-textarea" id="text" placeholder="Message Tamato AI…  (type @ to reference a site)" rows="1"></textarea>
+            <div class="mention-menu" id="mentionMenu"></div>
+          </div>
+          <button class="tm-btn tm-btn-primary" id="sendBtn">Send ▶</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script type="module" src="/js/ai/chat.js"></script>
+</body>
+</html>

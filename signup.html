@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create account · Tamato</title>
+<link rel="icon" href="/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/auth.css">
+<script>(function(){var t=localStorage.getItem('tm_theme')||'dark';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;})();</script>
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth-card auth-card-wide" id="card">
+    <div class="auth-logo"><img src="/assets/logo.svg" alt="Tamato" width="130"></div>
+    <div class="step-dots">
+      <span class="step-dot on" data-dot="1"></span>
+      <span class="step-dot" data-dot="2"></span>
+      <span class="step-dot" data-dot="3"></span>
+    </div>
+
+    <!-- Step 1: account -->
+    <section class="step active" data-step="1">
+      <h1 class="auth-title">Create your account</h1>
+      <p class="auth-sub">One login for Build, AI, and Studio.</p>
+      <button class="auth-google" id="google">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/></svg>
+        Continue with Google
+      </button>
+      <div class="auth-divider">or</div>
+      <div class="auth-field"><label class="tm-label">Email</label><input class="tm-input" type="email" id="email" autocomplete="email"></div>
+      <div class="auth-field"><label class="tm-label">Password</label><input class="tm-input" type="password" id="password" autocomplete="new-password" placeholder="At least 8 characters"></div>
+      <div class="checkbox-row" style="margin-bottom:var(--sp-4)"><input type="checkbox" id="age13"><label for="age13">I am 13 or older.</label></div>
+      <div class="auth-error" id="err1"></div>
+      <div class="auth-actions"><button class="tm-btn tm-btn-primary" id="next1">Continue</button></div>
+      <p class="auth-foot">Already have an account? <a href="/login.html">Sign in</a></p>
+    </section>
+
+    <!-- Step 2: parental consent (under 18) -->
+    <section class="step" data-step="2">
+      <h1 class="auth-title">A quick check</h1>
+      <p class="auth-sub">If you're under 18, a parent or guardian needs to confirm your account.</p>
+      <div class="checkbox-row" style="margin-bottom:var(--sp-4)"><input type="checkbox" id="under18"><label for="under18">I am under 18 years old.</label></div>
+      <div id="parentWrap" class="tm-hidden">
+        <div class="consent-box">
+          <label class="tm-label">Parent or guardian email</label>
+          <input class="tm-input" type="email" id="parentEmail" placeholder="parent@example.com">
+          <p class="tm-help">They'll get a confirmation link. Your account activates once they approve.</p>
+        </div>
+      </div>
+      <div class="auth-error" id="err2"></div>
+      <div class="auth-actions"><button class="tm-btn tm-btn-primary" id="next2">Continue</button></div>
+    </section>
+
+    <!-- Step 3: plan -->
+    <section class="step" data-step="3">
+      <h1 class="auth-title">Choose your plan</h1>
+      <p class="auth-sub">Start free. Upgrade any time.</p>
+      <div class="plan-grid" id="plans">
+        <div class="plan-card selected" data-plan="free"><h3>Free</h3><div class="price">$0</div><ul><li>All 3 products</li><li>Pythm-4.5o mini</li><li>Strict limits</li></ul></div>
+        <div class="plan-card" data-plan="single"><h3>Single Site</h3><div class="price">$14.97 once</div><ul><li>150 credits</li><li>Pythm + Metrio</li><li>Unlimited export</li></ul></div>
+        <div class="plan-card" data-plan="pro"><h3>Pro</h3><div class="price">$29.99/mo</div><ul><li>500 credits/mo</li><li>All models</li><li>Dev mode included</li></ul></div>
+        <div class="plan-card" data-plan="agency3"><h3>Agency</h3><div class="price">from $99.97/mo</div><ul><li>3 / 5 / 10 seats</li><li>2,400+ credits</li><li>Everything in Pro</li></ul></div>
+        <div class="plan-card" data-plan="brandwide"><h3>Brand Wide</h3><div class="price">$107.97/mo</div><ul><li>600 AI credits</li><li>800 Studio credits</li><li>All features</li></ul></div>
+      </div>
+      <div class="auth-error" id="err3"></div>
+      <div class="auth-actions"><button class="tm-btn tm-btn-primary" id="finish">Create account</button></div>
+    </section>
+  </div>
+</div>
+
+<script type="module">
+import { signUpEmail, signInGoogle, updateProfile, getSession, toast } from '/js/supabase.js';
+import { checkout } from '/js/stripe.js';
+
+const state = { step: 1, plan: 'free', under18: false, parentEmail: null };
+const card = document.getElementById('card');
+
+(async () => { if (await getSession()) location.href = '/dashboard.html'; })();
+
+function show(n) {
+  state.step = n;
+  document.querySelectorAll('.step').forEach(s => s.classList.toggle('active', +s.dataset.step === n));
+  document.querySelectorAll('.step-dot').forEach(d => d.classList.toggle('on', +d.dataset.dot <= n));
+}
+function shake(elId, msg) {
+  document.getElementById(elId).textContent = msg;
+  card.classList.remove('tm-shake'); void card.offsetWidth; card.classList.add('tm-shake');
+}
+
+// Step 1
+document.getElementById('next1').addEventListener('click', () => {
+  document.getElementById('err1').textContent = '';
+  if (!document.getElementById('age13').checked) return shake('err1', 'You must be 13 or older to use Tamato.');
+  if (!email.value.includes('@')) return shake('err1', 'Enter a valid email.');
+  if (password.value.length < 8) return shake('err1', 'Password must be at least 8 characters.');
+  show(2);
+});
+document.getElementById('google').addEventListener('click', async () => {
+  if (!document.getElementById('age13').checked) return shake('err1', 'Confirm you are 13 or older first.');
+  const { error } = await signInGoogle();
+  if (error) shake('err1', error.message);
+});
+
+// Step 2
+document.getElementById('under18').addEventListener('change', (e) => {
+  state.under18 = e.target.checked;
+  document.getElementById('parentWrap').classList.toggle('tm-hidden', !e.target.checked);
+});
+document.getElementById('next2').addEventListener('click', () => {
+  document.getElementById('err2').textContent = '';
+  if (state.under18) {
+    const pe = document.getElementById('parentEmail').value.trim();
+    if (!pe.includes('@')) return shake('err2', 'Enter a parent or guardian email.');
+    state.parentEmail = pe;
+  }
+  show(3);
+});
+
+// Step 3
+document.getElementById('plans').addEventListener('click', (e) => {
+  const cardEl = e.target.closest('.plan-card'); if (!cardEl) return;
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+  cardEl.classList.add('selected');
+  state.plan = cardEl.dataset.plan;
+});
+
+document.getElementById('finish').addEventListener('click', async () => {
+  document.getElementById('err3').textContent = '';
+  const btn = document.getElementById('finish');
+  btn.disabled = true; btn.textContent = 'Creating…';
+
+  const { data, error } = await signUpEmail(email.value.trim(), password.value);
+  if (error) { btn.disabled = false; btn.textContent = 'Create account'; return shake('err3', error.message); }
+
+  // record consent + chosen tier on the auto-created profile
+  const patch = { tier: state.plan === 'agency3' ? 'agency3' : state.plan };
+  if (state.under18) { patch.parental_consent_email = state.parentEmail; patch.parental_consent_at = new Date().toISOString(); }
+  await updateProfile(patch).catch(() => {});
+
+  if (state.plan === 'free') {
+    toast('Welcome to Tamato!', 'success');
+    location.href = '/dashboard.html';
+    return;
+  }
+  // Paid: send to Stripe, then dashboard on success
+  try {
+    const key = state.plan === 'single' ? 'single' : state.plan === 'pro' ? 'pro_monthly'
+      : state.plan === 'brandwide' ? 'brandwide_monthly' : 'agency3_monthly';
+    await checkout(key, { userId: data.user?.id, email: email.value.trim() });
+  } catch (e) {
+    btn.disabled = false; btn.textContent = 'Create account';
+    shake('err3', 'Account created — but checkout could not start. You can upgrade from your dashboard.');
+    setTimeout(() => location.href = '/dashboard.html', 2500);
+  }
+});
+</script>
+</body>
+</html>

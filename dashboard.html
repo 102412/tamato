@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard · Tamato</title>
+<link rel="icon" href="/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/hub.css">
+<script>(function(){var t=localStorage.getItem('tm_theme')||'dark';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;})();</script>
+</head>
+<body>
+<div class="db-layout">
+  <!-- SIDEBAR -->
+  <nav class="db-sidebar tm-shell">
+    <a class="sb-logo" href="/dashboard.html"><img src="/assets/logo.svg" alt="Tamato" width="120"></a>
+    <a class="sb-item" href="/build/"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-6 9 6v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Build</span></a>
+    <a class="sb-item" href="/ai/"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>AI</span></a>
+    <a class="sb-item" href="/studio/"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="17" cy="14" r="2.5"/><path d="M2 22c2-4 6-6 10-6"/></svg><span>Studio</span></a>
+    <div class="sb-spacer"></div>
+    <a class="sb-item" href="/account.html"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span>Account</span></a>
+    <div class="sb-item" id="connectorsBtn"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>Connectors</span></div>
+    <div class="sb-item" id="themeToggle"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg><span>Theme</span></div>
+    <div class="sb-item" id="signOut"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg><span>Sign out</span></div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="db-main">
+    <div class="db-topbar tm-shell">
+      <div class="db-greeting" id="greeting">Welcome</div>
+      <div class="db-topbar-right">
+        <div class="tm-credit-pill" id="creditPill"><span class="tomato">🍅</span> <span id="creditCount">—</span> credits
+          <div class="credit-tooltip" id="creditTooltip"></div>
+        </div>
+        <button class="tm-btn tm-btn-ghost tm-btn-sm" id="addCredits">Add Credits</button>
+        <button class="tm-theme-toggle" id="themeToggle2" aria-label="Toggle theme">◐</button>
+        <div class="tm-avatar" id="avatar">?</div>
+      </div>
+    </div>
+
+    <div class="db-content">
+      <h2 class="db-section-title">Recent activity</h2>
+      <div class="activity-grid" id="activity"><p class="tm-muted">Loading…</p></div>
+    </div>
+  </main>
+</div>
+
+<!-- RELOAD MODAL -->
+<div class="tm-modal-overlay tm-hidden" id="reloadModal">
+  <div class="tm-modal" style="position:relative">
+    <h2 class="tm-modal-title">Add credits</h2>
+    <p class="tm-modal-sub">Credits never expire and roll over. Choose a pack.</p>
+    <div class="reload-grid" id="reloadGrid"></div>
+    <div class="tm-row" style="justify-content:flex-end"><button class="tm-btn tm-btn-ghost" id="reloadClose">Close</button></div>
+  </div>
+</div>
+
+<!-- CONNECTORS MODAL -->
+<div class="tm-modal-overlay tm-hidden" id="connModal">
+  <div class="tm-modal tm-modal-lg" style="position:relative">
+    <h2 class="tm-modal-title">Connectors</h2>
+    <p class="tm-modal-sub">Link services your sites can use. Tokens are stored encrypted.</p>
+    <div class="conn-list" id="connList"></div>
+    <div class="tm-row" style="justify-content:flex-end;margin-top:var(--sp-4)"><button class="tm-btn tm-btn-ghost" id="connClose">Close</button></div>
+  </div>
+</div>
+
+<script type="module" src="/js/hub/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account · Tamato</title>
+<link rel="icon" href="/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/hub.css">
+<script>(function(){var t=localStorage.getItem('tm_theme')||'dark';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;})();</script>
+<style>
+.acct-wrap{max-width:760px;margin:0 auto;padding:var(--sp-8) var(--sp-6);}
+.acct-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--sp-8);}
+.acct-card{background:var(--tm-surface);border:1px solid var(--tm-border);border-radius:var(--r-card);padding:var(--sp-6);margin-bottom:var(--sp-4);}
+.acct-card h3{font-size:16px;margin-bottom:var(--sp-4);}
+.acct-row{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-4);padding:var(--sp-2) 0;}
+.danger{border-color:var(--tm-accent-dim);}
+.key-display{font-family:var(--font-mono);background:var(--tm-surface-2);border:1px solid var(--tm-border);border-radius:var(--r-input);padding:var(--sp-3);word-break:break-all;}
+</style>
+</head>
+<body>
+<div class="acct-wrap">
+  <div class="acct-head">
+    <a href="/dashboard.html" class="tm-btn tm-btn-text">← Dashboard</a>
+    <button class="tm-theme-toggle" id="theme">◐</button>
+  </div>
+  <h1 style="font-size:28px;margin-bottom:var(--sp-6)">Account</h1>
+
+  <div class="acct-card">
+    <h3>Profile</h3>
+    <div class="acct-row"><div class="tm-row"><div class="tm-avatar" id="avatar">?</div><div><div id="email" style="font-weight:600"></div><div class="tm-dim" id="userId" style="font-size:12px"></div></div></div></div>
+    <div class="acct-row"><span>Theme</span><button class="tm-btn tm-btn-ghost tm-btn-sm" id="theme2">Toggle light / dark</button></div>
+  </div>
+
+  <div class="acct-card">
+    <h3>Plan</h3>
+    <div class="acct-row"><span>Current plan</span><span class="tm-badge tm-badge-accent" id="tier">—</span></div>
+    <div class="acct-row"><span>Renewal</span><span class="tm-dim" id="renewal">—</span></div>
+    <div class="acct-row"><a class="tm-btn tm-btn-primary tm-btn-sm" href="/pricing.html">Upgrade</a><button class="tm-btn tm-btn-ghost tm-btn-sm" id="manageBilling">Manage billing</button></div>
+  </div>
+
+  <div class="acct-card">
+    <h3>Credits</h3>
+    <div class="acct-row"><span>Balance</span><span class="tm-mono" id="credits">—</span></div>
+    <div class="acct-row" id="breakdownRow" style="display:none"><span>Breakdown</span><span class="tm-dim" id="breakdown"></span></div>
+    <div class="acct-row"><a class="tm-btn tm-btn-ghost tm-btn-sm" href="/dashboard.html">Reload credits</a></div>
+  </div>
+
+  <div class="acct-card">
+    <h3>API</h3>
+    <p class="tm-dim" style="font-size:13px;margin-bottom:var(--sp-3)">Generate a key for the Tamato Megisto API. Shown once — copy it now.</p>
+    <div id="keyArea"><button class="tm-btn tm-btn-ghost tm-btn-sm" id="genKey">Generate API key</button></div>
+  </div>
+
+  <div class="acct-card danger">
+    <h3 style="color:var(--tm-accent)">Danger zone</h3>
+    <p class="tm-dim" style="font-size:13px;margin-bottom:var(--sp-3)">Delete your account and all data. This cannot be undone.</p>
+    <input class="tm-input" id="delConfirm" placeholder='Type "delete my account"' style="margin-bottom:var(--sp-3)">
+    <button class="tm-btn tm-btn-danger tm-btn-sm" id="delBtn" disabled>Delete account</button>
+  </div>
+</div>
+
+<script type="module">
+import { requireAuth, getProfile, getUser, toggleTheme, syncThemeFromProfile, initials, supabase, toast, sha256 } from '/js/supabase.js';
+import { getTier } from '/js/tiers.js';
+import { totalCredits, creditBreakdown } from '/js/credits.js';
+import { openBillingPortal } from '/js/stripe.js';
+
+let profile, user;
+(async () => {
+  if (!await requireAuth()) return;
+  profile = await getProfile(); user = await getUser();
+  syncThemeFromProfile(profile);
+  document.getElementById('avatar').textContent = initials(profile.email);
+  document.getElementById('email').textContent = profile.email;
+  document.getElementById('userId').textContent = user.id;
+  document.getElementById('tier').textContent = getTier(profile).name;
+  document.getElementById('renewal').textContent = profile.credits_reset ? new Date(profile.credits_reset).toLocaleDateString() : 'One-time / no renewal';
+  document.getElementById('credits').textContent = totalCredits(profile).toLocaleString();
+  const bd = creditBreakdown(profile);
+  if (bd.split) { document.getElementById('breakdownRow').style.display = 'flex'; document.getElementById('breakdown').textContent = `AI: ${bd.ai} · Studio: ${bd.studio}`; }
+})();
+
+document.getElementById('theme').addEventListener('click', toggleTheme);
+document.getElementById('theme2').addEventListener('click', toggleTheme);
+
+document.getElementById('manageBilling').addEventListener('click', async () => {
+  if (!profile.stripe_customer_id) return toast('No billing account yet.', 'error');
+  try { await openBillingPortal(profile.stripe_customer_id); } catch { toast('Could not open billing portal.', 'error'); }
+});
+
+document.getElementById('genKey').addEventListener('click', async () => {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let suffix = ''; for (let i = 0; i < 10; i++) suffix += chars[Math.floor(Math.random() * chars.length)];
+  const key = 'tm-meg-' + suffix;
+  const hashed = await sha256(key);
+  const { error } = await supabase.from('api_keys').insert({ key: hashed, user_id: user.id, stripe_customer_id: profile.stripe_customer_id });
+  if (error) return toast('Could not create key.', 'error');
+  document.getElementById('keyArea').innerHTML = `<div class="key-display">${key}</div><p class="tm-help">Copied to clipboard. This is the only time it's shown.</p>`;
+  navigator.clipboard.writeText(key).catch(() => {});
+});
+
+const delInput = document.getElementById('delConfirm'), delBtn = document.getElementById('delBtn');
+delInput.addEventListener('input', () => { delBtn.disabled = delInput.value.trim() !== 'delete my account'; });
+delBtn.addEventListener('click', async () => {
+  await supabase.from('profiles').delete().eq('id', user.id);
+  await supabase.auth.signOut();
+  toast('Account deleted.', 'success');
+  setTimeout(() => location.href = '/index.html', 1500);
+});
+</script>
+</body>
+</html>

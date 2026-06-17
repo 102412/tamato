@@ -1,0 +1,6 @@
+<svg width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="16" cy="18" r="11" fill="#B85C52"/>
+  <path d="M16 7c-1.6-3-4.2-4-6-3.4 1.2 1.4 1.4 3 1 4.4A11 11 0 0 1 16 7z" fill="#4F9D69"/>
+  <path d="M16 7c1.6-3 4.2-4 6-3.4-1.2 1.4-1.4 3-1 4.4A11 11 0 0 0 16 7z" fill="#4F9D69"/>
+  <text x="34" y="22" font-family="Syne, sans-serif" font-weight="800" font-size="18" fill="currentColor" letter-spacing="-0.5">tamato</text>
+</svg>

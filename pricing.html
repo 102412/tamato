@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing · Tamato</title>
+<link rel="icon" href="/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/hub.css">
+</head>
+<body class="lp-body">
+<a class="lp-logo" href="/index.html"><img src="/assets/logo.svg" alt="Tamato" width="120"></a>
+<div class="lp-top"><a class="tm-btn tm-btn-ghost tm-btn-sm" href="/login.html">Sign In</a><a class="tm-btn tm-btn-primary tm-btn-sm" href="/signup.html">Sign Up</a></div>
+
+<section class="lp-section" style="padding-top:140px">
+  <h2>One currency. Every product.</h2>
+  <p class="lead">All credits work across Build, AI, and Studio. Pythm-4.5o mini is always free.</p>
+
+  <div class="price-grid">
+    <div class="price-col"><h3>Free</h3><div class="amt">$0</div><ul>
+      <li>All 3 products</li><li>Pythm-4.5o mini everywhere</li><li>1 lifetime build · 5 free edits</li><li>1 design system (view only)</li><li>Export locked</li></ul>
+      <a class="tm-btn tm-btn-ghost" href="/signup.html">Start free</a></div>
+
+    <div class="price-col"><h3>Single Site</h3><div class="amt">$14.97</div><ul>
+      <li>150 credits, never expire</li><li>Pythm 4.5 + Metrio 4.6</li><li>Unlimited edits & export</li><li>No site cap</li><li>Dev mode +$5 add-on</li></ul>
+      <a class="tm-btn tm-btn-ghost" href="/signup.html">Buy once</a></div>
+
+    <div class="price-col featured"><h3>Pro</h3><div class="amt">$29.99<span style="font-size:13px">/mo</span></div><ul>
+      <li>500 credits/month</li><li>All models incl. Megisto</li><li>Dev mode included</li><li>10 sites · 5 gens/day</li><li>5 free Studio creations/mo</li></ul>
+      <a class="tm-btn tm-btn-primary" href="/signup.html">Go Pro</a>
+      <p class="tm-dim" style="font-size:12px;margin-top:var(--sp-2);text-align:center">$341.89/yr · +200 bonus credits</p></div>
+
+    <div class="price-col"><h3>Brand Wide</h3><div class="amt">$107.97<span style="font-size:13px">/mo</span></div><ul>
+      <li>600 AI credits (/ai only)</li><li>800 Studio credits (/build + /studio)</li><li>Unlimited Pythm-4.5o mini</li><li>All models, all features</li></ul>
+      <a class="tm-btn tm-btn-ghost" href="/signup.html">Choose</a>
+      <p class="tm-dim" style="font-size:12px;margin-top:var(--sp-2);text-align:center">$1,230.88/yr</p></div>
+  </div>
+
+  <h3 style="text-align:center;margin:var(--sp-16) 0 var(--sp-6);font-size:22px">Agency</h3>
+  <div class="price-grid">
+    <div class="price-col"><h3>Agency 3</h3><div class="amt">$99.97<span style="font-size:13px">/mo</span></div><ul><li>3 seats</li><li>2,400 credits/month</li><li>Everything in Pro</li></ul><a class="tm-btn tm-btn-ghost" href="/signup.html">Choose</a><p class="tm-dim" style="font-size:12px;margin-top:var(--sp-2);text-align:center">$1,139.66/yr</p></div>
+    <div class="price-col"><h3>Agency 5</h3><div class="amt">$134.97<span style="font-size:13px">/mo</span></div><ul><li>5 seats</li><li>4,000 credits/month</li><li>Everything in Pro</li></ul><a class="tm-btn tm-btn-ghost" href="/signup.html">Choose</a><p class="tm-dim" style="font-size:12px;margin-top:var(--sp-2);text-align:center">$1,538.66/yr</p></div>
+    <div class="price-col"><h3>Agency 10</h3><div class="amt">$216.97<span style="font-size:13px">/mo</span></div><ul><li>10 seats</li><li>6,000 credits/month</li><li>Everything in Pro</li></ul><a class="tm-btn tm-btn-ghost" href="/signup.html">Choose</a><p class="tm-dim" style="font-size:12px;margin-top:var(--sp-2);text-align:center">$2,473.46/yr</p></div>
+  </div>
+
+  <h3 style="text-align:center;margin:var(--sp-16) 0 var(--sp-6);font-size:22px">Credit packs</h3>
+  <p class="lead">Top up any time. Credits never expire and roll over.</p>
+  <div class="price-grid" id="packs"></div>
+</section>
+
+<footer class="lp-foot"><div style="text-align:center"><p class="tm-muted">Build. Design. Own.</p>
+  <div class="lp-foot-links"><a href="/index.html">Home</a><a href="/melio.html">Melio</a><a href="/api.html">API</a><a href="/help.html">Help</a><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a></div></div></footer>
+
+<script type="module">
+import { RELOAD_PACKAGES } from '/js/credits.js';
+document.getElementById('packs').innerHTML = RELOAD_PACKAGES.map(p =>
+  `<div class="price-col" style="text-align:center"><h3 class="tm-mono">${p.credits.toLocaleString()}</h3><div class="amt">${p.usd}</div><a class="tm-btn tm-btn-ghost" href="/signup.html">Get credits</a></div>`).join('');
+</script>
+</body>
+</html>

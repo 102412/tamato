@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · Tamato</title>
+<link rel="icon" href="/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/hub.css">
+<script>(function(){var t=localStorage.getItem('tm_theme')||'dark';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;})();</script>
+</head>
+<body>
+<!-- GATE -->
+<div class="auth-wrap" id="gate">
+  <div class="auth-card" style="max-width:380px">
+    <div class="auth-logo"><img src="/assets/logo.svg" width="120"></div>
+    <h1 class="auth-title">Admin</h1>
+    <p class="auth-sub">Enter your access code.</p>
+    <input class="tm-input" type="password" id="code" placeholder="Access code" autocomplete="off">
+    <div class="auth-error" id="err"></div>
+    <div class="auth-actions"><button class="tm-btn tm-btn-primary" id="enter">Enter</button></div>
+  </div>
+</div>
+
+<!-- DASHBOARD (placeholder) -->
+<div id="dash" class="tm-hidden" style="max-width:1100px;margin:0 auto;padding:var(--sp-8) var(--sp-6)">
+  <div class="tm-spread" style="margin-bottom:var(--sp-6)"><h1 style="font-size:24px">Admin dashboard</h1><a class="tm-btn tm-btn-ghost tm-btn-sm" href="/index.html">Exit</a></div>
+
+  <div class="activity-grid" style="margin-bottom:var(--sp-8)">
+    <div class="tm-card" style="padding:var(--sp-4)"><div class="db-section-title">Users by tier</div><div id="tierStats" class="tm-mono tm-dim">Loading…</div></div>
+    <div class="tm-card" style="padding:var(--sp-4)"><div class="db-section-title">Credits consumed</div><div id="creditStats" class="tm-mono tm-dim">Loading…</div></div>
+    <div class="tm-card" style="padding:var(--sp-4)"><div class="db-section-title">Suspended accounts</div><div id="suspStats" class="tm-mono tm-dim">Loading…</div></div>
+  </div>
+
+  <h2 class="db-section-title">Melio applications</h2>
+  <div id="melioApps" class="tm-col" style="margin-bottom:var(--sp-8)"><p class="tm-muted">Loading…</p></div>
+
+  <h2 class="db-section-title">Recent credit transactions</h2>
+  <div id="txns" class="tm-col"><p class="tm-muted">Loading…</p></div>
+</div>
+
+<script type="module">
+import { ADMIN_CODES, supabase, timeAgo, toast } from '/js/supabase.js';
+const $ = id => document.getElementById(id);
+const card = document.querySelector('.auth-card');
+
+function unlock() { $('gate').classList.add('tm-hidden'); $('dash').classList.remove('tm-hidden'); loadDash(); }
+if (sessionStorage.getItem('tm_admin_ok') === '1') unlock();
+
+function tryCode() {
+  if (ADMIN_CODES.includes($('code').value.trim())) { sessionStorage.setItem('tm_admin_ok', '1'); unlock(); }
+  else { $('err').textContent = 'Invalid access code.'; $('code').value = ''; card.classList.remove('tm-shake'); void card.offsetWidth; card.classList.add('tm-shake'); }
+}
+$('enter').addEventListener('click', tryCode);
+$('code').addEventListener('keydown', e => { if (e.key === 'Enter') tryCode(); });
+
+async function loadDash() {
+  // Tier counts (RLS may restrict; admin uses service-side in production. Placeholder reads.)
+  const { data: profiles } = await supabase.from('profiles').select('tier, account_suspended');
+  if (profiles) {
+    const counts = {}; let susp = 0;
+    profiles.forEach(p => { counts[p.tier] = (counts[p.tier] || 0) + 1; if (p.account_suspended) susp++; });
+    $('tierStats').innerHTML = Object.entries(counts).map(([t, n]) => `${t}: ${n}`).join('<br>') || '—';
+    $('suspStats').textContent = susp + ' suspended';
+  } else { $('tierStats').textContent = 'Restricted (use service key in prod)'; }
+
+  const { data: txns } = await supabase.from('credit_transactions').select('*').order('created_at', { ascending: false }).limit(15);
+  if (txns) {
+    const today = new Date().toDateString();
+    const spentToday = txns.filter(t => new Date(t.created_at).toDateString() === today && t.amount < 0).reduce((a, t) => a - t.amount, 0);
+    $('creditStats').textContent = spentToday + ' today (recent sample)';
+    $('txns').innerHTML = txns.map(t => `<div class="tm-spread tm-card" style="padding:var(--sp-2) var(--sp-3)"><span class="tm-mono" style="font-size:12px">${t.product} · ${t.type}</span><span class="tm-mono ${t.amount < 0 ? '' : ''}">${t.amount}</span><span class="tm-dim" style="font-size:11px">${timeAgo(t.created_at)}</span></div>`).join('') || '<p class="tm-muted">None.</p>';
+  }
+
+  const { data: apps } = await supabase.from('melio_applications').select('*').order('created_at', { ascending: false }).limit(20);
+  if (apps) {
+    $('melioApps').innerHTML = apps.map(a => `
+      <div class="tm-card" style="padding:var(--sp-4)" data-id="${a.id}">
+        <div class="tm-spread"><b>${esc(a.name)} · ${esc(a.email)}</b><span class="tm-badge">${a.status}</span></div>
+        <p style="font-size:13px;color:var(--tm-text-2);margin:var(--sp-2) 0">${esc(a.what_building)}</p>
+        <div class="tm-row"><button class="tm-btn tm-btn-primary tm-btn-sm" data-approve="${a.id}">Approve</button><button class="tm-btn tm-btn-ghost tm-btn-sm" data-reject="${a.id}">Reject</button></div>
+      </div>`).join('') || '<p class="tm-muted">No applications.</p>';
+    $('melioApps').querySelectorAll('[data-approve]').forEach(b => b.addEventListener('click', () => approve(b.dataset.approve)));
+    $('melioApps').querySelectorAll('[data-reject]').forEach(b => b.addEventListener('click', () => reject(b.dataset.reject)));
+  }
+}
+
+async function approve(id) {
+  // TODO (server): set the applicant's profile tier='melio', melio_approved=true, melio_expiry=now()+1yr, send email.
+  await supabase.from('melio_applications').update({ status: 'approved' }).eq('id', id);
+  toast('Approved. Provision the account server-side.', 'success'); loadDash();
+}
+async function reject(id) {
+  await supabase.from('melio_applications').update({ status: 'rejected' }).eq('id', id);
+  toast('Rejected. Rejection email sent server-side (TODO).'); loadDash();
+}
+function esc(s) { return (s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+</script>
+</body>
+</html>

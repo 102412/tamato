@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You're in · Tamato</title>
+<link rel="icon" href="/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/auth.css">
+<script>(function(){var t=localStorage.getItem('tm_theme')||'dark';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;})();</script>
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth-card" style="text-align:center">
+    <div class="auth-logo"><img src="/assets/logo.svg" width="130"></div>
+    <div style="font-size:48px;margin-bottom:var(--sp-3)">🍅</div>
+    <h1 class="auth-title">You're in</h1>
+    <p class="auth-sub">Payment confirmed. Your account is ready — credits appear the moment Stripe confirms.</p>
+    <div class="auth-actions"><a class="tm-btn tm-btn-primary" href="/dashboard.html">Go to dashboard</a></div>
+    <p class="auth-foot"><a href="/build/">Start building →</a></p>
+  </div>
+</div>
+<script type="module">
+// Webhook credits/tier provisioning happens server-side. This page simply confirms.
+import { getSession } from '/js/supabase.js';
+(async () => { if (!await getSession()) setTimeout(() => location.href = '/login.html', 4000); })();
+</script>
+</body>
+</html>

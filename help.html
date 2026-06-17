@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help · Tamato</title>
+<link rel="icon" href="/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/hub.css">
+<script>(function(){var t=localStorage.getItem('tm_theme')||'dark';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;})();</script>
+<style>
+.help{max-width:820px;margin:0 auto;padding:var(--sp-8) var(--sp-6);}
+.faq-section{margin-bottom:var(--sp-8);}
+.faq-section h2{font-size:18px;margin-bottom:var(--sp-3);color:var(--tm-text);}
+.faq{border:1px solid var(--tm-border);border-radius:var(--r-card);margin-bottom:var(--sp-2);background:var(--tm-surface);}
+.faq summary{padding:var(--sp-3) var(--sp-4);cursor:pointer;font-weight:600;font-size:14px;list-style:none;}
+.faq summary::-webkit-details-marker{display:none;}
+.faq p{padding:0 var(--sp-4) var(--sp-4);color:var(--tm-text-2);font-size:14px;}
+</style>
+</head>
+<body>
+<div class="db-topbar tm-shell"><a href="/index.html"><img src="/assets/logo.svg" width="120"></a><a class="tm-btn tm-btn-ghost tm-btn-sm" href="/dashboard.html">Dashboard</a></div>
+
+<div class="help">
+  <h1 style="font-size:32px;margin-bottom:var(--sp-4)">Help center</h1>
+  <input class="tm-input" id="search" placeholder="Search help…" style="margin-bottom:var(--sp-8)">
+
+  <div id="faqs"></div>
+
+  <div class="faq-section" id="abuse">
+    <h2>Report abuse</h2>
+    <p class="tm-dim" style="font-size:14px;margin-bottom:var(--sp-3)">Seen a site or account violating our policies? Tell us.</p>
+    <form id="abuseForm" class="tm-card" style="padding:var(--sp-4)">
+      <div class="auth-field"><label class="tm-label">URL or account</label><input class="tm-input" id="ab_url"></div>
+      <div class="auth-field"><label class="tm-label">What's wrong?</label><textarea class="tm-textarea" id="ab_detail" rows="3"></textarea></div>
+      <button class="tm-btn tm-btn-primary tm-btn-sm" type="submit">Submit report</button>
+    </form>
+  </div>
+
+  <div class="faq-section">
+    <h2>DMCA notices</h2>
+    <p class="tm-dim" style="font-size:14px">To file a copyright takedown, email <a href="mailto:support@tamato.design" style="color:var(--tm-accent)">support@tamato.design</a> with the subject "DMCA Notice." Include: identification of the copyrighted work, the infringing URL, your contact details, a good-faith statement, and a statement under penalty of perjury that you are authorized to act. We respond within 5 business days.</p>
+  </div>
+</div>
+
+<footer class="lp-foot" style="background:var(--tm-bg)"><div style="text-align:center"><div class="lp-foot-links"><a href="/index.html">Home</a><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a></div></div></footer>
+
+<script type="module">
+import { toast } from '/js/supabase.js';
+const FAQ = {
+  General: [
+    ['What is Tamato?', 'Tamato is one platform with three AI tools — Build (websites), AI (chat with live preview), and Studio (design system extraction) — sharing one login, one credit balance, and one design language.'],
+    ['What does "you own it yours" mean?', 'Every site you build can be exported as clean HTML you host anywhere. No platform lock-in. Your code is yours forever.'],
+    ['Are credits shared across products?', 'Yes. Standard plans use one shared credit pool across Build, AI, and Studio. Brand Wide splits into an AI pool and a Studio pool.'],
+    ['Do credits expire?', 'No. Credits never expire and roll over.'],
+  ],
+  Build: [
+    ['Is every site really unique?', 'Yes. There are no templates. Each generation produces a structurally different site, even for the same prompt.'],
+    ['What are the models?', 'Pythm-4.5o mini (free), Pythm 4.5 (1 credit/unit), Metrio 4.6 (3), and Megisto 4.8 (15 for generation, 10 for edits).'],
+    ['How do I edit my site?', 'Click any text to edit it inline, or describe a change in the prompt bar and the AI rewrites the full page. Dev Mode gives you direct code access.'],
+    ['What is Dev Mode?', 'A full code editor alongside the canvas. Included on Pro and Agency; a $5 one-time add-on on Single Site.'],
+  ],
+  AI: [
+    ['Can the AI show me a live site?', 'Yes. When a response contains a complete HTML document, it renders live and interactive right in the conversation (paid plans).'],
+    ['What are @ mentions?', 'Type @ to reference one of your saved sites so the AI can analyze and improve it (paid plans).'],
+    ['Can I upload images?', 'Image uploads are available on all paid plans, up to 10MB each.'],
+  ],
+  Studio: [
+    ['How does extraction work?', 'Upload up to 3 images. Megisto 4.8 analyzes them and returns a full design system — colors, type, spacing, borders, shadows, motion.'],
+    ['What does it cost?', 'Design system creation is a flat 30 credits. Pro and Agency include 5 free creations per month.'],
+    ['How do I use the result?', 'Edit tokens live, then export a combined CSS-variables + style-prompt block, or send it straight to Build or AI.'],
+  ],
+  Billing: [
+    ['How do I pay?', 'All payments run through Stripe. Manage your subscription and invoices in the Stripe Customer Portal from your account page.'],
+    ['What happens if I cancel?', 'Your plan stays active until the end of the billing period, then reverts to Free. Sites are removed 5 days after downgrade.'],
+    ['Can I buy credits without a subscription?', 'Yes. Credit packs from 100 to 2,000 credits are available to any account.'],
+  ],
+  Melio: [
+    ['What is Melio?', 'A free year of Tamato (unlimited Pythm-4.5o mini, 10 sites, 1 design system) given to early-stage builders, reviewed personally by Ryland.'],
+    ['How do I apply?', 'Fill out the short application on the Melio page. You\'ll hear back by email.'],
+  ],
+  API: [
+    ['What is the Tamato API?', 'A programmatic endpoint to generate sites with Megisto 4.8. Pay per token, no monthly fee.'],
+    ['Where do I get a key?', 'Generate a tm-meg- key from your account page. It\'s shown once — copy it immediately.'],
+  ],
+  Legal: [
+    ['What can I not build?', 'Anything illegal, fraudulent, sexual, hateful, or harmful. Prompts are screened automatically; repeated violations suspend the account.'],
+    ['How is my data handled?', 'See our Privacy Policy. Connector tokens are encrypted at rest.'],
+  ],
+};
+
+const wrap = document.getElementById('faqs');
+function render(filter='') {
+  const f = filter.toLowerCase();
+  wrap.innerHTML = Object.entries(FAQ).map(([section, items]) => {
+    const matched = items.filter(([q, a]) => !f || (q + a).toLowerCase().includes(f));
+    if (!matched.length) return '';
+    return `<div class="faq-section"><h2>${section}</h2>${matched.map(([q, a]) =>
+      `<details class="faq"><summary>${q}</summary><p>${a}</p></details>`).join('')}</div>`;
+  }).join('') || '<p class="tm-muted">No results.</p>';
+}
+render();
+document.getElementById('search').addEventListener('input', e => render(e.target.value));
+
+document.getElementById('abuseForm').addEventListener('submit', e => {
+  e.preventDefault();
+  // Routed to support@tamato.design in production.
+  toast('Report submitted. Thank you.', 'success');
+  e.target.reset();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<svg width="240" height="220" viewBox="0 0 240 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Foundation pyramid — Melio motif (θεμέλιο, "foundation") -->
+  <polygon points="120,16 232,204 8,204" fill="none" stroke="#B85C52" stroke-width="2"/>
+  <line x1="64" y1="142" x2="176" y2="142" stroke="#B85C52" stroke-width="1.5" opacity="0.55"/>
+  <line x1="40" y1="180" x2="200" y2="180" stroke="#B85C52" stroke-width="1.5" opacity="0.4"/>
+  <line x1="92" y1="78" x2="148" y2="78" stroke="#B85C52" stroke-width="1.5" opacity="0.7"/>
+  <polygon points="120,16 148,78 92,78" fill="#B85C52" opacity="0.18"/>
+</svg>

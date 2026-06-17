@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Melio · Tamato</title>
+<link rel="icon" href="/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/hub.css">
+</head>
+<body class="lp-body">
+<a class="lp-logo" href="/index.html"><img src="/assets/logo.svg" alt="Tamato" width="120"></a>
+<div class="lp-top"><a class="tm-btn tm-btn-ghost tm-btn-sm" href="/login.html">Sign in</a></div>
+
+<section class="lp-section" style="padding-top:140px;text-align:center">
+  <div class="tm-mono" style="color:#B85C52;margin-bottom:var(--sp-3)">θεμέλιο · themelio · "foundation"</div>
+  <h1 class="tm-display" style="font-size:clamp(56px,9vw,112px);margin-bottom:var(--sp-4)">Melio</h1>
+  <p class="lead">A piece of the foundation, given to those building theirs.</p>
+</section>
+
+<section class="lp-section" style="padding-top:0">
+  <div style="max-width:680px;margin:0 auto">
+    <div class="lp-feature" style="margin-bottom:var(--sp-8)">
+      <h4 style="margin-bottom:var(--sp-3)">What you get</h4>
+      <ul style="display:flex;flex-direction:column;gap:8px;color:#A09890;font-size:15px">
+        <li>— Unlimited Pythm-4.5o mini across all three products</li>
+        <li>— 10 sites in Tamato Build</li>
+        <li>— 1 design system in Tamato Studio</li>
+        <li>— 1 year free</li>
+        <li>— Reviewed personally by Ryland</li>
+      </ul>
+    </div>
+
+    <div class="lp-melio" style="text-align:left">
+      <h3 style="margin-bottom:var(--sp-4)">Apply</h3>
+      <form id="melioForm">
+        <div class="auth-field"><label class="tm-label">Your name</label><input class="tm-input" id="name" required></div>
+        <div class="auth-field"><label class="tm-label">Email</label><input class="tm-input" type="email" id="email" required></div>
+        <div class="auth-field"><label class="tm-label">What are you building and who is it for?</label><textarea class="tm-textarea" id="q1" rows="3" required></textarea></div>
+        <div class="auth-field"><label class="tm-label">Where are you right now — pre-revenue, just starting out?</label><textarea class="tm-textarea" id="q2" rows="3" required></textarea></div>
+        <div class="auth-field"><label class="tm-label">What would having a real website change for you right now?</label><textarea class="tm-textarea" id="q3" rows="3" required></textarea></div>
+        <div class="auth-error" id="err"></div>
+        <button class="tm-btn tm-btn-primary tm-btn-lg" type="submit" id="submit" style="width:100%">Apply for Melio</button>
+      </form>
+      <div id="thanks" class="tm-hidden" style="text-align:center;padding:var(--sp-8) 0">
+        <h3 style="margin-bottom:var(--sp-2)">Thank you 🍅</h3>
+        <p class="tm-muted">Your application is in. Ryland reviews these personally — you'll hear back by email.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="lp-foot"><div style="text-align:center"><p class="tm-muted">Build. Design. Own.</p>
+  <div class="lp-foot-links"><a href="/index.html">Home</a><a href="/pricing.html">Pricing</a><a href="/help.html">Help</a></div></div></footer>
+
+<script type="module">
+import { submitMelioApplication } from '/js/supabase.js';
+const form = document.getElementById('form') || document.getElementById('melioForm');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('submit'); btn.disabled = true; btn.textContent = 'Submitting…';
+  const ok = await submitMelioApplication({
+    name: name.value.trim(), email: email.value.trim(),
+    what_building: q1.value.trim(), current_situation: q2.value.trim(), why_website_matters: q3.value.trim(),
+  });
+  if (ok) { form.classList.add('tm-hidden'); document.getElementById('thanks').classList.remove('tm-hidden'); }
+  else { document.getElementById('err').textContent = 'Could not submit. Please try again.'; btn.disabled = false; btn.textContent = 'Apply for Melio'; }
+});
+</script>
+</body>
+</html>

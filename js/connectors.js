@@ -1,27 +1,19 @@
 /* ═══════════════════════════════════════════════════════════════════
    TAMATO — CONNECTORS
-   Nine OAuth integrations. Tokens stored in profiles.connector_tokens
-   (encrypted at rest via Supabase Vault). OAuth handled server-side;
-   frontend opens the popup and reads the connected state.
+   Four OAuth integrations. Tokens stored in profiles.connector_tokens.
+   OAuth handled server-side; frontend opens popup, reads connected state.
 ═══════════════════════════════════════════════════════════════════ */
 import { getProfile, updateProfile, getSession } from './supabase.js';
 
 export const CONNECTORS = [
-  { id: 'google',    name: 'Google',    desc: 'Maps embed, Sheets, YouTube',  fields: ['access_token', 'refresh_token', 'email'] },
-  { id: 'stripe',    name: 'Stripe',    desc: 'Payments via Stripe Connect',  fields: ['access_token', 'account_id'] },
-  { id: 'calendly',  name: 'Calendly',  desc: 'Booking links',                fields: ['access_token', 'username'] },
-  { id: 'paypal',    name: 'PayPal',    desc: 'Payments',                     fields: ['access_token', 'email'] },
-  { id: 'mailchimp', name: 'Mailchimp', desc: 'Email signups',                fields: ['access_token', 'list_id'] },
-  { id: 'notion',    name: 'Notion',    desc: 'Embed Notion content',         fields: ['access_token', 'workspace_id'] },
-  { id: 'instagram', name: 'Instagram', desc: 'Feed embed',                   fields: ['access_token', 'user_id'] },
-  { id: 'opentable', name: 'OpenTable', desc: 'Reservations',                 fields: ['access_token', 'restaurant_id'] },
-  { id: 'spotify',   name: 'Spotify',   desc: 'Embed playlists',              fields: ['access_token', 'user_id'] },
+  { id: 'google',    name: 'Google',    desc: 'Maps embed, Sheets, YouTube',   fields: ['access_token', 'refresh_token', 'email'] },
+  { id: 'stripe',    name: 'Stripe',    desc: 'Payments via Stripe Connect',   fields: ['access_token', 'account_id'] },
+  { id: 'calendly',  name: 'Calendly',  desc: 'Booking & scheduling links',    fields: ['access_token', 'username'] },
+  { id: 'mailchimp', name: 'Mailchimp', desc: 'Email list signups',            fields: ['access_token', 'list_id'] },
 ];
 
-/* Embed connectors expose credentials in exported source; data connectors
-   become static/mailto fallbacks on export. */
-export const EMBED_CONNECTORS = ['google', 'instagram', 'spotify', 'notion', 'calendly', 'opentable'];
-export const DATA_CONNECTORS  = ['stripe', 'paypal', 'mailchimp'];
+export const EMBED_CONNECTORS = ['google', 'calendly'];
+export const DATA_CONNECTORS  = ['stripe', 'mailchimp'];
 
 export const OAUTH_ENDPOINT = '/api/oauth/start';
 
@@ -33,7 +25,7 @@ export function isConnected(profile, id) {
 export function connectedAccount(profile, id) {
   const t = (profile && profile.connector_tokens) || {};
   const c = t[id] || {};
-  return c.email || c.username || c.account_id || c.user_id || c.workspace_id || c.restaurant_id || '';
+  return c.email || c.username || c.account_id || c.list_id || '';
 }
 
 /** Open OAuth popup; resolves when the popup signals completion. */
@@ -51,7 +43,6 @@ export async function connect(id) {
       }
     }
     window.addEventListener('message', onMsg);
-    // fallback: poll for popup close
     const timer = setInterval(() => {
       if (popup && popup.closed) { clearInterval(timer); window.removeEventListener('message', onMsg); resolve(true); }
     }, 600);

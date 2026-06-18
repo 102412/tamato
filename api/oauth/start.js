@@ -1,17 +1,10 @@
 /* ═══════════════════════════════════════════════════════════════════
    TAMATO — OAuth Start
-   Opens the OAuth consent screen for any of the 9 connectors.
-   Called from a popup: /api/oauth/start?provider=xxx&token=JWT&origin=URL
-   Env vars needed per provider:
+   Env vars needed:
      GOOGLE_CONNECTOR_CLIENT_ID
      STRIPE_CONNECT_CLIENT_ID
      CALENDLY_CLIENT_ID
-     PAYPAL_CLIENT_ID
      MAILCHIMP_CLIENT_ID
-     NOTION_CLIENT_ID
-     INSTAGRAM_CLIENT_ID
-     SPOTIFY_CLIENT_ID
-     (OpenTable uses API key — no OAuth)
 ═══════════════════════════════════════════════════════════════════ */
 
 const BASE_URL = 'https://tamato-ai.vercel.app';
@@ -34,32 +27,10 @@ const PROVIDERS = {
     clientId: process.env.CALENDLY_CLIENT_ID,
     scopes: 'default',
   },
-  paypal: {
-    authUrl: 'https://www.paypal.com/signin/authorize',
-    clientId: process.env.PAYPAL_CLIENT_ID,
-    scopes: 'openid email profile',
-    extra: { nonce: 'tm' + Date.now(), flowEntry: 'static' },
-  },
   mailchimp: {
     authUrl: 'https://login.mailchimp.com/oauth2/authorize',
     clientId: process.env.MAILCHIMP_CLIENT_ID,
     scopes: '',
-  },
-  notion: {
-    authUrl: 'https://api.notion.com/v1/oauth/authorize',
-    clientId: process.env.NOTION_CLIENT_ID,
-    scopes: '',
-    extra: { owner: 'user' },
-  },
-  instagram: {
-    authUrl: 'https://api.instagram.com/oauth/authorize',
-    clientId: process.env.INSTAGRAM_CLIENT_ID,
-    scopes: 'user_profile,user_media',
-  },
-  spotify: {
-    authUrl: 'https://accounts.spotify.com/authorize',
-    clientId: process.env.SPOTIFY_CLIENT_ID,
-    scopes: 'user-read-private user-read-email playlist-read-public',
   },
 };
 
@@ -72,7 +43,7 @@ module.exports = function handler(req, res) {
   }
   if (!cfg.clientId) {
     return res.status(503).send(
-      `<html><body style="font-family:sans-serif;padding:2rem">
+      `<html><body style="font-family:sans-serif;padding:2rem;background:#1C1917;color:#F5F0EB">
         <h2>${provider} not yet configured</h2>
         <p>Add <code>${provider.toUpperCase().replace(/-/g,'_')}_CLIENT_ID</code> to Vercel environment variables.</p>
         <script>setTimeout(window.close, 4000);</script>

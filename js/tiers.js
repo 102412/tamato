@@ -202,7 +202,7 @@ export function getRemainingCounts(profile) {
 export function getModelSelectorState(profile, product) {
   const tier = getTier(profile);
   const allowed = tier.models[product] || [];
-  const balance = poolBalance(profile, product);
+  const balance = isOwner(profile) ? Infinity : poolBalance(profile, product);
   return MODEL_ORDER.map(id => {
     const m = getModel(id);
     let state = 'available', tooltip = '';

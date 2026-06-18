@@ -15,6 +15,7 @@
   max-width: 440px;
   background: var(--tm-surface);
   border: 1px solid var(--tm-border);
+  border-top: 2px solid var(--tm-accent);
   border-radius: var(--r-modal);
   padding: var(--sp-12) var(--sp-8);
 }

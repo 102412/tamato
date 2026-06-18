@@ -123,8 +123,11 @@ html, body { height: 100%; overflow: hidden; }
   white-space: pre-wrap;
   word-break: break-word;
   flex: 1;
+  border-left: 2px solid #B85C52;
 }
-.bd-stream .tag { color: #B85C52; }
+.bd-stream .tag   { color: #B85C52; }
+.bd-stream .attr  { color: #C87E74; }
+.bd-stream .str   { color: #8BAF6E; }
 
 .bd-gen-controls {
   position: absolute;
@@ -205,8 +208,9 @@ html, body { height: 100%; overflow: hidden; }
 .bd-prompt-textarea::placeholder { color: var(--tm-text-3); }
 .bd-prompt-textarea:focus {
   outline: none;
-  border-color: var(--tm-border);
-  box-shadow: 0 0 0 2px var(--tm-accent-glow);
+  border-color: var(--tm-accent-dim);
+  box-shadow: 0 0 0 3px var(--tm-accent-glow);
+  caret-color: var(--tm-accent);
 }
 
 /* ── Model selector ──────────────────────────────────────────────── */

@@ -97,8 +97,8 @@ html, body { height: 100%; }
   transition: border-color var(--t-micro), background var(--t-micro);
   cursor: pointer;
 }
-.drop-zone:hover { border-color: var(--tm-accent); }
-.drop-zone.over  { border-color: var(--tm-accent); background: var(--tm-accent-muted); }
+.drop-zone:hover { border-color: var(--tm-accent); box-shadow: 0 0 0 3px var(--tm-accent-glow); }
+.drop-zone.over  { border-color: var(--tm-accent); background: var(--tm-accent-muted); box-shadow: 0 0 0 3px var(--tm-accent-glow); }
 .drop-zone p { color: var(--tm-text-3); font-size: 15px; }
 
 .upload-thumbs {
@@ -160,8 +160,19 @@ html, body { height: 100%; }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--tm-text-3);
+  color: var(--tm-accent);
   margin-bottom: var(--sp-4);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.token-group h4::before {
+  content: '';
+  width: 3px;
+  height: 12px;
+  background: var(--tm-accent);
+  border-radius: 99px;
+  flex-shrink: 0;
 }
 .token-row {
   display: flex;

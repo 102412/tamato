@@ -121,6 +121,7 @@ h6 { font-weight: 600; font-size: 13px; line-height: 1.4;  letter-spacing: 0.01e
 .tm-dim      { color: var(--tm-text-3); }
 .tm-accent   { color: var(--tm-accent); }
 .tm-label    { display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--tm-text-3); margin-bottom: var(--sp-2); }
+.tm-label-accent { color: var(--tm-accent); }
 .tm-help     { font-size: 12px; color: var(--tm-text-3); margin-top: var(--sp-2); line-height: 1.5; }
 .tm-eyebrow  { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tm-text-3); }
 
@@ -148,7 +149,11 @@ h6 { font-weight: 600; font-size: 13px; line-height: 1.4;  letter-spacing: 0.01e
   color: #fff;
   border-color: var(--tm-accent);
 }
-.tm-btn-primary:hover:not(:disabled) { background: var(--tm-accent-dim); border-color: var(--tm-accent-dim); }
+.tm-btn-primary:hover:not(:disabled) {
+  background: var(--tm-accent-dim);
+  border-color: var(--tm-accent-dim);
+  box-shadow: 0 0 0 3px var(--tm-accent-glow);
+}
 
 .tm-btn-ghost {
   background: transparent;
@@ -190,10 +195,11 @@ h6 { font-weight: 600; font-size: 13px; line-height: 1.4;  letter-spacing: 0.01e
   appearance: none;
 }
 .tm-input::placeholder, .tm-textarea::placeholder { color: var(--tm-text-3); }
+.tm-input, .tm-textarea, .tm-select { caret-color: var(--tm-accent); }
 .tm-input:focus, .tm-textarea:focus, .tm-select:focus {
   outline: none;
-  border-color: var(--tm-border);
-  box-shadow: 0 0 0 2px var(--tm-accent-glow);
+  border-color: var(--tm-accent-dim);
+  box-shadow: 0 0 0 3px var(--tm-accent-glow);
 }
 .tm-textarea { resize: vertical; line-height: 1.6; min-height: 96px; }
 

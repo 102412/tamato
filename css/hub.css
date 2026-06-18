@@ -9,7 +9,7 @@
 
 .lp-top {
   position: fixed;
-  top: var(--sp-6);
+  top: var(--sp-4);
   right: var(--sp-8);
   z-index: 50;
   display: flex;
@@ -18,9 +18,13 @@
 }
 .lp-logo {
   position: fixed;
-  top: var(--sp-6);
-  left: var(--sp-8);
+  top: -36px;
+  left: var(--sp-4);
   z-index: 50;
+  display: block;
+  overflow: hidden;
+  width: 180px;
+  height: 110px;
 }
 
 /* ── Hero ──────────────────────────────────────────────────────── */
@@ -93,12 +97,15 @@
   width: min(400px, 80vw);
   background: #252220;
   border: 1px solid #3A3633;
+  border-top: 2px solid transparent;
   border-radius: var(--r-card);
   padding: var(--sp-6) var(--sp-8);
   opacity: 0;
   transform: translateX(60vw);
   will-change: transform, opacity;
+  transition: border-color var(--t-micro);
 }
+.lp-card:hover { border-top-color: #B85C52; border-color: #4A4643; }
 .lp-card h3 {
   font-size: 18px;
   font-weight: 700;
@@ -147,11 +154,12 @@
 .lp-feature {
   background: #252220;
   border: 1px solid #3A3633;
+  border-top: 2px solid transparent;
   border-radius: var(--r-card);
   padding: var(--sp-8);
-  transition: border-color var(--t-micro);
+  transition: border-color var(--t-micro), border-top-color var(--t-micro);
 }
-.lp-feature:hover { border-color: #4A4643; }
+.lp-feature:hover { border-color: #4A4643; border-top-color: #B85C52; }
 .lp-feature h4 {
   font-size: 18px;
   font-weight: 700;
@@ -210,7 +218,11 @@
   transition: border-color var(--t-micro);
 }
 .price-col:hover    { border-color: #4A4643; }
-.price-col.featured { border-color: #B85C52; }
+.price-col.featured {
+  border-color: #B85C52;
+  border-top: 3px solid #B85C52;
+  background: #2A1F1E;
+}
 .price-col h3 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
 .price-col .amt {
   font-family: var(--font-mono);
@@ -257,14 +269,26 @@
 .db-sidebar:hover { width: 240px; }
 
 .db-sidebar .sb-logo {
-  padding: var(--sp-4) 20px var(--sp-4);
+  padding: var(--sp-4) 14px var(--sp-4);
   display: flex;
   align-items: center;
+  gap: var(--sp-2);
   overflow: hidden;
   white-space: nowrap;
   height: 56px;
   flex-shrink: 0;
+  position: relative;
 }
+.sb-logo-icon { flex-shrink: 0; transition: opacity var(--t-panel); }
+.sb-logo-word {
+  opacity: 0;
+  transition: opacity var(--t-panel);
+  position: absolute;
+  left: 14px;
+  object-fit: contain;
+}
+.db-sidebar:hover .sb-logo-icon { opacity: 0; }
+.db-sidebar:hover .sb-logo-word { opacity: 1; }
 
 .sb-item {
   display: flex;
@@ -353,7 +377,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--tm-text-3);
+  color: var(--tm-accent);
   margin-bottom: var(--sp-4);
 }
 
@@ -366,12 +390,13 @@
 .activity-card {
   background: var(--tm-surface);
   border: 1px solid var(--tm-border);
+  border-left: 2px solid transparent;
   border-radius: var(--r-card);
   padding: var(--sp-5, 20px);
   cursor: pointer;
-  transition: border-color var(--t-micro), transform var(--t-micro);
+  transition: border-color var(--t-micro), border-left-color var(--t-micro), transform var(--t-micro);
 }
-.activity-card:hover { border-color: var(--tm-border-2); transform: translateY(-1px); }
+.activity-card:hover { border-color: var(--tm-border-2); border-left-color: var(--tm-accent); transform: translateY(-1px); }
 .activity-card:active { transform: scale(0.99); }
 
 .activity-card .ac-head { display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-3); }

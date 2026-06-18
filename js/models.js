@@ -4,7 +4,7 @@
    same backends, same credit units everywhere.
 ═══════════════════════════════════════════════════════════════════ */
 
-export const WORKER_URL = 'https://supersuite-ai.rylandritchie12.workers.dev/';
+export const WORKER_URL = 'https://tamatoaiworker.ryland-ritchie.workers.dev/';
 
 export const MODELS = {
   PYTHM_MINI: {

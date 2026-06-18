@@ -5,7 +5,7 @@
    Deduct ONLY after a successful API response.
 ═══════════════════════════════════════════════════════════════════ */
 import { unitsFromTokens, getModel } from './models.js';
-import { poolForProduct, getTier } from './tiers.js';
+import { poolForProduct, getTier, isOwner } from './tiers.js';
 import { updateProfile, logTransaction } from './supabase.js';
 
 /* ── Reload packages ───────────────────────────────────────────── */
@@ -47,6 +47,7 @@ export function estimateCost(product, action, modelId, promptLen = 0, expectedOu
 
 export function hasEnough(profile, product, amount) {
   if (amount <= 0) return true;
+  if (isOwner(profile)) return true;
   const key = poolForProduct(profile, product);
   return (profile[key] || 0) >= amount;
 }
@@ -56,6 +57,7 @@ export function hasEnough(profile, product, amount) {
  * Logs a transaction. Returns the new balance, or null on failure.
  */
 export async function deductCredits(profile, { product, action, modelId, usage, description }) {
+  if (isOwner(profile)) return 999999;
   const amount = costFromUsage(product, action, modelId, usage);
   if (amount <= 0) {
     await logTransaction({ amount: 0, type: action, product, model_used: modelId, description });
@@ -90,6 +92,7 @@ export async function addCredits(profile, amount, { pool = 'credits', descriptio
 
 /** Total spendable across pools (for display). */
 export function totalCredits(profile) {
+  if (isOwner(profile)) return 999999;
   const tier = getTier(profile);
   if (tier.pools === 'split') return (profile.ai_credits || 0) + (profile.studio_credits || 0);
   return profile.credits || 0;

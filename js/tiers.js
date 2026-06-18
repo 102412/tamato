@@ -13,7 +13,18 @@ const ALL_MODELS = ['PYTHM_MINI', 'PYTHM', 'METRIO', 'MEGISTO'];
 const FREE_MODELS = ['PYTHM_MINI'];
 const NO_OPUS = ['PYTHM_MINI', 'PYTHM', 'METRIO'];
 
+const OWNER_EMAIL = 'rylandritchie12@gmail.com';
+export const isOwner = (profile) => !!(profile && profile.email === OWNER_EMAIL);
+
 export const TIERS = {
+  owner: {
+    id: 'owner', name: 'Owner', price: 'Unlimited',
+    models: { build: ALL_MODELS, ai: ALL_MODELS, studio: ALL_MODELS },
+    build: { genLifetime: Infinity, editLifetime: Infinity, freeChat: true, devMode: true, exportLocked: false, siteCap: Infinity, dailyGenCap: Infinity },
+    ai: { imageUploads: true, livePreview: true, mentions: true },
+    studio: { creationLifetime: Infinity, viewOnly: false, exportLocked: false, livePreview: true, freeMonthly: Infinity },
+    creditsInitial: 999999, pools: 'shared',
+  },
   free: {
     id: 'free', name: 'Free', price: '$0',
     models: { build: FREE_MODELS, ai: FREE_MODELS, studio: FREE_MODELS },
@@ -81,6 +92,7 @@ export const TIERS = {
 };
 
 export function getTier(profile) {
+  if (isOwner(profile)) return TIERS.owner;
   const id = (profile && profile.tier) || 'free';
   return TIERS[id] || TIERS.free;
 }
@@ -136,6 +148,7 @@ export function canEdit(profile, modelId, product = 'build') {
 
 /* ── Record actions (increments counters in profile) ───────────── */
 export async function recordGeneration(profile, modelId) {
+  if (isOwner(profile)) return;
   const today = new Date().toDateString();
   const reset = profile.build_daily_reset ? new Date(profile.build_daily_reset).toDateString() : null;
   const daily = reset === today ? (profile.build_daily_gen || 0) + 1 : 1;
@@ -151,6 +164,7 @@ export async function recordGeneration(profile, modelId) {
 }
 
 export async function recordEdit(profile, modelId) {
+  if (isOwner(profile)) return;
   if (modelId === 'PYTHM_MINI') {
     const patch = { build_edit_lifetime: (profile.build_edit_lifetime || 0) + 1 };
     Object.assign(profile, patch);

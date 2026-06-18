@@ -65,9 +65,9 @@
   --sp-32: 128px;
 
   --r-sm:    4px;
-  --r-input: 4px;
-  --r-card:  6px;
-  --r-modal: 8px;
+  --r-input: 6px;
+  --r-card:  8px;
+  --r-modal: 12px;
 
   --font-ui:      'Plus Jakarta Sans', sans-serif;
   --font-mono:    'Roboto Mono', monospace;

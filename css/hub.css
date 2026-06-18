@@ -257,12 +257,12 @@
 .db-sidebar:hover { width: 240px; }
 
 .db-sidebar .sb-logo {
-  padding: 0 18px var(--sp-6);
+  padding: var(--sp-4) 20px var(--sp-4);
   display: flex;
   align-items: center;
   overflow: hidden;
   white-space: nowrap;
-  height: 48px;
+  height: 56px;
   flex-shrink: 0;
 }
 
@@ -270,40 +270,43 @@
   display: flex;
   align-items: center;
   gap: var(--sp-3);
-  padding: 11px 20px;
+  padding: 9px 12px;
+  margin: 1px 8px;
   color: var(--tm-text-3);
   white-space: nowrap;
   cursor: pointer;
   position: relative;
-  transition: color var(--t-micro);
+  border-radius: var(--r-card);
+  transition: color var(--t-micro), background var(--t-micro);
   text-decoration: none;
 }
-/* No background on hover — only color shift */
-.sb-item svg      { flex-shrink: 0; transition: color var(--t-micro); }
-.sb-item:hover    { color: var(--tm-text); background: transparent; }
+.sb-item svg { flex-shrink: 0; transition: color var(--t-micro); }
+.sb-item:hover   { color: var(--tm-text); background: var(--tm-surface-2); }
 .sb-item:hover svg { color: var(--tm-accent); }
 
-.sb-item.active   { color: var(--tm-text); background: transparent; }
+.sb-item.active   { color: var(--tm-text); background: var(--tm-surface-2); }
 .sb-item.active svg { color: var(--tm-accent); }
 .sb-item.active::before {
   content: '';
   position: absolute;
-  left: 0;
+  left: -4px;
   top: 25%;
   height: 50%;
   width: 2px;
   background: var(--tm-accent);
-  border-radius: 0 2px 2px 0;
+  border-radius: 99px;
 }
 
-.sb-label {
+/* Hide labels when collapsed — targets plain <span> in HTML */
+.sb-item span {
   font-size: 14px;
   font-weight: 500;
   opacity: 0;
   transition: opacity var(--t-panel);
   pointer-events: none;
+  white-space: nowrap;
 }
-.db-sidebar:hover .sb-label { opacity: 1; }
+.db-sidebar:hover .sb-item span { opacity: 1; }
 
 .sb-spacer { flex: 1; }
 

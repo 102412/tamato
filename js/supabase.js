@@ -5,8 +5,8 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
 /* ── Constants (set for this deployment) ───────────────────────── */
-export const SUPABASE_URL = 'https://yhddvyncsxpcnvtvkajw.supabase.co';
-export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InloZGR2eW5jc3hwY252dHZrYWp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzNzkxOTIsImV4cCI6MjA5NTk1NTE5Mn0.CTlfSLnHtOZ0DkZZT4-Z2sSfKleky0wo8ltQWBc7ar4';
+export const SUPABASE_URL = 'https://kjqavfpaxvpgjrulruok.supabase.co';
+export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtqcWF2ZnBheHZwZ2pydWxydW9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MTEwNzQsImV4cCI6MjA5NzI4NzA3NH0.JMuENr0Hk9JpvkXYascE7t4HeYHr0Ciqt9Dh6-Tzb_U';
 
 export const SUPPORT_EMAIL = 'support@tamato.design';
 export const ADMIN_EMAIL = 'ryland@tamato.design';

@@ -4,7 +4,7 @@
    (encrypted at rest via Supabase Vault). OAuth handled server-side;
    frontend opens the popup and reads the connected state.
 ═══════════════════════════════════════════════════════════════════ */
-import { getProfile, updateProfile } from './supabase.js';
+import { getProfile, updateProfile, getSession } from './supabase.js';
 
 export const CONNECTORS = [
   { id: 'google',    name: 'Google',    desc: 'Maps embed, Sheets, YouTube',  fields: ['access_token', 'refresh_token', 'email'] },
@@ -23,8 +23,7 @@ export const CONNECTORS = [
 export const EMBED_CONNECTORS = ['google', 'instagram', 'spotify', 'notion', 'calendly', 'opentable'];
 export const DATA_CONNECTORS  = ['stripe', 'paypal', 'mailchimp'];
 
-/** OAuth start endpoint (server route exchanges code, writes tokens). */
-export const OAUTH_ENDPOINT = '/api/oauth/start'; // TODO: deploy backend route
+export const OAUTH_ENDPOINT = '/api/oauth/start';
 
 export function isConnected(profile, id) {
   const t = (profile && profile.connector_tokens) || {};
@@ -38,9 +37,11 @@ export function connectedAccount(profile, id) {
 }
 
 /** Open OAuth popup; resolves when the popup signals completion. */
-export function connect(id) {
+export async function connect(id) {
+  const session = await getSession();
+  const token = session ? session.access_token : '';
   return new Promise((resolve) => {
-    const url = OAUTH_ENDPOINT + '?provider=' + encodeURIComponent(id) + '&origin=' + encodeURIComponent(location.origin);
+    const url = OAUTH_ENDPOINT + '?provider=' + encodeURIComponent(id) + '&token=' + encodeURIComponent(token) + '&origin=' + encodeURIComponent(location.origin);
     const popup = window.open(url, 'tm_oauth_' + id, 'width=520,height=640');
     function onMsg(e) {
       if (e.data && e.data.tm_connector === id) {

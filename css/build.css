@@ -194,6 +194,36 @@ html, body { height: 100%; overflow: hidden; }
   caret-color: var(--tm-accent);
 }
 
+/* ── Edit target chooser ─────────────────────────────────────────── */
+.bd-edit-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.bd-edit-target {
+  display: flex;
+  background: var(--tm-surface);
+  border: 1px solid var(--tm-border);
+  border-radius: var(--r-input);
+  padding: 2px;
+  gap: 2px;
+}
+.bd-edit-target button {
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--tm-text-3);
+  transition: background var(--t-micro), color var(--t-micro);
+  white-space: nowrap;
+}
+.bd-edit-target button.active {
+  background: var(--tm-accent);
+  color: #fff;
+}
+.bd-edit-target button:hover:not(.active) { color: var(--tm-text-2); }
+
 /* ── Model selector ──────────────────────────────────────────────── */
 .bd-model-wrap { position: relative; }
 

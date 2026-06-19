@@ -72,7 +72,14 @@
         <textarea class="bd-prompt-textarea" id="prompt" placeholder="Describe your business, product, or idea…" rows="1"></textarea>
       </div>
       <button class="tm-btn tm-btn-primary" id="generateBtn">Generate ▶</button>
-      <button class="tm-btn tm-btn-ghost" id="editBtn">Edit ✎</button>
+      <div class="bd-edit-wrap">
+        <div class="bd-edit-target" id="editTarget">
+          <button data-target="desktop">Desktop</button>
+          <button class="active" data-target="both">Both</button>
+          <button data-target="mobile">Mobile</button>
+        </div>
+        <button class="tm-btn tm-btn-ghost" id="editBtn">Edit ✎</button>
+      </div>
     </div>
   </div>
 </div>
@@ -206,11 +213,12 @@ async function submitPrompt(forceMode) {
   const mode = forceMode || await Gen.route(text);
   promptEl.value = '';
   if (mode === 'GENERATE') Gen.generate(text);
-  else if (mode === 'EDIT') Gen.aiEdit(text);
+  else if (mode === 'EDIT') Gen.aiEdit(text, getEditTarget());
   else { chatThread.classList.add('show'); Gen.chat(text, tier.name); }
 }
 function doGenerate() { submitPrompt('GENERATE'); }
 function doEdit() { submitPrompt('EDIT'); }
+function getEditTarget() { return ($('editTarget').querySelector('.active') || {}).dataset?.target || 'both'; }
 
 function addChat(role, msg) {
   chatThread.classList.add('show');
@@ -238,6 +246,10 @@ function renderModelMenu() {
 function wire() {
   $('generateBtn').addEventListener('click', doGenerate);
   $('editBtn').addEventListener('click', doEdit);
+  $('editTarget').querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    $('editTarget').querySelectorAll('button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+  }));
   promptEl.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitPrompt(); } });
   promptEl.addEventListener('input', () => { promptEl.style.height = 'auto'; promptEl.style.height = Math.min(promptEl.scrollHeight, 112) + 'px'; });
 

@@ -137,17 +137,22 @@ async function runStream(which, system, content) {
 export function pause() { /* UI keeps partial; stop reading by aborting current stream */ if (state.abort) state.abort.abort(); }
 export function cancel() { if (state.abort) state.abort.abort(); }
 
-/* ── AI edit — applies to BOTH desktop and mobile in parallel ──── */
-export async function aiEdit(instruction) {
+/* ── AI edit ─────────────────────────────────────────────────────
+   target: 'desktop' | 'mobile' | 'both' (default)               */
+export async function aiEdit(instruction, target = 'both') {
   const profile = state.profile = await getProfile();
   if (!state.html.desktop) { handlers.gateFail && handlers.gateFail('no_site'); return; }
 
   const gate = canEdit(profile, state.model, 'build');
   if (!gate.ok) { handlers.gateFail && handlers.gateFail(gate.reason); return; }
 
-  // Estimate against both HTML files combined
-  const combinedLen = (state.html.desktop.length + (state.html.mobile || state.html.desktop).length) + instruction.length * 2;
-  const est = estimateCost('build', 'edit', state.model, combinedLen, 6000);
+  const doDesktop = target === 'desktop' || target === 'both';
+  const doMobile  = target === 'mobile'  || target === 'both';
+
+  const desktopSrc = state.html.desktop;
+  const mobileSrc  = state.html.mobile || state.html.desktop;
+  const totalLen   = (doDesktop ? desktopSrc.length : 0) + (doMobile ? mobileSrc.length : 0) + instruction.length * (doDesktop && doMobile ? 2 : 1);
+  const est = estimateCost('build', 'edit', state.model, totalLen, 6000);
   if (!hasEnough(profile, 'build', est)) { handlers.needCredits && handlers.needCredits(est, profile.credits); return; }
 
   handlers.editStart && handlers.editStart();
@@ -159,14 +164,18 @@ export async function aiEdit(instruction) {
       maxTokens: 8000,
     });
 
-    // Run desktop and mobile edits in parallel
-    const mobileSource = state.html.mobile || state.html.desktop;
-    const [dRes, mRes] = await Promise.all([editOne(state.html.desktop), editOne(mobileSource)]);
+    const [dRes, mRes] = await Promise.all([
+      doDesktop ? editOne(desktopSrc) : Promise.resolve(null),
+      doMobile  ? editOne(mobileSrc)  : Promise.resolve(null),
+    ]);
 
-    state.html.desktop = stripFences(dRes.text);
-    state.html.mobile  = stripFences(mRes.text);
+    if (dRes) state.html.desktop = stripFences(dRes.text);
+    if (mRes) state.html.mobile  = stripFences(mRes.text);
 
-    const usage = { input: dRes.usage.input + mRes.usage.input, output: dRes.usage.output + mRes.usage.output };
+    const usage = {
+      input:  (dRes?.usage.input  || 0) + (mRes?.usage.input  || 0),
+      output: (dRes?.usage.output || 0) + (mRes?.usage.output || 0),
+    };
     await deductCredits(profile, { product: 'build', action: 'edit', modelId: state.model, usage, description: 'edit: ' + instruction.slice(0, 60) });
     await recordEdit(profile, state.model);
     await persist(state.site ? state.site.prompt : '');

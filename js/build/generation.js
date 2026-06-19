@@ -101,8 +101,10 @@ export async function generate(prompt) {
   handlers.genStart && handlers.genStart();
 
   try {
-    // 3. desktop, then mobile (both streaming)
+    // 3. desktop, then mobile (both streaming); delay between to stay under rate limits
     const desktop = await runStream('desktop', DESKTOP_SYS, userMsg(prompt));
+    if (state.abort.signal.aborted) return;
+    await new Promise(r => setTimeout(r, 2000));
     if (state.abort.signal.aborted) return;
     const mobile = await runStream('mobile', MOBILE_SYS, userMsg(prompt));
 

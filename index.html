@@ -12,6 +12,9 @@
 </head>
 <body class="lp-body">
 
+<!-- Page dim — darkens everything except the device frame during scroll stage -->
+<div class="lp-dim" id="dimOverlay"></div>
+
 <a class="lp-logo" href="/index.html"><img src="/assets/wordmark-full.png" alt="Tamato" width="180" height="180"></a>
 <div class="lp-top">
   <a class="tm-btn tm-btn-ghost tm-btn-sm" href="/login.html">Sign In</a>
@@ -25,15 +28,377 @@
   <p class="tm-enter">The only AI platform where every site is unique, every file is yours, and every tool works together.</p>
 </header>
 
-<!-- PYRAMID + PRODUCT REVEAL -->
-<div class="lp-stage" id="stage">
-  <img class="lp-pyramid" id="pyramid" src="/assets/pyramid.svg" alt="">
-  <div class="lp-cards" id="cards">
-    <a class="lp-card" href="/build/" data-i="0"><div class="slug">tamato.design/build</div><h3>AI Website Builder</h3><p>Describe your idea. Get a structurally unique site — desktop and mobile — that's yours to export forever.</p></a>
-    <a class="lp-card" href="/ai/" data-i="1"><div class="slug">tamato.design/ai</div><h3>AI Chat Assistant</h3><p>Chat that renders live, interactive websites inline. Reference your own sites with @ mentions.</p></a>
-    <a class="lp-card" href="/studio/" data-i="2"><div class="slug">tamato.design/studio</div><h3>Design System Extractor</h3><p>Turn any image into a complete, build-ready design system you can drop straight into Build or AI.</p></a>
-  </div>
-</div>
+<!-- ═══════════════════════════════════════════════════
+     DEVICE STAGE — 400vh scroll sequence
+     Laptop frame stays pinned; 3 content stages animate
+     inside the screen as the user scrolls through.
+═══════════════════════════════════════════════════ -->
+<section class="lp-device-stage" id="deviceStage">
+  <div class="lp-device-sticky">
+
+    <!-- MacBook-style frame -->
+    <div class="lp-device-frame">
+      <div class="lp-device-bezel">
+        <div class="lp-device-screen" id="deviceScreen">
+
+          <!-- STAGE 1: Pyramid — Tamato brand mark + tagline -->
+          <div class="lp-ds-pane" id="pane1">
+            <div class="lp-ds-center">
+              <svg viewBox="0 0 200 164" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:min(148px,28vw);will-change:transform">
+                <!-- Outer outline -->
+                <polygon points="100,6 196,158 4,158" stroke="#B85C52" stroke-width="1.5" fill="rgba(184,92,82,0.04)"/>
+                <!-- Mid outline -->
+                <polygon points="100,42 162,150 38,150" stroke="#B85C52" stroke-width="1" stroke-opacity="0.7" fill="rgba(184,92,82,0.07)"/>
+                <!-- Inner filled -->
+                <polygon points="100,82 128,136 72,136" fill="rgba(184,92,82,0.28)"/>
+                <!-- Apex dot -->
+                <circle cx="100" cy="6" r="2.5" fill="#B85C52"/>
+                <!-- Base dots -->
+                <circle cx="196" cy="158" r="2" fill="#B85C52" opacity="0.5"/>
+                <circle cx="4"   cy="158" r="2" fill="#B85C52" opacity="0.5"/>
+              </svg>
+              <div class="lp-ds-label">
+                <div class="slug">tamato.design</div>
+                <p>Build. Design. Own.</p>
+                <small>Three tools. One platform. One credit balance.</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- STAGE 2: Product cards -->
+          <div class="lp-ds-pane" id="pane2">
+            <div class="lp-screen-cards">
+              <div class="lp-screen-card" id="sc0">
+                <div class="sc-slug">tamato.design/build</div>
+                <h4>AI Website Builder</h4>
+                <p>Unique site every time — desktop + mobile. Export clean HTML forever.</p>
+              </div>
+              <div class="lp-screen-card" id="sc1">
+                <div class="sc-slug">tamato.design/ai</div>
+                <h4>AI Chat Assistant</h4>
+                <p>Live interactive previews inline. @ mention your own sites directly.</p>
+              </div>
+              <div class="lp-screen-card" id="sc2">
+                <div class="sc-slug">tamato.design/studio</div>
+                <h4>Design System Extractor</h4>
+                <p>Turn any image into build-ready design tokens. Drop into Build or AI.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- STAGE 3: Feature highlights -->
+          <div class="lp-ds-pane" id="pane3">
+            <div class="lp-screen-feat-grid">
+              <div class="lp-screen-feat" id="sf0"><h5>No lock-in</h5><p>Clean HTML. Host anywhere. No platform required. Forever.</p></div>
+              <div class="lp-screen-feat" id="sf1"><h5>Structurally unique</h5><p>Same brief, two users — two completely different sites.</p></div>
+              <div class="lp-screen-feat" id="sf2"><h5>Tools that talk</h5><p>Studio → Build → AI. One continuous creative flow.</p></div>
+              <div class="lp-screen-feat" id="sf3"><h5>One credit balance</h5><p>Spend across every product. No silos, no surprises.</p></div>
+            </div>
+          </div>
+
+        </div><!-- /device-screen -->
+      </div><!-- /device-bezel -->
+
+      <div class="lp-device-base">
+        <div class="lp-device-hinge"></div>
+        <div class="lp-device-foot"></div>
+      </div>
+    </div><!-- /device-frame -->
+
+    <p class="lp-scroll-cue" id="scrollCue">Scroll to explore ↓</p>
+  </div><!-- /device-sticky -->
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FLOATING PROJECT CARDS
+     10 fictional brands — each a distinct visual identity —
+     drifting in two opposing rows to show structural variety.
+═══════════════════════════════════════════════════ -->
+<section class="lp-projects">
+  <h2 class="lp-proj-head">Every site, structurally unique</h2>
+  <p class="lp-proj-sub">No templates. No two Tamato sites ever look the same.</p>
+
+  <div class="lp-belts">
+
+    <!-- Row 1 — drifts left to right -->
+    <div class="lp-belt lp-belt-ltr">
+
+      <!-- Card 1: Origin Collective — coffee roastery, warm editorial -->
+      <div class="pc-card" style="border-color:rgba(212,168,112,0.2)">
+        <div class="pc-bg" style="background:linear-gradient(155deg,#180E07 55%,#2C1710 100%)"></div>
+        <div class="pc-content" style="justify-content:flex-end">
+          <div style="font-size:8px;letter-spacing:0.14em;color:#8A6030;text-transform:uppercase;font-family:Georgia,serif;margin-bottom:5px">Single Origin · Est. 2019</div>
+          <div style="font-family:Georgia,serif;font-size:22px;font-weight:700;color:#E8D5B0;line-height:1.08;margin-bottom:6px">Origin<br>Collective</div>
+          <div style="font-size:9px;color:#7A5828;margin-bottom:11px">Specialty coffee, sourced honestly.</div>
+          <div style="display:inline-block;border:1px solid rgba(212,168,112,0.4);color:#D4A870;font-size:8px;padding:4px 10px;border-radius:2px;letter-spacing:0.06em;width:fit-content">Shop Roasts →</div>
+        </div>
+      </div>
+
+      <!-- Card 2: Blanc Studio — architecture, stark geometric -->
+      <div class="pc-card" style="border-color:rgba(20,20,18,0.4)">
+        <div class="pc-bg" style="background:#EDEBE6"></div>
+        <div class="pc-content" style="justify-content:space-between">
+          <div>
+            <div style="font-size:7px;letter-spacing:0.22em;color:#999;text-transform:uppercase;font-family:Arial,sans-serif">Architecture · Interior</div>
+            <div style="width:100%;height:1px;background:#C8C4BE;margin:8px 0"></div>
+          </div>
+          <div style="font-family:Arial,sans-serif;font-size:27px;font-weight:900;color:#0A0A09;line-height:0.92;letter-spacing:-0.035em;text-transform:uppercase">BLANC<br>STUDIO</div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="font-size:8px;color:#888">Paris · London · Tokyo</div>
+            <div style="font-size:8px;color:#0A0A09;border-bottom:1px solid #0A0A09;padding-bottom:1px;letter-spacing:0.04em">View Work</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Levain & Co — sourdough bakery, terracotta warmth -->
+      <div class="pc-card" style="border-color:rgba(196,112,72,0.3)">
+        <div class="pc-bg" style="background:#B55E3C"></div>
+        <div class="pc-bg" style="background:linear-gradient(0deg,rgba(0,0,0,0.35) 0%,transparent 55%);position:absolute;inset:0"></div>
+        <div class="pc-content" style="justify-content:flex-end">
+          <div style="font-size:8px;color:#E8C9A8;font-style:italic;font-family:Georgia,serif;margin-bottom:3px">Artisan Bakery · Portland</div>
+          <div style="font-family:Georgia,serif;font-size:25px;font-style:italic;color:#F5EDD9;line-height:1.05;margin-bottom:7px">Levain<br><span style="font-size:14px;font-weight:400">& Co.</span></div>
+          <div style="font-size:9px;color:#C4956A">Sourdough, pastry & things that matter.</div>
+        </div>
+      </div>
+
+      <!-- Card 4: Apex Training — fitness, high-contrast neon -->
+      <div class="pc-card" style="border-color:rgba(57,255,20,0.15)">
+        <div class="pc-bg" style="background:#040404"></div>
+        <div class="pc-content" style="justify-content:space-between">
+          <div style="font-size:7px;letter-spacing:0.2em;color:#39FF14;text-transform:uppercase;font-family:monospace">Performance Training</div>
+          <div>
+            <div style="font-family:Arial,sans-serif;font-size:28px;font-weight:900;color:#F5F5F4;line-height:0.88;letter-spacing:-0.03em;text-transform:uppercase">APEX<br>TRAINING</div>
+            <div style="width:36px;height:2px;background:#39FF14;margin:9px 0"></div>
+            <div style="font-size:8px;color:#3A3A38;text-transform:uppercase;letter-spacing:0.1em">No limits. No excuses.</div>
+          </div>
+          <div style="background:#39FF14;color:#000;font-size:8px;font-weight:800;padding:4px 11px;text-transform:uppercase;letter-spacing:0.1em;border-radius:2px;width:fit-content">Join Now</div>
+        </div>
+      </div>
+
+      <!-- Card 5: Lumière — skincare, delicate pastels -->
+      <div class="pc-card" style="border-color:rgba(196,154,138,0.2)">
+        <div class="pc-bg" style="background:linear-gradient(135deg,#F7ECEA 0%,#EDE0DC 100%)"></div>
+        <div class="pc-content" style="justify-content:center;align-items:flex-start">
+          <div style="font-size:7px;letter-spacing:0.2em;color:#C49A8A;text-transform:uppercase;margin-bottom:9px">Skincare Rituels</div>
+          <div style="font-family:Georgia,serif;font-size:30px;font-weight:300;color:#3A2822;letter-spacing:-0.01em;line-height:1;margin-bottom:5px;font-style:italic">Lumière</div>
+          <div style="width:26px;height:1px;background:#C49A8A;margin-bottom:8px"></div>
+          <div style="font-size:8px;color:#9A7A72;letter-spacing:0.06em">Glow from within.</div>
+        </div>
+      </div>
+
+      <!-- Duplicate set for seamless loop -->
+      <div class="pc-card" style="border-color:rgba(212,168,112,0.2)">
+        <div class="pc-bg" style="background:linear-gradient(155deg,#180E07 55%,#2C1710 100%)"></div>
+        <div class="pc-content" style="justify-content:flex-end">
+          <div style="font-size:8px;letter-spacing:0.14em;color:#8A6030;text-transform:uppercase;font-family:Georgia,serif;margin-bottom:5px">Single Origin · Est. 2019</div>
+          <div style="font-family:Georgia,serif;font-size:22px;font-weight:700;color:#E8D5B0;line-height:1.08;margin-bottom:6px">Origin<br>Collective</div>
+          <div style="font-size:9px;color:#7A5828;margin-bottom:11px">Specialty coffee, sourced honestly.</div>
+          <div style="display:inline-block;border:1px solid rgba(212,168,112,0.4);color:#D4A870;font-size:8px;padding:4px 10px;border-radius:2px;letter-spacing:0.06em;width:fit-content">Shop Roasts →</div>
+        </div>
+      </div>
+      <div class="pc-card" style="border-color:rgba(20,20,18,0.4)">
+        <div class="pc-bg" style="background:#EDEBE6"></div>
+        <div class="pc-content" style="justify-content:space-between">
+          <div>
+            <div style="font-size:7px;letter-spacing:0.22em;color:#999;text-transform:uppercase;font-family:Arial,sans-serif">Architecture · Interior</div>
+            <div style="width:100%;height:1px;background:#C8C4BE;margin:8px 0"></div>
+          </div>
+          <div style="font-family:Arial,sans-serif;font-size:27px;font-weight:900;color:#0A0A09;line-height:0.92;letter-spacing:-0.035em;text-transform:uppercase">BLANC<br>STUDIO</div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="font-size:8px;color:#888">Paris · London · Tokyo</div>
+            <div style="font-size:8px;color:#0A0A09;border-bottom:1px solid #0A0A09;padding-bottom:1px;letter-spacing:0.04em">View Work</div>
+          </div>
+        </div>
+      </div>
+      <div class="pc-card" style="border-color:rgba(196,112,72,0.3)">
+        <div class="pc-bg" style="background:#B55E3C"></div>
+        <div class="pc-bg" style="background:linear-gradient(0deg,rgba(0,0,0,0.35) 0%,transparent 55%);position:absolute;inset:0"></div>
+        <div class="pc-content" style="justify-content:flex-end">
+          <div style="font-size:8px;color:#E8C9A8;font-style:italic;font-family:Georgia,serif;margin-bottom:3px">Artisan Bakery · Portland</div>
+          <div style="font-family:Georgia,serif;font-size:25px;font-style:italic;color:#F5EDD9;line-height:1.05;margin-bottom:7px">Levain<br><span style="font-size:14px;font-weight:400">& Co.</span></div>
+          <div style="font-size:9px;color:#C4956A">Sourdough, pastry & things that matter.</div>
+        </div>
+      </div>
+      <div class="pc-card" style="border-color:rgba(57,255,20,0.15)">
+        <div class="pc-bg" style="background:#040404"></div>
+        <div class="pc-content" style="justify-content:space-between">
+          <div style="font-size:7px;letter-spacing:0.2em;color:#39FF14;text-transform:uppercase;font-family:monospace">Performance Training</div>
+          <div>
+            <div style="font-family:Arial,sans-serif;font-size:28px;font-weight:900;color:#F5F5F4;line-height:0.88;letter-spacing:-0.03em;text-transform:uppercase">APEX<br>TRAINING</div>
+            <div style="width:36px;height:2px;background:#39FF14;margin:9px 0"></div>
+            <div style="font-size:8px;color:#3A3A38;text-transform:uppercase;letter-spacing:0.1em">No limits. No excuses.</div>
+          </div>
+          <div style="background:#39FF14;color:#000;font-size:8px;font-weight:800;padding:4px 11px;text-transform:uppercase;letter-spacing:0.1em;border-radius:2px;width:fit-content">Join Now</div>
+        </div>
+      </div>
+      <div class="pc-card" style="border-color:rgba(196,154,138,0.2)">
+        <div class="pc-bg" style="background:linear-gradient(135deg,#F7ECEA 0%,#EDE0DC 100%)"></div>
+        <div class="pc-content" style="justify-content:center;align-items:flex-start">
+          <div style="font-size:7px;letter-spacing:0.2em;color:#C49A8A;text-transform:uppercase;margin-bottom:9px">Skincare Rituels</div>
+          <div style="font-family:Georgia,serif;font-size:30px;font-weight:300;color:#3A2822;letter-spacing:-0.01em;line-height:1;margin-bottom:5px;font-style:italic">Lumière</div>
+          <div style="width:26px;height:1px;background:#C49A8A;margin-bottom:8px"></div>
+          <div style="font-size:8px;color:#9A7A72;letter-spacing:0.06em">Glow from within.</div>
+        </div>
+      </div>
+
+    </div><!-- /belt-ltr -->
+
+    <!-- Row 2 — drifts right to left -->
+    <div class="lp-belt lp-belt-rtl">
+
+      <!-- Card 6: Groove Theory — vinyl shop, navy/mustard -->
+      <div class="pc-card" style="border-color:rgba(212,160,23,0.18)">
+        <div class="pc-bg" style="background:#0C1825"></div>
+        <div class="pc-content" style="justify-content:space-between">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="font-size:7px;letter-spacing:0.14em;color:#D4A020;text-transform:uppercase;font-family:Georgia,serif">Vinyl · Music · NYC</div>
+            <div style="width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(212,160,32,0.4)"></div>
+          </div>
+          <div>
+            <div style="font-family:Georgia,serif;font-size:21px;font-weight:700;color:#E8D070;line-height:1;letter-spacing:-0.01em">Groove<br>Theory</div>
+            <div style="font-size:8px;color:#3A4A5A;margin-top:5px;letter-spacing:0.04em">The record shop that still matters</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <div style="background:rgba(212,160,23,0.12);border:1px solid rgba(212,160,23,0.28);color:#D4A020;font-size:7px;padding:3px 8px;border-radius:2px;letter-spacing:0.04em">New Arrivals</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 7: Stone & Fern — landscaping, forest green/stone -->
+      <div class="pc-card" style="border-color:rgba(100,130,80,0.2)">
+        <div class="pc-bg" style="background:linear-gradient(155deg,#1A3418 0%,#253F22 100%)"></div>
+        <div class="pc-content" style="justify-content:space-between">
+          <div style="font-size:7px;letter-spacing:0.14em;color:#7A9A68;text-transform:uppercase">Landscape Design</div>
+          <div>
+            <div style="font-family:Georgia,serif;font-size:22px;color:#C5B9A8;font-weight:600;line-height:1.1">Stone<br><span style="font-weight:300;font-size:18px">&amp; Fern</span></div>
+            <div style="width:22px;height:1px;background:#7A9A68;margin:7px 0"></div>
+            <div style="font-size:8px;color:#4A6A40">Gardens designed to endure.</div>
+          </div>
+          <div style="font-size:8px;color:#7A9A68;border-bottom:1px solid rgba(122,154,104,0.5);padding-bottom:1px;width:fit-content;letter-spacing:0.04em">Request Consultation →</div>
+        </div>
+      </div>
+
+      <!-- Card 8: Hargrove Legal — law firm, charcoal/gold institutional -->
+      <div class="pc-card" style="border-color:rgba(201,168,76,0.18)">
+        <div class="pc-bg" style="background:#0E0E0D"></div>
+        <div class="pc-content" style="justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:14px;height:1px;background:#C9A84C"></div>
+            <div style="font-size:7px;letter-spacing:0.2em;color:#C9A84C;text-transform:uppercase">Est. 1987</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-family:Georgia,serif;font-size:12px;color:#C9A84C;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:3px">Hargrove</div>
+            <div style="font-size:8px;color:#504030;letter-spacing:0.2em;text-transform:uppercase">Legal Partners</div>
+            <div style="width:28px;height:1px;background:rgba(201,168,76,0.4);margin:7px auto"></div>
+            <div style="font-family:Georgia,serif;font-size:9px;color:#6A5A38;font-style:italic">Integrity. Counsel. Resolution.</div>
+          </div>
+          <div style="text-align:center;font-size:7px;color:#C9A84C;letter-spacing:0.12em;text-transform:uppercase">Schedule Consultation</div>
+        </div>
+      </div>
+
+      <!-- Card 9: Wobbly & Co — children's toys, bright primary -->
+      <div class="pc-card" style="border-color:rgba(255,100,50,0.3)">
+        <div class="pc-bg" style="background:linear-gradient(135deg,#FF6B35 0%,#FF8C58 100%)"></div>
+        <div class="pc-content" style="justify-content:space-between">
+          <div style="display:flex;gap:5px">
+            <div style="width:10px;height:10px;border-radius:50%;background:#FFE135"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#00C8FF"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#FF3E9A"></div>
+          </div>
+          <div>
+            <div style="font-size:27px;font-weight:900;color:#FFF;letter-spacing:-0.025em;line-height:1;font-family:Arial,sans-serif">Wobbly<br><span style="color:#FFE135">&amp; Co.</span></div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.65);margin-top:5px">Toys that spark big imagination.</div>
+          </div>
+          <div style="background:#FFE135;color:#1A0800;font-size:8px;font-weight:800;padding:5px 12px;border-radius:20px;width:fit-content;letter-spacing:0.04em">Shop Now!</div>
+        </div>
+      </div>
+
+      <!-- Card 10: Clover & Brass — cocktail bar, deep burgundy/brass -->
+      <div class="pc-card" style="border-color:rgba(196,154,42,0.18)">
+        <div class="pc-bg" style="background:linear-gradient(155deg,#0C0408 0%,#180A10 100%)"></div>
+        <div class="pc-content" style="justify-content:center;align-items:center;text-align:center">
+          <div style="font-size:7px;letter-spacing:0.22em;color:#6A4810;text-transform:uppercase;margin-bottom:10px">Craft Cocktails</div>
+          <div style="font-family:Georgia,serif;font-size:20px;color:#C49A2A;font-style:italic;line-height:1.1;margin-bottom:3px">Clover</div>
+          <div style="font-size:7px;color:#4A3808;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:10px">&amp; Brass</div>
+          <div style="width:36px;height:1px;background:rgba(196,154,42,0.35);margin:0 auto 10px"></div>
+          <div style="font-size:8px;color:#5A3A10;letter-spacing:0.05em;font-style:italic;font-family:Georgia,serif">Where the night begins</div>
+        </div>
+      </div>
+
+      <!-- Duplicate set for seamless loop -->
+      <div class="pc-card" style="border-color:rgba(212,160,23,0.18)">
+        <div class="pc-bg" style="background:#0C1825"></div>
+        <div class="pc-content" style="justify-content:space-between">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="font-size:7px;letter-spacing:0.14em;color:#D4A020;text-transform:uppercase;font-family:Georgia,serif">Vinyl · Music · NYC</div>
+            <div style="width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(212,160,32,0.4)"></div>
+          </div>
+          <div>
+            <div style="font-family:Georgia,serif;font-size:21px;font-weight:700;color:#E8D070;line-height:1;letter-spacing:-0.01em">Groove<br>Theory</div>
+            <div style="font-size:8px;color:#3A4A5A;margin-top:5px;letter-spacing:0.04em">The record shop that still matters</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <div style="background:rgba(212,160,23,0.12);border:1px solid rgba(212,160,23,0.28);color:#D4A020;font-size:7px;padding:3px 8px;border-radius:2px;letter-spacing:0.04em">New Arrivals</div>
+          </div>
+        </div>
+      </div>
+      <div class="pc-card" style="border-color:rgba(100,130,80,0.2)">
+        <div class="pc-bg" style="background:linear-gradient(155deg,#1A3418 0%,#253F22 100%)"></div>
+        <div class="pc-content" style="justify-content:space-between">
+          <div style="font-size:7px;letter-spacing:0.14em;color:#7A9A68;text-transform:uppercase">Landscape Design</div>
+          <div>
+            <div style="font-family:Georgia,serif;font-size:22px;color:#C5B9A8;font-weight:600;line-height:1.1">Stone<br><span style="font-weight:300;font-size:18px">&amp; Fern</span></div>
+            <div style="width:22px;height:1px;background:#7A9A68;margin:7px 0"></div>
+            <div style="font-size:8px;color:#4A6A40">Gardens designed to endure.</div>
+          </div>
+          <div style="font-size:8px;color:#7A9A68;border-bottom:1px solid rgba(122,154,104,0.5);padding-bottom:1px;width:fit-content;letter-spacing:0.04em">Request Consultation →</div>
+        </div>
+      </div>
+      <div class="pc-card" style="border-color:rgba(201,168,76,0.18)">
+        <div class="pc-bg" style="background:#0E0E0D"></div>
+        <div class="pc-content" style="justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:14px;height:1px;background:#C9A84C"></div>
+            <div style="font-size:7px;letter-spacing:0.2em;color:#C9A84C;text-transform:uppercase">Est. 1987</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-family:Georgia,serif;font-size:12px;color:#C9A84C;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:3px">Hargrove</div>
+            <div style="font-size:8px;color:#504030;letter-spacing:0.2em;text-transform:uppercase">Legal Partners</div>
+            <div style="width:28px;height:1px;background:rgba(201,168,76,0.4);margin:7px auto"></div>
+            <div style="font-family:Georgia,serif;font-size:9px;color:#6A5A38;font-style:italic">Integrity. Counsel. Resolution.</div>
+          </div>
+          <div style="text-align:center;font-size:7px;color:#C9A84C;letter-spacing:0.12em;text-transform:uppercase">Schedule Consultation</div>
+        </div>
+      </div>
+      <div class="pc-card" style="border-color:rgba(255,100,50,0.3)">
+        <div class="pc-bg" style="background:linear-gradient(135deg,#FF6B35 0%,#FF8C58 100%)"></div>
+        <div class="pc-content" style="justify-content:space-between">
+          <div style="display:flex;gap:5px">
+            <div style="width:10px;height:10px;border-radius:50%;background:#FFE135"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#00C8FF"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#FF3E9A"></div>
+          </div>
+          <div>
+            <div style="font-size:27px;font-weight:900;color:#FFF;letter-spacing:-0.025em;line-height:1;font-family:Arial,sans-serif">Wobbly<br><span style="color:#FFE135">&amp; Co.</span></div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.65);margin-top:5px">Toys that spark big imagination.</div>
+          </div>
+          <div style="background:#FFE135;color:#1A0800;font-size:8px;font-weight:800;padding:5px 12px;border-radius:20px;width:fit-content;letter-spacing:0.04em">Shop Now!</div>
+        </div>
+      </div>
+      <div class="pc-card" style="border-color:rgba(196,154,42,0.18)">
+        <div class="pc-bg" style="background:linear-gradient(155deg,#0C0408 0%,#180A10 100%)"></div>
+        <div class="pc-content" style="justify-content:center;align-items:center;text-align:center">
+          <div style="font-size:7px;letter-spacing:0.22em;color:#6A4810;text-transform:uppercase;margin-bottom:10px">Craft Cocktails</div>
+          <div style="font-family:Georgia,serif;font-size:20px;color:#C49A2A;font-style:italic;line-height:1.1;margin-bottom:3px">Clover</div>
+          <div style="font-size:7px;color:#4A3808;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:10px">&amp; Brass</div>
+          <div style="width:36px;height:1px;background:rgba(196,154,42,0.35);margin:0 auto 10px"></div>
+          <div style="font-size:8px;color:#5A3A10;letter-spacing:0.05em;font-style:italic;font-family:Georgia,serif">Where the night begins</div>
+        </div>
+      </div>
+
+    </div><!-- /belt-rtl -->
+  </div><!-- /lp-belts -->
+</section>
 
 <!-- SHOWCASE -->
 <section class="lp-section">
@@ -42,7 +407,7 @@
   <div class="lp-feature-grid">
     <div class="lp-feature"><div class="slug">/build</div><h4>Unique every time</h4><p>No templates, ever. Each generation produces a structurally different site with real content.</p></div>
     <div class="lp-feature"><div class="slug">/ai</div><h4>Live inline preview</h4><p>When the AI writes a site, it renders right in the conversation — interactive, not a screenshot.</p></div>
-    <div class="lp-feature"><div class="slug">/studio</div><h4>Extract & export</h4><p>Upload a design, get tokens for color, type, spacing, motion — exported as a ready-to-use prompt.</p></div>
+    <div class="lp-feature"><div class="slug">/studio</div><h4>Extract &amp; export</h4><p>Upload a design, get tokens for color, type, spacing, motion — exported as a ready-to-use prompt.</p></div>
   </div>
 </section>
 
@@ -68,7 +433,7 @@
     <div class="price-col"><h3>Agency</h3><div class="amt">$99.97+/mo</div><ul><li>3 / 5 / 10 seats</li><li>2,400 – 6,000 credits/month</li><li>Everything in Pro</li></ul><a class="tm-btn tm-btn-ghost" href="/pricing.html">Compare</a></div>
     <div class="price-col"><h3>Brand Wide</h3><div class="amt">$107.97/mo</div><ul><li>600 AI + 800 Studio credits</li><li>All models, all features</li><li>Unlimited Pythm-4.5o mini</li></ul><a class="tm-btn tm-btn-ghost" href="/signup.html">Choose</a></div>
   </div>
-  <p style="text-align:center;margin-top:var(--sp-6)"><a class="tm-btn tm-btn-text" href="/pricing.html">See full pricing & credit packs →</a></p>
+  <p style="text-align:center;margin-top:var(--sp-6)"><a class="tm-btn tm-btn-text" href="/pricing.html">See full pricing &amp; credit packs →</a></p>
 </section>
 
 <!-- MELIO -->

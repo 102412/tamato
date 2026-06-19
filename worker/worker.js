@@ -49,12 +49,18 @@ async function handleChat(request, env) {
 
 /* ── Groq (OpenAI-compatible) ──────────────────────────────────── */
 async function callGroq({ model, messages, stream, max_tokens }, env) {
-  const upstream = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + env.GROQ_API_KEY },
-    body: JSON.stringify({ model, messages, stream, max_tokens }),
-  });
-  return passthrough(upstream, stream);
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const upstream = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + env.GROQ_API_KEY },
+      body: JSON.stringify({ model, messages, stream, max_tokens }),
+    });
+    if (upstream.status === 429 && attempt < 2) {
+      await new Promise(r => setTimeout(r, (attempt + 1) * 3000));
+      continue;
+    }
+    return passthrough(upstream, stream);
+  }
 }
 
 /* ── Anthropic ─────────────────────────────────────────────────── */
@@ -136,12 +142,12 @@ async function logApiUsage(id, inTok, outTok, env) {
 
 /* ── Utilities ─────────────────────────────────────────────────── */
 function passthrough(upstream, stream, anthropic = false) {
-  if (!upstream.ok && !stream) {
+  if (!upstream.ok) {
     return upstream.text().then(t => json({ error: 'Upstream error', detail: t }, upstream.status));
   }
   if (stream) {
     return new Response(upstream.body, {
-      status: upstream.status,
+      status: 200,
       headers: { ...CORS, 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', Connection: 'keep-alive' },
     });
   }

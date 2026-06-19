@@ -14,6 +14,7 @@ export const MODELS = {
     provider: 'groq',
     credits_per_unit: 0,
     always_free: true,
+    max_tokens: 4096,
     description: 'Fast. Free. Always available.',
   },
   PYTHM: {
@@ -106,13 +107,20 @@ export async function streamModel({ modelId, system, messages, maxTokens = 8000,
     model: m.backend,
     messages: system ? [{ role: 'system', content: system }, ...messages] : messages,
     stream: true,
-    max_tokens: maxTokens,
+    max_tokens: m.max_tokens ? Math.min(maxTokens, m.max_tokens) : maxTokens,
   };
   const res = await fetch(WORKER_URL, {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload), signal,
   });
-  if (!res.ok || !res.body) throw new Error('Model stream failed (' + res.status + ')');
+  if (!res.ok || !res.body) {
+    let detail = '';
+    try { const e = await res.clone().json(); detail = e.detail || e.error || ''; } catch (_) {}
+    const status = res.status;
+    if (status === 429) throw new Error('Rate limit reached — try again in a moment.');
+    if (status === 400) throw new Error('Prompt too large — shorten your input and try again.');
+    throw new Error('Model stream failed (' + status + ')' + (detail ? ': ' + detail : ''));
+  }
 
   const reader = res.body.getReader();
   const decoder = new TextDecoder();

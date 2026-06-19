@@ -126,9 +126,15 @@ const canvas = $('canvas'), empty = $('empty'), split = $('split'), streamBox = 
   // Melio users get the guided 4-step form
   if (tier.id === 'melio' && !site) mountMelio();
 
-  // prefilled prompt (e.g. from Studio "Open in Build")
+  // prefilled prompt + optional model (e.g. from Studio "Open in Build" / "Use Pythm Mini")
   const pre = sessionStorage.getItem('tm_prefill_prompt');
   if (pre) { promptEl.value = pre; sessionStorage.removeItem('tm_prefill_prompt'); }
+  const preModel = sessionStorage.getItem('tm_prefill_model');
+  if (preModel) {
+    Gen.setCurrentModel(preModel);
+    $('modelBtn').textContent = getModel(preModel).name + ' ▾';
+    sessionStorage.removeItem('tm_prefill_model');
+  }
 
   listenForEdits(async (html, immediate) => {
     Gen.setHtml(view, html);

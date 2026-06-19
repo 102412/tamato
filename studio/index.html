@@ -70,8 +70,18 @@
       <pre class="export-code" id="exportCode"></pre>
       <div class="tm-row" style="margin-top:var(--sp-4)">
         <button class="tm-btn tm-btn-primary" id="copyBtn">Copy</button>
-        <button class="tm-btn tm-btn-ghost" id="openBuildBtn">Open in Tamato Build</button>
-        <button class="tm-btn tm-btn-ghost" id="openAiBtn">Open in Tamato AI</button>
+        <button class="tm-btn tm-btn-ghost" id="openBuildBtn">Open in Build</button>
+        <button class="tm-btn tm-btn-ghost" id="openAiBtn">Open in AI</button>
+      </div>
+      <div style="margin-top:var(--sp-4);padding:var(--sp-3) var(--sp-4);background:var(--tm-surface);border:1px solid var(--tm-border);border-radius:var(--r-card)">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3)">
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:2px">Pythm-4.5o mini compatible</div>
+            <div style="font-size:12px;color:var(--tm-text-2)">Compresses the design system to ~200 chars so it fits alongside your description in the free model.</div>
+          </div>
+          <button class="tm-btn tm-btn-ghost tm-btn-sm" id="openBuildMiniBtn" style="white-space:nowrap;border-color:var(--tm-accent-dim);color:var(--tm-accent)">Use Pythm Mini →</button>
+        </div>
+        <pre class="export-code" id="miniExportCode" style="margin-top:var(--sp-3);font-size:11px;white-space:pre-wrap;word-break:break-all;max-height:60px;overflow:hidden"></pre>
       </div>
     </div>
   </section>
@@ -86,7 +96,7 @@ import { totalCredits, hasEnough, deductFlat, STUDIO_FLAT } from '/js/credits.js
 import { extract, DEFAULT_TOKENS } from '/js/studio/extractor.js';
 import { renderTokenEditor } from '/js/studio/editor.js';
 import { renderPreview } from '/js/studio/preview.js';
-import { buildExport, openInBuild, openInAI } from '/js/studio/export.js';
+import { buildExport, openInBuild, openInAI, openInBuildMini, compressForMini } from '/js/studio/export.js';
 
 const $ = id => document.getElementById(id);
 let profile, tier, current = null, files = [], previewTimer = null;
@@ -161,10 +171,16 @@ function wire() {
   $('extractBtn').addEventListener('click', runExtract);
   $('dsName').addEventListener('change', () => { if (current) current.name = $('dsName').value; });
   $('saveDsBtn').addEventListener('click', saveCurrent);
-  $('toExportBtn').addEventListener('click', () => { $('exportCode').textContent = buildExport($('dsName').value, current.tokens); screen('screenExport'); });
+  $('toExportBtn').addEventListener('click', () => {
+    const name = $('dsName').value;
+    $('exportCode').textContent = buildExport(name, current.tokens);
+    $('miniExportCode').textContent = compressForMini(name, current.tokens);
+    screen('screenExport');
+  });
   $('copyBtn').addEventListener('click', () => navigator.clipboard.writeText($('exportCode').textContent).then(() => toast('Copied.', 'success')));
   $('openBuildBtn').addEventListener('click', () => openInBuild($('dsName').value, current.tokens));
   $('openAiBtn').addEventListener('click', () => openInAI($('dsName').value, current.tokens));
+  $('openBuildMiniBtn').addEventListener('click', () => openInBuildMini($('dsName').value, current.tokens));
 }
 
 function addFiles(fl) { files = [...files, ...Array.from(fl)].slice(0, 3); renderThumbs(); }

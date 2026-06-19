@@ -69,9 +69,30 @@ export function openInAI(name, tokens) {
   sessionStorage.setItem('tm_ai_prefill', promptOnly(name, tokens));
   window.open('/ai/', '_blank');
 }
+export function openInBuildMini(name, tokens) {
+  sessionStorage.setItem('tm_prefill_prompt', compressForMini(name, tokens));
+  sessionStorage.setItem('tm_prefill_model', 'PYTHM_MINI');
+  window.open('/build/', '_blank');
+}
 
 function promptOnly(name, tokens) {
   const block = buildExport(name, tokens);
   const m = block.match(/=== TAMATO BUILD\/AI STYLE PROMPT ===\s*\/\*([\s\S]*?)\*\//);
   return `Use this design system:\n${m ? m[1].trim() : block}`;
+}
+
+export function compressForMini(name, tokens) {
+  const c = tokens.colors || {}, t = tokens.typography || {}, b = tokens.borders || {};
+  const parts = [];
+  if (c.primary)    parts.push(c.primary);
+  if (c.secondary)  parts.push(c.secondary);
+  if (c.accent)     parts.push(c.accent);
+  const bg   = c.background ? ` bg:${c.background}` : '';
+  const txt  = c.text       ? ` txt:${c.text}` : '';
+  const hf   = t.heading_font ? ` h:${t.heading_font}` : '';
+  const bf   = t.body_font    ? ` b:${t.body_font}` : '';
+  const rad  = b.radius_md    ? ` r:${b.radius_md}` : '';
+  const style = tokens.aesthetic ? ` style:${tokens.aesthetic.slice(0, 40)}` : '';
+  const label = name ? `[${name.slice(0, 18)}] ` : '';
+  return `DS:${label}clr:${parts.join(',')}${bg}${txt}${hf}${bf}${rad}${style}`.slice(0, 200);
 }

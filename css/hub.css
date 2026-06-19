@@ -129,7 +129,7 @@
   padding: var(--sp-32) var(--sp-8);
   position: relative;
   background: #1C1917;
-  z-index: 10;
+  z-index: 70;
 }
 .lp-section h2 {
   font-size: clamp(36px, 5vw, 56px);
@@ -478,6 +478,295 @@
 .conn-row .cn-name { font-weight: 600; font-size: 14px; }
 .conn-row .cn-desc { font-size: 12px; color: var(--tm-text-3); }
 
+/* ════════════════════════════════════════════
+   DEVICE STAGE SCROLL SEQUENCE
+════════════════════════════════════════════ */
+
+/* Full-page dim overlay — everything except device frame darkens */
+.lp-dim {
+  position: fixed;
+  inset: 0;
+  background: #0A0908;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 60;
+  transition: opacity 450ms ease;
+  will-change: opacity;
+}
+.lp-dim.active { opacity: 0.68; }
+
+/* 400vh section — provides scroll depth for the pinned frame */
+.lp-device-stage {
+  height: 400vh;
+  position: relative;
+  background: #1C1917;
+}
+
+/* Sticky wrapper — pins the laptop frame for full scroll range */
+.lp-device-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 65;
+}
+
+/* MacBook-style laptop frame — minimal, flat, no skeuomorphism */
+.lp-device-frame {
+  width: min(760px, 88vw);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Screen bezel */
+.lp-device-bezel {
+  background: #242220;
+  border: 2px solid #3A3633;
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  padding: 28px 22px 8px;
+  position: relative;
+}
+
+/* Camera dot */
+.lp-device-bezel::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #3A3633;
+}
+
+/* The actual display area */
+.lp-device-screen {
+  position: relative;
+  background: #0C0B0A;
+  border-radius: 3px;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  width: 100%;
+}
+
+/* Laptop base components */
+.lp-device-base { display: flex; flex-direction: column; align-items: center; }
+.lp-device-hinge {
+  width: 100%;
+  height: 6px;
+  background: #1E1C1A;
+  border: 1px solid #3A3633;
+  border-top: none;
+}
+.lp-device-foot {
+  width: 56%;
+  height: 14px;
+  background: #252220;
+  border: 1px solid #3A3633;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  clip-path: polygon(4% 0, 96% 0, 100% 100%, 0 100%);
+}
+
+/* Content panes inside the screen — all stack at position absolute */
+.lp-ds-pane {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 32px;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+/* Pyramid center layout */
+.lp-ds-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+}
+.lp-ds-label { display: flex; flex-direction: column; gap: 4px; }
+.lp-ds-label .slug {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #B85C52;
+  letter-spacing: 0.1em;
+}
+.lp-ds-label p {
+  font-size: 14px;
+  font-weight: 700;
+  color: #F5F0EB;
+  letter-spacing: -0.01em;
+}
+.lp-ds-label small {
+  font-size: 10px;
+  color: #6B6460;
+}
+
+/* Mini product cards in screen */
+.lp-screen-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 440px;
+}
+.lp-screen-card {
+  background: #1E1C1A;
+  border: 1px solid #3A3633;
+  border-radius: 5px;
+  padding: 10px 14px;
+  opacity: 0;
+  transform: translateX(36px);
+  will-change: opacity, transform;
+}
+.lp-screen-card .sc-slug {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: #B85C52;
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+}
+.lp-screen-card h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #F5F0EB;
+  margin-bottom: 3px;
+  letter-spacing: -0.01em;
+}
+.lp-screen-card p { font-size: 10px; color: #6B6460; line-height: 1.4; }
+
+/* Mini features grid in screen */
+.lp-screen-feat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+}
+.lp-screen-feat {
+  background: #1E1C1A;
+  border: 1px solid #3A3633;
+  border-radius: 5px;
+  padding: 12px 14px;
+  opacity: 0;
+  transform: translateY(10px);
+  will-change: opacity, transform;
+}
+.lp-screen-feat h5 {
+  font-size: 11px;
+  font-weight: 700;
+  color: #F5F0EB;
+  margin-bottom: 3px;
+  letter-spacing: -0.01em;
+}
+.lp-screen-feat p { font-size: 9px; color: #6B6460; line-height: 1.4; }
+
+/* Scroll cue below frame */
+.lp-scroll-cue {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #4A4643;
+  letter-spacing: 0.08em;
+  transition: opacity 300ms ease;
+  user-select: none;
+}
+.lp-scroll-cue.hidden { opacity: 0; }
+
+
+/* ════════════════════════════════════════════
+   FLOATING PROJECT CARDS
+════════════════════════════════════════════ */
+
+.lp-projects {
+  padding: var(--sp-32) 0;
+  background: #1C1917;
+  position: relative;
+  z-index: 70;
+  overflow: hidden;
+}
+.lp-proj-head {
+  font-size: clamp(24px, 3.5vw, 40px);
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: -0.025em;
+  color: #F5F0EB;
+  margin-bottom: var(--sp-3);
+  padding: 0 var(--sp-8);
+}
+.lp-proj-sub {
+  text-align: center;
+  color: #6B6460;
+  font-size: 15px;
+  margin-bottom: var(--sp-12);
+  padding: 0 var(--sp-8);
+}
+
+/* Belt wrapper — edge-fade mask */
+.lp-belts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%);
+}
+
+/* Animated belt */
+.lp-belt {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  will-change: transform;
+}
+.lp-belt-ltr { animation: beltLTR 52s linear infinite; }
+.lp-belt-rtl { animation: beltRTL 58s linear infinite; }
+.lp-belt:hover { animation-play-state: paused; }
+
+@keyframes beltLTR {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+@keyframes beltRTL {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Individual project card */
+.pc-card {
+  width: 280px;
+  height: 180px;
+  border-radius: 6px;
+  border: 1px solid #3A3633;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+.pc-card:hover { transform: scale(1.04); border-color: #5A5450; z-index: 2; }
+.pc-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.pc-content {
+  position: absolute;
+  inset: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+
 @media (max-width: 640px) {
   .db-sidebar   { width: 0; overflow: hidden; }
   .db-main      { margin-left: 0; }
@@ -485,4 +774,6 @@
   .lp-cards     { right: 50%; transform: translate(50%, -50%); }
   .db-topbar    { padding: var(--sp-4); }
   .db-content   { padding: var(--sp-4); }
+  .lp-device-frame { width: 96vw; }
+  .lp-proj-head { font-size: 20px; }
 }

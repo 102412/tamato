@@ -39,10 +39,8 @@ function greetWord() {
 
 function renderTopbar() {
   const name = (profile.email || '').split('@')[0];
-  const greet = `${greetWord()}, ${name}`;
-  document.getElementById('topGreeting').textContent = greet;
-  document.getElementById('greeting').textContent   = greet;
-  document.getElementById('avatar').textContent     = initials(profile.email);
+  document.getElementById('topGreeting').textContent = `${greetWord()}, ${name}`;
+  document.getElementById('avatar').textContent      = initials(profile.email);
 
   const total = totalCredits(profile);
   document.getElementById('creditCount').textContent = total.toLocaleString();
@@ -66,33 +64,55 @@ function renderAllModules() {
 
 /* ── Overview ──────────────────────────────────────────────────── */
 function renderOverview() {
-  // Dynamic summary line from live data
-  const total      = totalCredits(profile);
-  const weekAgo    = Date.now() - 7 * 24 * 3600 * 1000;
-  const recentAI   = allConvos.filter(c => new Date(c.updated_at).getTime() > weekAgo).length;
-  const parts      = [];
-  if (allSites.length)  parts.push(`${allSites.length} site${allSites.length !== 1 ? 's' : ''} in Build`);
-  if (recentAI)         parts.push(`${recentAI} AI conversation${recentAI !== 1 ? 's' : ''} this week`);
+  const total    = totalCredits(profile);
+  const weekAgo  = Date.now() - 7 * 24 * 3600 * 1000;
+  const recentAI = allConvos.filter(c => new Date(c.updated_at).getTime() > weekAgo).length;
+  const parts    = [];
+  if (allSites.length) parts.push(`${allSites.length} site${allSites.length !== 1 ? 's' : ''} in Build`);
+  if (recentAI)        parts.push(`${recentAI} AI conversation${recentAI !== 1 ? 's' : ''} this week`);
   parts.push(`${total.toLocaleString()} credits left`);
-
-  const summary = document.getElementById('dbSummary');
-  summary.textContent = 'You have ' + parts.join(', ') + '.';
+  document.getElementById('dbSummary').textContent = 'You have ' + parts.join(', ') + '.';
 
   const items = buildActivityItems();
   const grid  = document.getElementById('activity');
   if (!items.length) {
     grid.innerHTML = `<p class="tm-muted">No projects yet. <a href="/build/" style="color:var(--tm-accent)">Build your first site →</a></p>`;
-    return;
+  } else {
+    grid.innerHTML = items.slice(0, 20).map(cardHtml).join('');
+    wireHover(grid);
   }
-  grid.innerHTML = items.slice(0, 20).map(cardHtml).join('');
-  wireHover(grid);
+
+  renderWeekStats();
+}
+
+function renderWeekStats() {
+  const el = document.getElementById('dbWeekStats');
+  if (!el) return;
+  const weekAgo = Date.now() - 7 * 24 * 3600 * 1000;
+  const isRecent = d => new Date(d).getTime() > weekAgo;
+  const stats = [
+    { value: allSites.filter(s  => isRecent(s.updated_at)).length, label: 'sites edited this week' },
+    { value: allConvos.filter(c => isRecent(c.updated_at)).length, label: 'AI conversations' },
+    { value: allSystems.filter(d => isRecent(d.updated_at)).length, label: 'design systems' },
+  ];
+  // Only show the strip when there's at least something to report
+  const hasActivity = stats.some(s => s.value > 0);
+  el.style.display = hasActivity ? '' : 'none';
+  if (hasActivity) {
+    el.innerHTML = stats.map(s => `
+      <div class="db-stat">
+        <span class="db-stat-num">${s.value}</span>
+        <span class="db-stat-label">${s.label}</span>
+      </div>`).join('');
+  }
 }
 
 /* ── Build ─────────────────────────────────────────────────────── */
 function renderBuild() {
   const grid  = document.getElementById('buildSites');
   const items = allSites.slice(0, 12).map(s => ({
-    kind: 'build', when: s.updated_at, title: s.name || 'Untitled Site',
+    kind: 'build', when: s.updated_at,
+    title: s.name || ('Site · ' + timeAgo(s.updated_at)),
     color: s.primary_color || 'var(--tm-accent)',
     href: `/build/?site=${s.id}`, icon: '🏗', tint: s.primary_color,
   }));
@@ -132,8 +152,10 @@ function renderStudio() {
     const colors = d.tokens && d.tokens.colors
       ? Object.values(d.tokens.colors).filter(v => typeof v === 'string' && v.startsWith('#')).slice(0, 5)
       : [];
+    const aesthetic = d.tokens && d.tokens.aesthetic ? d.tokens.aesthetic.slice(0, 30) : '';
     return {
-      kind: 'studio', when: d.updated_at, title: d.name || 'Design System',
+      kind: 'studio', when: d.updated_at,
+      title: d.name || aesthetic || ('Design system · ' + timeAgo(d.updated_at)),
       href: `/studio/?ds=${d.id}`, icon: '🎨',
       tint: colors[0], swatches: colors, color: colors[0] || 'var(--tm-accent)',
     };
@@ -209,15 +231,17 @@ function buildReloadGrid(elId) {
 function buildActivityItems() {
   const items = [];
   allSites.forEach(s => items.push({
-    kind: 'build', when: s.updated_at, title: s.name || 'Untitled Site',
+    kind: 'build', when: s.updated_at,
+    title: s.name || ('Site · ' + timeAgo(s.updated_at)),
     color: s.primary_color || 'var(--tm-accent)',
     href: `/build/?site=${s.id}`, icon: '🏗', tint: s.primary_color,
   }));
   allConvos.forEach(c => {
     const first = Array.isArray(c.messages) && c.messages[0] ? c.messages[0].content || '' : '';
-    const line  = typeof first === 'string' ? first : '(message)';
+    const line  = typeof first === 'string' ? first.trim() : '';
     items.push({
-      kind: 'ai', when: c.updated_at, title: c.title || line.slice(0, 50) || 'Conversation',
+      kind: 'ai', when: c.updated_at,
+      title: c.title || (line.slice(0, 42) + (line.length > 42 ? '…' : '')) || 'New chat',
       color: 'var(--tm-accent)', href: `/ai/?conv=${c.id}`, icon: '💬', tint: '#B85C52',
     });
   });
@@ -225,8 +249,10 @@ function buildActivityItems() {
     const colors = d.tokens && d.tokens.colors
       ? Object.values(d.tokens.colors).filter(v => typeof v === 'string' && v.startsWith('#')).slice(0, 5)
       : [];
+    const aesthetic = d.tokens && d.tokens.aesthetic ? d.tokens.aesthetic.slice(0, 30) : '';
     items.push({
-      kind: 'studio', when: d.updated_at, title: d.name || 'Design System',
+      kind: 'studio', when: d.updated_at,
+      title: d.name || aesthetic || ('Design system · ' + timeAgo(d.updated_at)),
       color: colors[0] || 'var(--tm-accent)',
       href: `/studio/?ds=${d.id}`, icon: '🎨', tint: colors[0], swatches: colors,
     });

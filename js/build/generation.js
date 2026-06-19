@@ -137,26 +137,36 @@ async function runStream(which, system, content) {
 export function pause() { /* UI keeps partial; stop reading by aborting current stream */ if (state.abort) state.abort.abort(); }
 export function cancel() { if (state.abort) state.abort.abort(); }
 
-/* ── AI edit ───────────────────────────────────────────────────── */
+/* ── AI edit — applies to BOTH desktop and mobile in parallel ──── */
 export async function aiEdit(instruction) {
   const profile = state.profile = await getProfile();
   if (!state.html.desktop) { handlers.gateFail && handlers.gateFail('no_site'); return; }
 
   const gate = canEdit(profile, state.model, 'build');
   if (!gate.ok) { handlers.gateFail && handlers.gateFail(gate.reason); return; }
-  const current = state.html[state.view] || state.html.desktop;
-  const est = estimateCost('build', 'edit', state.model, current.length + instruction.length, 6000);
+
+  // Estimate against both HTML files combined
+  const combinedLen = (state.html.desktop.length + (state.html.mobile || state.html.desktop).length) + instruction.length * 2;
+  const est = estimateCost('build', 'edit', state.model, combinedLen, 6000);
   if (!hasEnough(profile, 'build', est)) { handlers.needCredits && handlers.needCredits(est, profile.credits); return; }
 
   handlers.editStart && handlers.editStart();
   state.abort = new AbortController();
   try {
-    const { text, usage } = await callModel({
+    const editOne = (html) => callModel({
       modelId: state.model, system: EDIT_SYS, signal: state.abort.signal,
-      messages: [{ role: 'user', content: `CURRENT HTML:\n${current}\n\nEDIT INSTRUCTION:\n${instruction}` }],
+      messages: [{ role: 'user', content: `CURRENT HTML:\n${html}\n\nEDIT INSTRUCTION:\n${instruction}` }],
       maxTokens: 8000,
     });
-    state.html[state.view] = stripFences(text);
+
+    // Run desktop and mobile edits in parallel
+    const mobileSource = state.html.mobile || state.html.desktop;
+    const [dRes, mRes] = await Promise.all([editOne(state.html.desktop), editOne(mobileSource)]);
+
+    state.html.desktop = stripFences(dRes.text);
+    state.html.mobile  = stripFences(mRes.text);
+
+    const usage = { input: dRes.usage.input + mRes.usage.input, output: dRes.usage.output + mRes.usage.output };
     await deductCredits(profile, { product: 'build', action: 'edit', modelId: state.model, usage, description: 'edit: ' + instruction.slice(0, 60) });
     await recordEdit(profile, state.model);
     await persist(state.site ? state.site.prompt : '');

@@ -20,9 +20,9 @@ export const RELOAD_PACKAGES = [
 
 /* ── Per-product per-unit credit costs ─────────────────────────── */
 /* These OVERRIDE model.credits_per_unit for product-specific rates. */
-export const BUILD_GEN_COST  = { PYTHM_MINI: 0, PYTHM: 1, METRIO: 3, MEGISTO: 15 };
-export const BUILD_EDIT_COST = { PYTHM_MINI: 0, PYTHM: 1, METRIO: 2, MEGISTO: 10 };
-export const AI_COST         = { PYTHM_MINI: 0, PYTHM: 1, METRIO: 3, MEGISTO: 8 };
+export const BUILD_GEN_COST  = { PYTHM_MINI: 0, PYTHM: 1, METRIO: 3, MEGISTO: 10 };
+export const BUILD_EDIT_COST = { PYTHM_MINI: 0, PYTHM: 0, METRIO: 1, MEGISTO: 5 };
+export const AI_COST         = { PYTHM_MINI: 0, PYTHM: 1, METRIO: 2, MEGISTO: 6 };
 export const STUDIO_FLAT     = 30; // design system creation / extra creation
 
 /** Per-unit credit cost for a given product + action + model. */

@@ -132,8 +132,8 @@ body { background: transparent; }
   display: flex;
   align-items: center;
   gap: 2px;
-  padding: 5px;
-  margin-bottom: var(--sp-5);
+  padding: 6px;
+  margin-bottom: var(--sp-6);
   width: max-content;
   max-width: 100%;
   overflow-x: auto;
@@ -141,6 +141,7 @@ body { background: transparent; }
   position: sticky;
   top: 0;
   z-index: 10;
+  border-radius: 16px;
   animation: glassEnter 300ms ease both;
 }
 .module-tabs::-webkit-scrollbar { display: none; }
@@ -148,12 +149,12 @@ body { background: transparent; }
 /* Sliding filled pill — moves between tabs */
 .module-tab-indicator {
   position: absolute;
-  top: 5px;
-  left: 5px;
-  height: calc(100% - 10px);
+  top: 6px;
+  left: 6px;
+  height: calc(100% - 12px);
   min-width: 10px;
   background: var(--tm-accent);
-  border-radius: 8px;
+  border-radius: 9px;
   pointer-events: none;
   z-index: 0;
   transition:
@@ -166,10 +167,10 @@ body { background: transparent; }
   z-index: 1;
   background: transparent;
   border: none;
-  padding: 8px 18px;
-  border-radius: 8px;
+  padding: 10px 22px;
+  border-radius: 9px;
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--tm-text-2);
   cursor: pointer;
@@ -186,10 +187,10 @@ body { background: transparent; }
   animation: glassEnter 300ms 160ms ease both;
 }
 
-/* Panel fits its content — no fixed height, no stretching */
+/* Panel fits its content — generous padding for premium feel */
 .module-panel {
   display: none;
-  padding: var(--sp-4) var(--sp-5) var(--sp-5);
+  padding: var(--sp-8) var(--sp-8) var(--sp-10);
 }
 .module-panel.active {
   display: block;
@@ -221,17 +222,17 @@ body { background: transparent; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--sp-4);
+  margin-bottom: var(--sp-6);
 }
 .module-panel-head h3 {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
-/* ── Overview summary line (no greeting — it's already in topbar) ── */
+/* ── Overview summary line ───────────────────────────────────────── */
 .db-overview-lead {
-  margin-bottom: var(--sp-4);
+  margin-bottom: var(--sp-6);
   animation: greetEnter 380ms ease both;
 }
 @keyframes greetEnter {
@@ -239,57 +240,59 @@ body { background: transparent; }
   to   { opacity: 1; transform: translateY(0);    }
 }
 .db-summary {
-  font-size: 13px;
+  font-size: 16px;
   color: var(--tm-text-2);
   margin-bottom: 0;
+  line-height: 1.55;
 }
 
 /* ── Quick actions row ───────────────────────────────────────────── */
 .db-quick-actions {
   display: flex;
   gap: var(--sp-3);
-  margin-bottom: var(--sp-5);
+  margin-bottom: var(--sp-8);
 }
 .db-quick-action {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 9px 16px;
+  gap: 10px;
+  padding: 14px 24px;
   background: var(--tm-glass-bg);
   backdrop-filter: blur(12px) saturate(160%);
   -webkit-backdrop-filter: blur(12px) saturate(160%);
   border: 1px solid var(--tm-glass-border);
-  border-radius: 10px;
+  border-radius: 12px;
   color: var(--tm-text);
   text-decoration: none;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: border-color 150ms ease, background 150ms ease, transform 120ms ease;
+  transition: border-color 150ms ease, background 150ms ease, transform 120ms ease, box-shadow 150ms ease;
 }
 .db-quick-action:hover {
   border-color: var(--tm-accent);
   background: rgba(184, 92, 82, 0.12);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(184, 92, 82, 0.15);
 }
 .db-quick-action:active { transform: scale(0.98); }
-.dqa-icon { font-size: 16px; }
+.dqa-icon { font-size: 20px; }
 
-/* ── Activity grid — 4 columns, tighter gap ─────────────────────── */
+/* ── Activity grid ───────────────────────────────────────────────── */
 .module-panel .activity-grid {
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
 }
 
-/* ── Activity cards — glass-light, tighter padding ──────────────── */
+/* ── Activity cards ──────────────────────────────────────────────── */
 .module-panel .activity-card {
   background: var(--tm-glass-bg);
   backdrop-filter: blur(12px) saturate(160%);
   -webkit-backdrop-filter: blur(12px) saturate(160%);
   border: 1px solid var(--tm-glass-border);
-  border-left: 2px solid transparent;
-  border-radius: 10px;
-  padding: var(--sp-3) var(--sp-4);   /* tighter than default sp-5 */
+  border-left: 3px solid transparent;
+  border-radius: 12px;
+  padding: var(--sp-5) var(--sp-6);
   transition:
     border-color      120ms ease,
     border-left-color 120ms ease,
@@ -299,68 +302,70 @@ body { background: transparent; }
 }
 .module-panel .activity-card:hover {
   border-left-color: var(--tm-accent);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
 }
 
 /* ── This-week stats strip ───────────────────────────────────────── */
 .db-week-stats {
   display: flex;
-  gap: var(--sp-3);
-  margin-top: var(--sp-5);
-  padding-top: var(--sp-4);
+  gap: var(--sp-4);
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-6);
   border-top: 1px solid var(--tm-glass-border);
 }
 .db-stat {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
-  padding: var(--sp-3) var(--sp-4);
+  gap: 5px;
+  padding: var(--sp-5) var(--sp-6);
   background: var(--tm-glass-bg);
   backdrop-filter: blur(12px) saturate(160%);
   -webkit-backdrop-filter: blur(12px) saturate(160%);
   border: 1px solid var(--tm-glass-border);
-  border-radius: 10px;
+  border-radius: 12px;
   flex: 1;
   text-align: center;
 }
 .db-stat-num {
   font-family: var(--font-mono);
-  font-size: 22px;
+  font-size: 30px;
   font-weight: 700;
   color: var(--tm-text);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   line-height: 1;
 }
 .db-stat-label {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--tm-text-3);
+  font-weight: 500;
 }
 
 /* ── AI conversation list ────────────────────────────────────────── */
-.convo-list { display: flex; flex-direction: column; gap: 8px; }
+.convo-list { display: flex; flex-direction: column; gap: 10px; }
 .convo-item {
   display: flex;
   align-items: flex-start;
-  gap: var(--sp-3);
-  padding: var(--sp-3) var(--sp-4);
-  border-radius: 10px;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-6);
+  border-radius: 12px;
   background: var(--tm-glass-bg);
   backdrop-filter: blur(12px) saturate(160%);
   -webkit-backdrop-filter: blur(12px) saturate(160%);
   border: 1px solid var(--tm-glass-border);
   text-decoration: none;
   color: var(--tm-text);
-  transition: border-color 120ms ease, transform 120ms ease;
+  transition: border-color 120ms ease, transform 120ms ease, box-shadow 120ms ease;
 }
 .convo-item:hover {
   border-color: var(--tm-accent);
-  transform: translateX(3px);
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
-.convo-icon  { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
-.convo-title { font-size: 14px; font-weight: 600; }
-.convo-meta  { font-size: 12px; color: var(--tm-text-3); margin-top: 2px; }
+.convo-icon  { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.convo-title { font-size: 15px; font-weight: 600; }
+.convo-meta  { font-size: 13px; color: var(--tm-text-3); margin-top: 3px; }
 
 /* ── Connector rows (inline panel) ──────────────────────────────── */
 .module-panel .conn-row {
@@ -376,8 +381,8 @@ body { background: transparent; }
 /* ── Credits module ──────────────────────────────────────────────── */
 .credits-module {
   display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: var(--sp-8);
+  grid-template-columns: 280px 1fr;
+  gap: var(--sp-12);
   align-items: flex-start;
 }
 .credits-balance-block {

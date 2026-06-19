@@ -4,7 +4,7 @@
    Two streaming calls per generation (desktop then mobile). Credits
    deducted only after success. Color match + autosave after each.
 ═══════════════════════════════════════════════════════════════════ */
-import { streamModel, callModel } from '/js/models.js';
+import { streamModel, callModel, getModel } from '/js/models.js';
 import { canGenerate, canEdit, recordGeneration, recordEdit } from '/js/tiers.js';
 import { estimateCost, hasEnough, deductCredits } from '/js/credits.js';
 import { createSite, saveSite, getProfile } from '/js/supabase.js';
@@ -79,6 +79,16 @@ Generate a complete, unique, visually impressive website. Make design decisions 
 
 function stripFences(html) {
   return (html || '').replace(/^```html?\s*/i, '').replace(/```\s*$/i, '').trim();
+}
+
+/* Strip comments + collapse whitespace before sending as edit context.
+   Reduces token count ~25-35% without losing semantic info for the model. */
+function compactHtml(html) {
+  return (html || '')
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/[ \t]{2,}/g, ' ')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
 }
 
 /* ── Generation ────────────────────────────────────────────────── */
@@ -160,14 +170,23 @@ export async function aiEdit(instruction, target = 'both') {
   try {
     const editOne = (html) => callModel({
       modelId: state.model, system: EDIT_SYS, signal: state.abort.signal,
-      messages: [{ role: 'user', content: `CURRENT HTML:\n${html}\n\nEDIT INSTRUCTION:\n${instruction}` }],
+      messages: [{ role: 'user', content: `CURRENT HTML:\n${compactHtml(html)}\n\nEDIT INSTRUCTION:\n${instruction}` }],
       maxTokens: 8000,
     });
 
-    const [dRes, mRes] = await Promise.all([
-      doDesktop ? editOne(desktopSrc) : Promise.resolve(null),
-      doMobile  ? editOne(mobileSrc)  : Promise.resolve(null),
-    ]);
+    let dRes = null, mRes = null;
+    const isGroq = getModel(state.model)?.provider === 'groq';
+    if (doDesktop && doMobile && isGroq) {
+      // Groq has a 6000 TPM limit — serialize to avoid 429s
+      dRes = await editOne(desktopSrc);
+      await new Promise(r => setTimeout(r, 2000));
+      mRes = await editOne(mobileSrc);
+    } else {
+      [dRes, mRes] = await Promise.all([
+        doDesktop ? editOne(desktopSrc) : Promise.resolve(null),
+        doMobile  ? editOne(mobileSrc)  : Promise.resolve(null),
+      ]);
+    }
 
     if (dRes) state.html.desktop = stripFences(dRes.text);
     if (mRes) state.html.mobile  = stripFences(mRes.text);

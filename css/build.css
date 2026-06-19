@@ -134,16 +134,24 @@ html, body { height: 100%; overflow: hidden; }
   z-index: 6;
 }
 
-/* ── Chat thread ─────────────────────────────────────────────────── */
+/* ── Chat thread — floats above promptbar, no layout impact ──────── */
 .bd-chat {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
   max-height: 36vh;
   overflow-y: auto;
   padding: var(--sp-4) var(--sp-6);
   display: none;
   flex-direction: column;
   gap: var(--sp-3);
-  border-top: 1px solid var(--tm-border);
   background: var(--tm-bg);
+  border: 1px solid var(--tm-border);
+  border-bottom: none;
+  border-radius: var(--r-card) var(--r-card) 0 0;
+  box-shadow: 0 -6px 24px rgba(0,0,0,0.14);
+  z-index: 10;
 }
 .bd-chat.show { display: flex; }
 
@@ -163,6 +171,7 @@ html, body { height: 100%; overflow: hidden; }
   background: var(--tm-bg);
   padding: var(--sp-4) var(--sp-6);
   flex-shrink: 0;
+  position: relative;
 }
 .bd-prompt-inner {
   display: flex;

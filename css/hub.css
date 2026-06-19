@@ -510,17 +510,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
+  justify-content: flex-start;   /* align to top; keyboard clips at bottom */
+  padding-top: clamp(20px, 3vh, 48px);
+  overflow: hidden;
   z-index: 65;
 }
 
 /* ── Real MacBook image wrapper ──────────────────────────────────
-   Square image: constrain by both height and width.
-   Screen overlay positioned over the actual MacBook display area. */
+   Much wider now — keyboard intentionally clips below viewport fold
+   like Fey/Linear product shots, making the screen dominate. */
 .lp-mac-wrap {
   position: relative;
-  width: min(84vh, 88vw, 920px);
+  width: min(92vw, 1160px);
 }
 
 .lp-mac-img {
@@ -539,10 +540,54 @@
   left: 8.5%;
   width: 83%;
   height: 57.5%;
-  background: #000;
+  background: #1A1816;
   overflow: hidden;
   border-radius: 10px;
   z-index: 2;
+}
+
+/* Fake browser chrome bar at top of screen */
+.lp-mac-chrome {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 34px;
+  background: #111110;
+  border-bottom: 1px solid #2E2B28;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 12px;
+  z-index: 4;
+  flex-shrink: 0;
+}
+.lp-chrome-dots {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.lp-chrome-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.lp-chrome-dots span:nth-child(1) { background: #FF5F57; }
+.lp-chrome-dots span:nth-child(2) { background: #FEC32D; }
+.lp-chrome-dots span:nth-child(3) { background: #28C840; }
+.lp-chrome-url {
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+  color: #4A4643;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid #2E2B28;
+  border-radius: 4px;
+  padding: 3px 10px;
+  max-width: 260px;
+  margin: 0 auto;
 }
 
 /* ── Orange decorative elements ─────────────────────────────────── */
@@ -648,14 +693,17 @@
   100% { top: 100%; opacity: 0; }
 }
 
-/* Content panes inside the screen — all stack at position absolute */
+/* Content panes inside the screen — sit below chrome bar */
 .lp-ds-pane {
   position: absolute;
-  inset: 0;
+  top: 34px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 28px 32px;
+  padding: 28px 40px;
   opacity: 0;
   pointer-events: none;
   will-change: opacity, transform;
@@ -666,93 +714,103 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 24px;
   text-align: center;
 }
-.lp-ds-label { display: flex; flex-direction: column; gap: 4px; }
+.lp-ds-label { display: flex; flex-direction: column; gap: 8px; }
 .lp-ds-label .slug {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   color: #B85C52;
   letter-spacing: 0.1em;
 }
 .lp-ds-label p {
-  font-size: 14px;
+  font-size: 22px;
   font-weight: 700;
   color: #F5F0EB;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 .lp-ds-label small {
-  font-size: 10px;
+  font-size: 14px;
   color: #6B6460;
 }
 
-/* Mini product cards in screen */
+/* Product cards in screen — full-width, real UI scale */
 .lp-screen-cards {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 14px;
   width: 100%;
-  max-width: 440px;
+  max-width: 680px;
 }
 .lp-screen-card {
-  background: #1E1C1A;
+  background: #252220;
   border: 1px solid #3A3633;
-  border-radius: 5px;
-  padding: 10px 14px;
+  border-left: 3px solid transparent;
+  border-radius: 8px;
+  padding: 18px 24px;
   opacity: 0;
   transform: translateX(36px);
   will-change: opacity, transform;
 }
+.lp-screen-card:first-child { border-left-color: #B85C52; }
 .lp-screen-card .sc-slug {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   color: #B85C52;
   letter-spacing: 0.06em;
-  margin-bottom: 3px;
+  margin-bottom: 6px;
 }
 .lp-screen-card h4 {
-  font-size: 13px;
+  font-size: 20px;
   font-weight: 700;
   color: #F5F0EB;
-  margin-bottom: 3px;
-  letter-spacing: -0.01em;
+  margin-bottom: 5px;
+  letter-spacing: -0.02em;
 }
-.lp-screen-card p { font-size: 10px; color: #6B6460; line-height: 1.4; }
+.lp-screen-card p { font-size: 14px; color: #6B6460; line-height: 1.5; }
 
-/* Mini features grid in screen */
+/* Feature grid in screen — 2×2, real card scale */
 .lp-screen-feat-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 14px;
   width: 100%;
 }
 .lp-screen-feat {
-  background: #1E1C1A;
+  background: #252220;
   border: 1px solid #3A3633;
-  border-radius: 5px;
-  padding: 12px 14px;
+  border-top: 2px solid transparent;
+  border-radius: 8px;
+  padding: 22px 24px;
   opacity: 0;
   transform: translateY(10px);
   will-change: opacity, transform;
 }
+.lp-screen-feat:nth-child(1) { border-top-color: #B85C52; }
+.lp-screen-feat:nth-child(3) { border-top-color: rgba(184,92,82,0.45); }
 .lp-screen-feat h5 {
-  font-size: 11px;
+  font-size: 18px;
   font-weight: 700;
   color: #F5F0EB;
-  margin-bottom: 3px;
+  margin-bottom: 6px;
   letter-spacing: -0.01em;
 }
-.lp-screen-feat p { font-size: 9px; color: #6B6460; line-height: 1.4; }
+.lp-screen-feat p { font-size: 13px; color: #6B6460; line-height: 1.5; }
 
-/* Scroll cue below frame */
+/* Scroll cue — absolute so it doesn't push layout */
 .lp-scroll-cue {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: var(--font-mono);
   font-size: 11px;
   color: #4A4643;
   letter-spacing: 0.08em;
   transition: opacity 300ms ease;
   user-select: none;
+  white-space: nowrap;
 }
 .lp-scroll-cue.hidden { opacity: 0; }
 

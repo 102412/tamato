@@ -1,12 +1,12 @@
 /* ═══════════════════════════════════════════════════════════════════
    TAMATO — CLOUDFLARE WORKER
    Routes all AI calls. Keeps API keys server-side.
-     Pythm-4.5o mini  → Groq    (llama-3.3-70b-versatile)
-     Pythm 4.5        → Anthropic (claude-haiku-4-5)
-     Metrio 4.6       → Anthropic (claude-sonnet-4-6)
-     Megisto 4.8      → Anthropic (claude-opus-4-8)
+     Pythm-4.5o mini  → OpenRouter (google/gemma-4-26b-a4b-it:free)
+     Pythm 4.5        → Anthropic  (claude-haiku-4-5)
+     Metrio 4.6       → Anthropic  (claude-sonnet-4-6)
+     Megisto 4.8      → Anthropic  (claude-opus-4-8)
    Also serves the public Megisto API for tm-meg-* keys.
-   Env vars: GROQ_API_KEY, ANTHROPIC_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_KEY
+   Env vars: OPENROUTER_API_KEY, ANTHROPIC_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_KEY
 ═══════════════════════════════════════════════════════════════════ */
 
 const ANTHROPIC_VERSION = '2023-06-01';
@@ -17,7 +17,7 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
 
-const GROQ_MODELS = new Set(['llama-3.3-70b-versatile']);
+const OPENROUTER_MODELS = new Set(['google/gemma-4-26b-a4b-it:free']);
 
 export default {
   async fetch(request, env) {
@@ -43,24 +43,23 @@ async function handleChat(request, env) {
   const { model, messages, stream = false, max_tokens = 8000 } = body;
   if (!model || !Array.isArray(messages)) return json({ error: 'model and messages required' }, 400);
 
-  if (GROQ_MODELS.has(model)) return callGroq({ model, messages, stream, max_tokens }, env);
+  if (OPENROUTER_MODELS.has(model)) return callOpenRouter({ model, messages, stream, max_tokens }, env);
   return callAnthropic({ model, messages, stream, max_tokens }, env);
 }
 
-/* ── Groq (OpenAI-compatible) ──────────────────────────────────── */
-async function callGroq({ model, messages, stream, max_tokens }, env) {
-  for (let attempt = 0; attempt < 3; attempt++) {
-    const upstream = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + env.GROQ_API_KEY },
-      body: JSON.stringify({ model, messages, stream, max_tokens }),
-    });
-    if (upstream.status === 429 && attempt < 2) {
-      await new Promise(r => setTimeout(r, (attempt + 1) * 3000));
-      continue;
-    }
-    return passthrough(upstream, stream);
-  }
+/* ── OpenRouter (OpenAI-compatible) ────────────────────────────── */
+async function callOpenRouter({ model, messages, stream, max_tokens }, env) {
+  const upstream = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + env.OPENROUTER_API_KEY,
+      'HTTP-Referer': 'https://tamato.design',
+      'X-Title': 'Tamato',
+    },
+    body: JSON.stringify({ model, messages, stream, max_tokens }),
+  });
+  return passthrough(upstream, stream);
 }
 
 /* ── Anthropic ─────────────────────────────────────────────────── */

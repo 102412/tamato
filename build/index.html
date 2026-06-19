@@ -38,10 +38,9 @@
     </div>
     <iframe class="bd-canvas tm-hidden" id="canvas" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
 
-    <!-- Split generation panel -->
+    <!-- Generation preview — full-width live preview, no stream text -->
     <div class="bd-split tm-hidden" id="split">
-      <div class="bd-split-pane"><iframe id="livePreview" sandbox="allow-scripts allow-same-origin"></iframe></div>
-      <div class="bd-split-pane"><div class="bd-stream" id="streamBox"></div></div>
+      <iframe id="livePreview" sandbox="allow-scripts allow-same-origin"></iframe>
       <div class="bd-gen-controls" id="genControls">
         <button class="tm-btn tm-btn-ghost tm-btn-sm" id="pauseBtn">⏸ Pause</button>
         <button class="tm-btn tm-btn-ghost tm-btn-sm" id="newPromptBtn">↺ New Prompt</button>
@@ -102,8 +101,9 @@ const $ = id => document.getElementById(id);
 let profile, tier, view = 'desktop';
 
 /* ── DOM refs ──────────────────────────────────────────────────── */
-const canvas = $('canvas'), empty = $('empty'), split = $('split'), streamBox = $('streamBox'),
+const canvas = $('canvas'), empty = $('empty'), split = $('split'),
       livePreview = $('livePreview'), chatThread = $('chatThread'), promptEl = $('prompt');
+let streamBuffer = '';
 
 (async function init() {
   if (!await requireAuth()) return;
@@ -146,14 +146,9 @@ const canvas = $('canvas'), empty = $('empty'), split = $('split'), streamBox = 
 /* ── UI handlers passed to generation core ─────────────────────── */
 const handlers = {
   renderCanvas: (html, v) => renderCanvas(html, v),
-  genStart() { empty.classList.add('tm-hidden'); canvas.classList.add('tm-hidden'); split.classList.remove('tm-hidden'); streamBox.innerHTML = ''; },
-  streamDelta(which, chunk) {
-    streamBox.append(chunk);
-    streamBox.scrollTop = streamBox.scrollHeight;
-    // live preview every ~2s handled by throttle below
-    throttledPreview();
-  },
-  streamDone(which) { streamBox.innerHTML += `\n<span class="tag">— ${which} complete —</span>\n`; },
+  genStart() { empty.classList.add('tm-hidden'); canvas.classList.add('tm-hidden'); split.classList.remove('tm-hidden'); streamBuffer = ''; livePreview.srcdoc = ''; },
+  streamDelta(which, chunk) { streamBuffer += chunk; throttledPreview(); },
+  streamDone(which) {},
   genComplete(html) { split.classList.add('tm-hidden'); showCanvas(); renderCanvas(html[view], view); flashSaved('Saved'); refreshCredits(); },
   genCancelled() { split.classList.add('tm-hidden'); if (Gen.getCurrentState().html.desktop) showCanvas(); else empty.classList.remove('tm-hidden'); },
   genError(msg) { split.classList.add('tm-hidden'); inlineError(msg, () => doGenerate()); },
@@ -171,9 +166,9 @@ const handlers = {
 let lastPreview = 0;
 function throttledPreview() {
   const now = Date.now();
-  if (now - lastPreview < 2000) return;
+  if (now - lastPreview < 800) return;
   lastPreview = now;
-  livePreview.srcdoc = streamBox.textContent;
+  livePreview.srcdoc = streamBuffer;
 }
 
 function renderCanvas(html, v) {

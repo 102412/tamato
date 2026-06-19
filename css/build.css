@@ -95,39 +95,20 @@ html, body { height: 100%; overflow: hidden; }
   line-height: 1.6;
 }
 
-/* ── Split generation panel ──────────────────────────────────────── */
+/* ── Generation preview — full-width live preview, no stream text ── */
 .bd-split {
   position: absolute;
   inset: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--tm-border);
-}
-.bd-split-pane {
-  background: var(--tm-bg);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  background: #fff;
 }
-.bd-split-pane iframe { flex: 1; border: none; background: #fff; }
-
-.bd-stream {
-  background: #1C1917;
-  color: #6B6460;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  line-height: 1.7;
-  padding: var(--sp-6);
-  overflow: auto;
-  white-space: pre-wrap;
-  word-break: break-word;
+.bd-split > iframe {
   flex: 1;
-  border-left: 2px solid #B85C52;
+  border: none;
+  background: #fff;
+  width: 100%;
 }
-.bd-stream .tag   { color: #B85C52; }
-.bd-stream .attr  { color: #C87E74; }
-.bd-stream .str   { color: #8BAF6E; }
 
 .bd-gen-controls {
   position: absolute;

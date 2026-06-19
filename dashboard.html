@@ -8,11 +8,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/global.css">
 <link rel="stylesheet" href="/css/hub.css">
+<link rel="stylesheet" href="/css/hub-glass.css">
 <script>(function(){var t=localStorage.getItem('tm_theme')||'dark';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;})();</script>
 </head>
 <body>
+
+<!-- Ambient drifting gradient — direct child of body, fixed behind everything -->
+<div class="db-ambient" id="dbAmbient" aria-hidden="true">
+  <div class="db-amb-blob db-amb-blob-1"></div>
+  <div class="db-amb-blob db-amb-blob-2"></div>
+</div>
+
 <div class="db-layout">
-  <!-- SIDEBAR -->
+  <!-- SIDEBAR — flat, unchanged -->
   <nav class="db-sidebar tm-shell">
     <a class="sb-logo" href="/dashboard.html">
       <img class="sb-logo-icon" src="/assets/tomato-icon.png" alt="Tamato" width="32" height="32">
@@ -31,9 +39,10 @@
   <!-- MAIN -->
   <main class="db-main">
     <div class="db-topbar tm-shell">
-      <div class="db-greeting" id="greeting">Welcome</div>
+      <div class="db-greeting" id="topGreeting">Welcome</div>
       <div class="db-topbar-right">
-        <div class="tm-credit-pill" id="creditPill"><span class="tomato">🍅</span> <span id="creditCount">—</span> credits
+        <div class="tm-credit-pill" id="creditPill">
+          <span class="tomato">🍅</span> <span id="creditCount">—</span> credits
           <div class="credit-tooltip" id="creditTooltip"></div>
         </div>
         <button class="tm-btn tm-btn-ghost tm-btn-sm" id="addCredits">Add Credits</button>
@@ -43,13 +52,86 @@
     </div>
 
     <div class="db-content">
-      <h2 class="db-section-title">Recent activity</h2>
-      <div class="activity-grid" id="activity"><p class="tm-muted">Loading…</p></div>
+
+      <!-- Glass module tab bar -->
+      <div class="module-tabs tm-glass" id="moduleTabs">
+        <div class="module-tab-indicator" id="tabIndicator"></div>
+        <button class="module-tab active" data-module="overview">Overview</button>
+        <button class="module-tab" data-module="build">Build</button>
+        <button class="module-tab" data-module="ai">AI</button>
+        <button class="module-tab" data-module="studio">Studio</button>
+        <button class="module-tab" data-module="connectors">Connectors</button>
+        <button class="module-tab" data-module="credits">Credits</button>
+      </div>
+
+      <!-- Module panels -->
+      <div class="module-panels-wrap" id="modulePanelsWrap">
+
+        <!-- OVERVIEW -->
+        <div class="module-panel tm-glass active" data-module="overview">
+          <div class="db-greeting-block">
+            <h2 class="db-greeting-text" id="greeting">Welcome</h2>
+            <p class="db-summary" id="dbSummary"></p>
+          </div>
+          <div class="activity-grid" id="activity"><p class="tm-muted">Loading…</p></div>
+        </div>
+
+        <!-- BUILD -->
+        <div class="module-panel tm-glass" data-module="build">
+          <div class="module-panel-head">
+            <h3>Your sites</h3>
+            <a class="tm-btn tm-btn-primary tm-btn-sm" href="/build/">Open Build →</a>
+          </div>
+          <div class="activity-grid" id="buildSites"><p class="tm-muted">Loading…</p></div>
+        </div>
+
+        <!-- AI -->
+        <div class="module-panel tm-glass" data-module="ai">
+          <div class="module-panel-head">
+            <h3>Recent conversations</h3>
+            <a class="tm-btn tm-btn-primary tm-btn-sm" href="/ai/">Open AI →</a>
+          </div>
+          <div class="convo-list" id="aiConvos"><p class="tm-muted">Loading…</p></div>
+        </div>
+
+        <!-- STUDIO -->
+        <div class="module-panel tm-glass" data-module="studio">
+          <div class="module-panel-head">
+            <h3>Design systems</h3>
+            <a class="tm-btn tm-btn-primary tm-btn-sm" href="/studio/">Open Studio →</a>
+          </div>
+          <div class="activity-grid" id="studioSystems"><p class="tm-muted">Loading…</p></div>
+        </div>
+
+        <!-- CONNECTORS -->
+        <div class="module-panel tm-glass" data-module="connectors">
+          <h3 style="margin-bottom:var(--sp-2)">Connectors</h3>
+          <p class="tm-dim" style="margin-bottom:var(--sp-5);font-size:13px">Link services your sites can use. Tokens are stored encrypted.</p>
+          <div class="conn-list" id="connListInline"></div>
+        </div>
+
+        <!-- CREDITS -->
+        <div class="module-panel tm-glass" data-module="credits">
+          <div class="credits-module">
+            <div class="credits-balance-block">
+              <div class="credits-balance-num" id="creditsDisplay">—</div>
+              <div class="credits-balance-label">credits available</div>
+              <div class="credits-breakdown" id="creditsBreakdown"></div>
+            </div>
+            <div>
+              <h4 style="margin-bottom:var(--sp-2);font-size:15px;font-weight:700">Add credits</h4>
+              <p class="tm-dim" style="margin-bottom:var(--sp-4);font-size:13px">Credits never expire and roll over across all products.</p>
+              <div class="reload-grid" id="reloadGridInline"></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /module-panels-wrap -->
     </div>
   </main>
 </div>
 
-<!-- RELOAD MODAL -->
+<!-- RELOAD MODAL (kept for "Add Credits" topbar button fallback) -->
 <div class="tm-modal-overlay tm-hidden" id="reloadModal">
   <div class="tm-modal" style="position:relative">
     <h2 class="tm-modal-title">Add credits</h2>
@@ -59,7 +141,7 @@
   </div>
 </div>
 
-<!-- CONNECTORS MODAL -->
+<!-- CONNECTORS MODAL (kept as fallback) -->
 <div class="tm-modal-overlay tm-hidden" id="connModal">
   <div class="tm-modal tm-modal-lg" style="position:relative">
     <h2 class="tm-modal-title">Connectors</h2>

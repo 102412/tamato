@@ -1,0 +1,352 @@
+/* ================================================================
+   hub-glass.css — SCOPED TO dashboard.html ONLY
+   Import ONLY via dashboard.html <link>. Never add to global.css,
+   hub.css, or any other shared stylesheet. Glass stays here.
+   ================================================================ */
+
+/* ── Glass design tokens ──────────────────────────────────────────
+   Derived entirely from existing --tm-accent / --tm-surface family.
+   Never introduces new hex colors.                                 */
+:root[data-theme="dark"] {
+  --tm-glass-bg:        rgba(37, 34, 32, 0.55);
+  --tm-glass-border:    rgba(184, 92, 82, 0.18);
+  --tm-glass-highlight: rgba(245, 240, 235, 0.06);
+}
+:root[data-theme="light"] {
+  --tm-glass-bg:        rgba(255, 255, 255, 0.55);
+  --tm-glass-border:    rgba(184, 92, 82, 0.14);
+  --tm-glass-highlight: rgba(28, 25, 23, 0.04);
+}
+
+/* Ambient blob color — default orange, overridden by JS on hover */
+:root { --db-amb-color: 184, 92, 82; }
+
+/* ── Glass surface utility classes ──────────────────────────────── */
+.tm-glass {
+  background: var(--tm-glass-bg);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--tm-glass-border);
+  border-radius: 12px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 var(--tm-glass-highlight);
+}
+.tm-glass-light {
+  background: var(--tm-glass-bg);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid var(--tm-glass-border);
+  border-radius: 10px;
+}
+
+/* ── Ambient drifting gradient backdrop ──────────────────────────
+   position:fixed so it covers the full viewport behind all panels.
+   Placed as a sibling of db-layout in the DOM (direct child of body)
+   so it is never clipped by a parent stacking context.             */
+.db-ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+.db-amb-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  will-change: transform;
+  transition: background 900ms ease;
+}
+.db-amb-blob-1 {
+  width: 640px;
+  height: 420px;
+  top: 5%;
+  left: 10%;
+  background: rgba(var(--db-amb-color), 0.11);
+  animation: ambDrift1 38s ease-in-out infinite alternate;
+}
+.db-amb-blob-2 {
+  width: 520px;
+  height: 370px;
+  bottom: 8%;
+  right: 8%;
+  background: rgba(var(--db-amb-color), 0.07);
+  animation: ambDrift2 44s ease-in-out infinite alternate;
+}
+@keyframes ambDrift1 {
+  0%   { transform: translate(0, 0)       scale(1); }
+  40%  { transform: translate(80px, 55px) scale(1.12); }
+  100% { transform: translate(-35px, 70px) scale(0.9); }
+}
+@keyframes ambDrift2 {
+  0%   { transform: translate(0, 0)         scale(1); }
+  40%  { transform: translate(-65px, -35px) scale(1.08); }
+  100% { transform: translate(45px, -55px)  scale(0.95); }
+}
+
+/* ── db-content gets stacking context above the ambient ──────────── */
+.db-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Module tab bar ──────────────────────────────────────────────── */
+.module-tabs {
+  position: relative;         /* for .module-tab-indicator absolute child */
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px;
+  margin-bottom: var(--sp-5);
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  animation: glassEnter 300ms ease both;
+}
+.module-tabs::-webkit-scrollbar { display: none; }
+
+/* Sliding filled pill that moves between tabs */
+.module-tab-indicator {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: calc(100% - 10px);
+  min-width: 10px;
+  background: var(--tm-accent);
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 0;
+  transition:
+    transform 280ms cubic-bezier(0.4, 0, 0.2, 1),
+    width    280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.module-tab {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tm-text-2);
+  cursor: pointer;
+  transition: color 180ms ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.module-tab:hover:not(.active) { color: var(--tm-text); }
+.module-tab.active              { color: #fff; }
+
+/* ── Module panels wrapper ───────────────────────────────────────── */
+.module-panels-wrap {
+  position: relative;
+  animation: glassEnter 300ms 160ms ease both;
+}
+
+.module-panel {
+  display: none;
+  padding: var(--sp-5) var(--sp-6);
+}
+.module-panel.active {
+  display: block;
+  animation: panelIn 220ms ease both;
+}
+.module-panel.exiting {
+  display: block;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  pointer-events: none;
+  animation: panelOut 160ms ease both;
+}
+
+@keyframes glassEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+@keyframes panelIn {
+  from { opacity: 0; transform: scale(0.98) translateY(-5px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
+@keyframes panelOut {
+  from { opacity: 1; transform: scale(1)    translateY(0);  }
+  to   { opacity: 0; transform: scale(0.98) translateY(5px); }
+}
+
+/* ── Module panel shared chrome ──────────────────────────────────── */
+.module-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-4);
+}
+.module-panel-head h3 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ── Overview: greeting + dynamic summary ────────────────────────── */
+.db-greeting-block {
+  margin-bottom: var(--sp-5);
+  animation: greetEnter 380ms ease both;
+}
+@keyframes greetEnter {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+.db-greeting-text {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 5px;
+}
+.db-summary {
+  font-size: 13px;
+  color: var(--tm-text-2);
+}
+
+/* ── Glass treatment for activity cards inside panels ────────────── */
+.module-panel .activity-card {
+  background: var(--tm-glass-bg);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid var(--tm-glass-border);
+  border-left: 2px solid transparent;
+  border-radius: 10px;
+  transition:
+    border-color  120ms ease,
+    border-left-color 120ms ease,
+    background    120ms ease,
+    transform     120ms ease,
+    box-shadow    120ms ease;
+}
+.module-panel .activity-card:hover {
+  border-left-color: var(--tm-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* ── AI conversation list ────────────────────────────────────────── */
+.convo-list { display: flex; flex-direction: column; gap: var(--sp-2); }
+.convo-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: 10px;
+  background: var(--tm-glass-bg);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid var(--tm-glass-border);
+  text-decoration: none;
+  color: var(--tm-text);
+  transition: border-color 120ms ease, transform 120ms ease;
+}
+.convo-item:hover {
+  border-color: var(--tm-accent);
+  transform: translateX(3px);
+}
+.convo-icon  { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.convo-title { font-size: 14px; font-weight: 600; }
+.convo-meta  { font-size: 12px; color: var(--tm-text-3); margin-top: 2px; }
+
+/* ── Connector rows (inline panel) ──────────────────────────────── */
+.module-panel .conn-row {
+  background: var(--tm-glass-bg);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid var(--tm-glass-border);
+  border-radius: 10px;
+  transition: border-color 120ms ease;
+}
+.module-panel .conn-row:hover { border-color: var(--tm-accent); }
+
+/* ── Credits module ──────────────────────────────────────────────── */
+.credits-module {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: var(--sp-8);
+  align-items: flex-start;
+}
+.credits-balance-block {
+  text-align: center;
+  padding: var(--sp-6) var(--sp-5);
+  background: var(--tm-glass-bg);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid var(--tm-glass-border);
+  border-radius: 10px;
+}
+.credits-balance-num {
+  font-family: var(--font-mono);
+  font-size: 52px;
+  font-weight: 700;
+  color: var(--tm-text);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 8px;
+  transition: color 400ms ease;
+}
+.credits-balance-num.low {
+  color: var(--tm-accent);
+  animation: creditPulse 2.6s ease-in-out infinite;
+}
+@keyframes creditPulse {
+  0%, 100% { text-shadow: 0 0 0   rgba(184, 92, 82, 0);    }
+  50%       { text-shadow: 0 0 18px rgba(184, 92, 82, 0.45); }
+}
+.credits-balance-label {
+  font-size: 13px;
+  color: var(--tm-text-3);
+  margin-bottom: var(--sp-3);
+}
+.credits-breakdown {
+  font-size: 11px;
+  color: var(--tm-text-2);
+  font-family: var(--font-mono);
+}
+
+/* Glass treatment for reload cards when inside the credits panel */
+.module-panel .reload-card {
+  background: var(--tm-glass-bg);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid var(--tm-glass-border);
+  border-radius: 10px;
+}
+.module-panel .reload-card:hover {
+  border-color: var(--tm-accent);
+  background: rgba(184, 92, 82, 0.13);
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .db-amb-blob-1,
+  .db-amb-blob-2    { animation: none; }
+  .db-amb-blob      { transition: none; }
+
+  .module-tabs,
+  .module-panels-wrap,
+  .module-panel.active,
+  .db-greeting-block { animation: none !important; }
+
+  .module-tab-indicator { transition: none; }
+  .module-panel.exiting { animation: none; opacity: 0; }
+}
+
+/* ── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .credits-module { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .module-tab     { padding: 7px 11px; font-size: 12px; }
+  .module-panel   { padding: var(--sp-4); }
+}

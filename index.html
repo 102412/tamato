@@ -30,80 +30,91 @@
 
 <!-- ═══════════════════════════════════════════════════
      DEVICE STAGE — 400vh scroll sequence
-     Laptop frame stays pinned; 3 content stages animate
-     inside the screen as the user scrolls through.
+     Real MacBook image as frame; content animates inside
+     the screen overlay as the user scrolls.
 ═══════════════════════════════════════════════════ -->
 <section class="lp-device-stage" id="deviceStage">
   <div class="lp-device-sticky">
 
-    <!-- MacBook-style frame -->
-    <div class="lp-device-frame">
-      <div class="lp-device-bezel">
-        <div class="lp-device-screen" id="deviceScreen">
+    <!-- Real MacBook image + screen overlay + orange decor -->
+    <div class="lp-mac-wrap" id="deviceFrame">
+      <!-- Glow sits behind the image -->
+      <div class="lp-mac-glow" aria-hidden="true"></div>
+      <!-- The actual laptop photo -->
+      <img class="lp-mac-img" src="/assets/macbook.png" alt="" draggable="false">
 
-          <!-- STAGE 1: Pyramid — Tamato brand mark + tagline -->
-          <div class="lp-ds-pane" id="pane1">
-            <div class="lp-ds-center">
-              <svg viewBox="0 0 200 164" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:min(148px,28vw);will-change:transform">
-                <!-- Outer outline -->
-                <polygon points="100,6 196,158 4,158" stroke="#B85C52" stroke-width="1.5" fill="rgba(184,92,82,0.04)"/>
-                <!-- Mid outline -->
-                <polygon points="100,42 162,150 38,150" stroke="#B85C52" stroke-width="1" stroke-opacity="0.7" fill="rgba(184,92,82,0.07)"/>
-                <!-- Inner filled -->
-                <polygon points="100,82 128,136 72,136" fill="rgba(184,92,82,0.28)"/>
-                <!-- Apex dot -->
-                <circle cx="100" cy="6" r="2.5" fill="#B85C52"/>
-                <!-- Base dots -->
-                <circle cx="196" cy="158" r="2" fill="#B85C52" opacity="0.5"/>
-                <circle cx="4"   cy="158" r="2" fill="#B85C52" opacity="0.5"/>
-              </svg>
-              <div class="lp-ds-label">
-                <div class="slug">tamato.design</div>
-                <p>Build. Design. Own.</p>
-                <small>Three tools. One platform. One credit balance.</small>
-              </div>
+      <!-- Screen content — positioned precisely over the MacBook's display area -->
+      <div class="lp-mac-screen" id="deviceScreen">
+
+        <!-- Scan line sweep -->
+        <div class="lp-mac-scan" aria-hidden="true"></div>
+
+        <!-- STAGE 1: Pyramid + tagline -->
+        <div class="lp-ds-pane" id="pane1">
+          <div class="lp-ds-center">
+            <svg viewBox="0 0 200 164" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:min(160px,22vw);will-change:transform">
+              <polygon points="100,6 196,158 4,158" stroke="#B85C52" stroke-width="1.5" fill="rgba(184,92,82,0.04)"/>
+              <polygon points="100,42 162,150 38,150" stroke="#B85C52" stroke-width="1" stroke-opacity="0.7" fill="rgba(184,92,82,0.07)"/>
+              <polygon points="100,82 128,136 72,136" fill="rgba(184,92,82,0.28)"/>
+              <circle cx="100" cy="6" r="2.5" fill="#B85C52"/>
+              <circle cx="196" cy="158" r="2" fill="#B85C52" opacity="0.5"/>
+              <circle cx="4"   cy="158" r="2" fill="#B85C52" opacity="0.5"/>
+            </svg>
+            <div class="lp-ds-label">
+              <div class="slug">tamato.design</div>
+              <p>Build. Design. Own.</p>
+              <small>Three tools. One platform. One credit balance.</small>
             </div>
           </div>
+        </div>
 
-          <!-- STAGE 2: Product cards -->
-          <div class="lp-ds-pane" id="pane2">
-            <div class="lp-screen-cards">
-              <div class="lp-screen-card" id="sc0">
-                <div class="sc-slug">tamato.design/build</div>
-                <h4>AI Website Builder</h4>
-                <p>Unique site every time — desktop + mobile. Export clean HTML forever.</p>
-              </div>
-              <div class="lp-screen-card" id="sc1">
-                <div class="sc-slug">tamato.design/ai</div>
-                <h4>AI Chat Assistant</h4>
-                <p>Live interactive previews inline. @ mention your own sites directly.</p>
-              </div>
-              <div class="lp-screen-card" id="sc2">
-                <div class="sc-slug">tamato.design/studio</div>
-                <h4>Design System Extractor</h4>
-                <p>Turn any image into build-ready design tokens. Drop into Build or AI.</p>
-              </div>
+        <!-- STAGE 2: Product cards -->
+        <div class="lp-ds-pane" id="pane2">
+          <div class="lp-screen-cards">
+            <div class="lp-screen-card" id="sc0">
+              <div class="sc-slug">tamato.design/build</div>
+              <h4>AI Website Builder</h4>
+              <p>Unique site every time — desktop + mobile. Export clean HTML forever.</p>
+            </div>
+            <div class="lp-screen-card" id="sc1">
+              <div class="sc-slug">tamato.design/ai</div>
+              <h4>AI Chat Assistant</h4>
+              <p>Live interactive previews inline. @ mention your own sites directly.</p>
+            </div>
+            <div class="lp-screen-card" id="sc2">
+              <div class="sc-slug">tamato.design/studio</div>
+              <h4>Design System Extractor</h4>
+              <p>Turn any image into build-ready design tokens. Drop into Build or AI.</p>
             </div>
           </div>
+        </div>
 
-          <!-- STAGE 3: Feature highlights -->
-          <div class="lp-ds-pane" id="pane3">
-            <div class="lp-screen-feat-grid">
-              <div class="lp-screen-feat" id="sf0"><h5>No lock-in</h5><p>Clean HTML. Host anywhere. No platform required. Forever.</p></div>
-              <div class="lp-screen-feat" id="sf1"><h5>Structurally unique</h5><p>Same brief, two users — two completely different sites.</p></div>
-              <div class="lp-screen-feat" id="sf2"><h5>Tools that talk</h5><p>Studio → Build → AI. One continuous creative flow.</p></div>
-              <div class="lp-screen-feat" id="sf3"><h5>One credit balance</h5><p>Spend across every product. No silos, no surprises.</p></div>
-            </div>
+        <!-- STAGE 3: Feature highlights -->
+        <div class="lp-ds-pane" id="pane3">
+          <div class="lp-screen-feat-grid">
+            <div class="lp-screen-feat" id="sf0"><h5>No lock-in</h5><p>Clean HTML. Host anywhere. No platform required. Forever.</p></div>
+            <div class="lp-screen-feat" id="sf1"><h5>Structurally unique</h5><p>Same brief, two users — two completely different sites.</p></div>
+            <div class="lp-screen-feat" id="sf2"><h5>Tools that talk</h5><p>Studio → Build → AI. One continuous creative flow.</p></div>
+            <div class="lp-screen-feat" id="sf3"><h5>One credit balance</h5><p>Spend across every product. No silos, no surprises.</p></div>
           </div>
+        </div>
 
-        </div><!-- /device-screen -->
-      </div><!-- /device-bezel -->
+      </div><!-- /lp-mac-screen -->
 
-      <div class="lp-device-base">
-        <div class="lp-device-hinge"></div>
-        <div class="lp-device-foot"></div>
+      <!-- Orange corner brackets, dots, badge — above the laptop image -->
+      <div class="lp-mac-decor" aria-hidden="true">
+        <div class="lp-mac-bracket lp-mac-br--tl"></div>
+        <div class="lp-mac-bracket lp-mac-br--tr"></div>
+        <div class="lp-mac-bracket lp-mac-br--bl"></div>
+        <div class="lp-mac-bracket lp-mac-br--br"></div>
+        <div class="lp-mac-dot" style="top:18%;left:-3%"></div>
+        <div class="lp-mac-dot" style="top:55%;right:-2%;animation-delay:.9s;width:5px;height:5px"></div>
+        <div class="lp-mac-dot" style="top:30%;right:-4%;animation-delay:1.7s;width:3px;height:3px"></div>
+        <div class="lp-mac-badge">
+          <span class="lp-mac-badge-dot"></span>tamato.design
+        </div>
       </div>
-    </div><!-- /device-frame -->
+    </div><!-- /lp-mac-wrap -->
 
     <p class="lp-scroll-cue" id="scrollCue">Scroll to explore ↓</p>
   </div><!-- /device-sticky -->

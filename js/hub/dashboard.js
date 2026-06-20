@@ -328,10 +328,9 @@ function positionIndicator(tab) {
 
 /* ── UI wiring ─────────────────────────────────────────────────── */
 function wireUI() {
-  document.getElementById('signOut').addEventListener('click', signOut);
-  document.getElementById('themeToggle').addEventListener('click', () => {
+  document.getElementById('signOut')?.addEventListener('click', signOut);
+  document.getElementById('themeToggle')?.addEventListener('click', () => {
     toggleTheme();
-    // Re-position indicator after theme repaint (font/size may shift)
     requestAnimationFrame(() => positionIndicator(document.querySelector('.module-tab.active')));
   });
   document.getElementById('themeToggle2').addEventListener('click', () => {
@@ -344,7 +343,7 @@ function wireUI() {
     tab.addEventListener('click', () => switchModule(tab.dataset.module)));
 
   // Sidebar connectors → switch to Connectors module
-  document.getElementById('connectorsBtn').addEventListener('click', () => switchModule('connectors'));
+  document.getElementById('connectorsBtn')?.addEventListener('click', () => switchModule('connectors'));
 
   // Topbar "Add Credits" → switch to Credits module
   document.getElementById('addCredits').addEventListener('click', () => switchModule('credits'));

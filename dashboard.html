@@ -13,130 +13,128 @@
 </head>
 <body>
 
-<!-- Ambient drifting gradient — direct child of body, fixed behind everything -->
+<!-- Fixed background image -->
+<div class="db-bg" aria-hidden="true">
+  <div class="db-bg-img"></div>
+  <div class="db-bg-overlay"></div>
+</div>
+
+<!-- Film grain -->
+<div class="lp-grain" aria-hidden="true"></div>
+
+<!-- Ambient blobs — used by JS to tint on card hover -->
 <div class="db-ambient" id="dbAmbient" aria-hidden="true">
   <div class="db-amb-blob db-amb-blob-1"></div>
   <div class="db-amb-blob db-amb-blob-2"></div>
 </div>
 
-<div class="db-layout">
-  <!-- SIDEBAR — flat, unchanged -->
-  <nav class="db-sidebar tm-shell">
-    <a class="sb-logo" href="/dashboard.html">
-      <img class="sb-logo-icon" src="/assets/tomato-icon.png" alt="Tamato" width="32" height="32">
-      <img class="sb-logo-word" src="/assets/wordmark-full.png" alt="Tamato" width="140" height="140">
-    </a>
-    <a class="sb-item" href="/build/"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-6 9 6v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Build</span></a>
-    <a class="sb-item" href="/ai/"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>AI</span></a>
-    <a class="sb-item" href="/studio/"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="17" cy="14" r="2.5"/><path d="M2 22c2-4 6-6 10-6"/></svg><span>Studio</span></a>
-    <div class="sb-spacer"></div>
-    <a class="sb-item" href="/account.html"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span>Account</span></a>
-    <div class="sb-item" id="connectorsBtn"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>Connectors</span></div>
-    <div class="sb-item" id="themeToggle"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg><span>Theme</span></div>
-    <div class="sb-item" id="signOut"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg><span>Sign out</span></div>
-  </nav>
+<!-- Fixed glass topbar -->
+<header class="db-topbar">
+  <a class="db-topbar-logo" href="/dashboard.html">
+    <img src="/assets/wordmark-full.png" alt="Tamato" width="140" height="36">
+  </a>
+  <div class="db-topbar-right">
+    <div class="tm-credit-pill" id="creditPill">
+      <span class="tomato">🍅</span> <span id="creditCount">—</span> credits
+      <div class="credit-tooltip" id="creditTooltip"></div>
+    </div>
+    <button class="tm-btn tm-btn-ghost tm-btn-sm" id="addCredits">Add Credits</button>
+    <button class="tm-theme-toggle" id="themeToggle2" aria-label="Toggle theme">◐</button>
+    <div class="tm-avatar" id="avatar">?</div>
+    <button class="tm-btn tm-btn-ghost tm-btn-sm" id="signOut">Sign out</button>
+  </div>
+</header>
 
-  <!-- MAIN -->
-  <main class="db-main">
-    <div class="db-topbar tm-shell">
-      <div class="db-greeting" id="topGreeting">Welcome</div>
-      <div class="db-topbar-right">
-        <div class="tm-credit-pill" id="creditPill">
-          <span class="tomato">🍅</span> <span id="creditCount">—</span> credits
-          <div class="credit-tooltip" id="creditTooltip"></div>
+<!-- Hero — greeting, summary, quick actions over background image -->
+<section class="db-hero">
+  <div class="db-greeting" id="topGreeting">Good morning</div>
+  <p class="db-summary" id="dbSummary">&nbsp;</p>
+  <div class="db-quick-actions">
+    <a class="db-quick-action" href="/build/"><span class="dqa-icon">🏗</span>New Site</a>
+    <a class="db-quick-action" href="/ai/"><span class="dqa-icon">💬</span>New Chat</a>
+    <a class="db-quick-action" href="/studio/"><span class="dqa-icon">🎨</span>New Design System</a>
+  </div>
+</section>
+
+<!-- Rising glass panel -->
+<div class="db-panel-wrap">
+
+  <!-- Tab bar -->
+  <div class="module-tabs" id="moduleTabs">
+    <div class="module-tab-indicator" id="tabIndicator"></div>
+    <button class="module-tab active" data-module="overview">Overview</button>
+    <button class="module-tab" data-module="build">Build</button>
+    <button class="module-tab" data-module="ai">AI</button>
+    <button class="module-tab" data-module="studio">Studio</button>
+    <button class="module-tab" data-module="connectors">Connectors</button>
+    <button class="module-tab" data-module="credits">Credits</button>
+  </div>
+
+  <!-- Module panels -->
+  <div class="module-panels-wrap" id="modulePanelsWrap">
+
+    <!-- OVERVIEW -->
+    <div class="module-panel active" data-module="overview">
+      <div class="activity-grid" id="activity"><p class="tm-muted">Loading…</p></div>
+      <div class="db-week-stats" id="dbWeekStats"></div>
+    </div>
+
+    <!-- BUILD -->
+    <div class="module-panel" data-module="build">
+      <div class="module-panel-head">
+        <h3>Your sites</h3>
+        <a class="tm-btn tm-btn-primary tm-btn-sm" href="/build/">Open Build →</a>
+      </div>
+      <div class="activity-grid" id="buildSites"><p class="tm-muted">Loading…</p></div>
+    </div>
+
+    <!-- AI -->
+    <div class="module-panel" data-module="ai">
+      <div class="module-panel-head">
+        <h3>Recent conversations</h3>
+        <a class="tm-btn tm-btn-primary tm-btn-sm" href="/ai/">Open AI →</a>
+      </div>
+      <div class="convo-list" id="aiConvos"><p class="tm-muted">Loading…</p></div>
+    </div>
+
+    <!-- STUDIO -->
+    <div class="module-panel" data-module="studio">
+      <div class="module-panel-head">
+        <h3>Design systems</h3>
+        <a class="tm-btn tm-btn-primary tm-btn-sm" href="/studio/">Open Studio →</a>
+      </div>
+      <div class="activity-grid" id="studioSystems"><p class="tm-muted">Loading…</p></div>
+    </div>
+
+    <!-- CONNECTORS -->
+    <div class="module-panel" data-module="connectors">
+      <div class="module-panel-head">
+        <h3>Connectors</h3>
+      </div>
+      <p class="tm-dim" style="margin-bottom:var(--sp-5);font-size:14px;color:rgba(245,240,235,0.45)">Link services your sites can use. Tokens are stored encrypted.</p>
+      <div class="conn-list" id="connListInline"></div>
+    </div>
+
+    <!-- CREDITS -->
+    <div class="module-panel" data-module="credits">
+      <div class="credits-module">
+        <div class="credits-balance-block">
+          <div class="credits-balance-num" id="creditsDisplay">—</div>
+          <div class="credits-balance-label">credits available</div>
+          <div class="credits-breakdown" id="creditsBreakdown"></div>
         </div>
-        <button class="tm-btn tm-btn-ghost tm-btn-sm" id="addCredits">Add Credits</button>
-        <button class="tm-theme-toggle" id="themeToggle2" aria-label="Toggle theme">◐</button>
-        <div class="tm-avatar" id="avatar">?</div>
+        <div>
+          <h4 style="margin-bottom:var(--sp-2);font-size:15px;font-weight:700;color:#F5F0EB">Add credits</h4>
+          <p style="margin-bottom:var(--sp-4);font-size:13px;color:rgba(245,240,235,0.45)">Credits never expire and roll over across all products.</p>
+          <div class="reload-grid" id="reloadGridInline"></div>
+        </div>
       </div>
     </div>
 
-    <div class="db-content">
+  </div><!-- /module-panels-wrap -->
+</div><!-- /db-panel-wrap -->
 
-      <!-- Glass module tab bar -->
-      <div class="module-tabs tm-glass" id="moduleTabs">
-        <div class="module-tab-indicator" id="tabIndicator"></div>
-        <button class="module-tab active" data-module="overview">Overview</button>
-        <button class="module-tab" data-module="build">Build</button>
-        <button class="module-tab" data-module="ai">AI</button>
-        <button class="module-tab" data-module="studio">Studio</button>
-        <button class="module-tab" data-module="connectors">Connectors</button>
-        <button class="module-tab" data-module="credits">Credits</button>
-      </div>
-
-      <!-- Module panels -->
-      <div class="module-panels-wrap" id="modulePanelsWrap">
-
-        <!-- OVERVIEW -->
-        <div class="module-panel tm-glass active" data-module="overview">
-          <div class="db-overview-lead">
-            <p class="db-summary" id="dbSummary">&nbsp;</p>
-          </div>
-          <div class="db-quick-actions">
-            <a class="db-quick-action" href="/build/"><span class="dqa-icon">🏗</span>New Site</a>
-            <a class="db-quick-action" href="/ai/"><span class="dqa-icon">💬</span>New Chat</a>
-            <a class="db-quick-action" href="/studio/"><span class="dqa-icon">🎨</span>New Design System</a>
-          </div>
-          <div class="activity-grid" id="activity"><p class="tm-muted">Loading…</p></div>
-          <div class="db-week-stats" id="dbWeekStats"></div>
-        </div>
-
-        <!-- BUILD -->
-        <div class="module-panel tm-glass" data-module="build">
-          <div class="module-panel-head">
-            <h3>Your sites</h3>
-            <a class="tm-btn tm-btn-primary tm-btn-sm" href="/build/">Open Build →</a>
-          </div>
-          <div class="activity-grid" id="buildSites"><p class="tm-muted">Loading…</p></div>
-        </div>
-
-        <!-- AI -->
-        <div class="module-panel tm-glass" data-module="ai">
-          <div class="module-panel-head">
-            <h3>Recent conversations</h3>
-            <a class="tm-btn tm-btn-primary tm-btn-sm" href="/ai/">Open AI →</a>
-          </div>
-          <div class="convo-list" id="aiConvos"><p class="tm-muted">Loading…</p></div>
-        </div>
-
-        <!-- STUDIO -->
-        <div class="module-panel tm-glass" data-module="studio">
-          <div class="module-panel-head">
-            <h3>Design systems</h3>
-            <a class="tm-btn tm-btn-primary tm-btn-sm" href="/studio/">Open Studio →</a>
-          </div>
-          <div class="activity-grid" id="studioSystems"><p class="tm-muted">Loading…</p></div>
-        </div>
-
-        <!-- CONNECTORS -->
-        <div class="module-panel tm-glass" data-module="connectors">
-          <h3 style="margin-bottom:var(--sp-2)">Connectors</h3>
-          <p class="tm-dim" style="margin-bottom:var(--sp-5);font-size:13px">Link services your sites can use. Tokens are stored encrypted.</p>
-          <div class="conn-list" id="connListInline"></div>
-        </div>
-
-        <!-- CREDITS -->
-        <div class="module-panel tm-glass" data-module="credits">
-          <div class="credits-module">
-            <div class="credits-balance-block">
-              <div class="credits-balance-num" id="creditsDisplay">—</div>
-              <div class="credits-balance-label">credits available</div>
-              <div class="credits-breakdown" id="creditsBreakdown"></div>
-            </div>
-            <div>
-              <h4 style="margin-bottom:var(--sp-2);font-size:15px;font-weight:700">Add credits</h4>
-              <p class="tm-dim" style="margin-bottom:var(--sp-4);font-size:13px">Credits never expire and roll over across all products.</p>
-              <div class="reload-grid" id="reloadGridInline"></div>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /module-panels-wrap -->
-    </div>
-  </main>
-</div>
-
-<!-- RELOAD MODAL (kept for "Add Credits" topbar button fallback) -->
+<!-- RELOAD MODAL -->
 <div class="tm-modal-overlay tm-hidden" id="reloadModal">
   <div class="tm-modal" style="position:relative">
     <h2 class="tm-modal-title">Add credits</h2>
@@ -146,7 +144,7 @@
   </div>
 </div>
 
-<!-- CONNECTORS MODAL (kept as fallback) -->
+<!-- CONNECTORS MODAL -->
 <div class="tm-modal-overlay tm-hidden" id="connModal">
   <div class="tm-modal tm-modal-lg" style="position:relative">
     <h2 class="tm-modal-title">Connectors</h2>

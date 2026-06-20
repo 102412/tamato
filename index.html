@@ -12,117 +12,106 @@
 </head>
 <body class="lp-body">
 
-<!-- Page dim — darkens everything except the device frame during scroll stage -->
-<div class="lp-dim" id="dimOverlay"></div>
-
-<a class="lp-logo" href="/index.html"><img src="/assets/wordmark-full.png" alt="Tamato" width="180" height="180"></a>
-<div class="lp-top">
-  <a class="tm-btn tm-btn-ghost tm-btn-sm" href="/login.html">Sign In</a>
-  <a class="tm-btn tm-btn-primary tm-btn-sm" href="/signup.html">Sign Up</a>
-  <button class="tm-btn tm-btn-text tm-btn-sm" id="adminBtn">Admin</button>
+<!-- Fixed full-bleed background -->
+<div class="lp-bg" aria-hidden="true">
+  <div class="lp-bg-img"></div>
+  <div class="lp-bg-overlay"></div>
 </div>
+
+<!-- Film grain -->
+<div class="lp-grain" aria-hidden="true"></div>
+
+<!-- Navigation -->
+<nav class="lp-nav">
+  <a class="lp-nav-logo" href="/index.html">
+    <img src="/assets/wordmark-full.png" alt="Tamato" width="180" height="52">
+  </a>
+  <div class="lp-nav-actions">
+    <a class="tm-btn tm-btn-ghost tm-btn-sm" href="/login.html">Sign In</a>
+    <a class="tm-btn tm-btn-primary tm-btn-sm" href="/signup.html">Sign Up</a>
+    <button class="tm-btn tm-btn-text tm-btn-sm" id="adminBtn">Admin</button>
+  </div>
+</nav>
 
 <!-- HERO -->
 <header class="lp-hero" id="hero">
-  <h1 class="tm-enter">Build. Design. Own.</h1>
-  <p class="tm-enter">The only AI platform where every site is unique, every file is yours, and every tool works together.</p>
+  <div class="lp-hero-orbs" aria-hidden="true">
+    <div class="lp-orb lp-orb-1"></div>
+    <div class="lp-orb lp-orb-2"></div>
+    <div class="lp-orb lp-orb-3"></div>
+  </div>
+  <div class="lp-hero-inner">
+    <div class="lp-hero-badge tm-enter">
+      <span class="lp-hero-badge-dot"></span>
+      AI Platform
+    </div>
+    <h1 class="tm-enter">Build.<br>Design.<br>Own.</h1>
+    <p class="tm-enter">The only AI platform where every site is unique, every file is yours, and every tool works together.</p>
+    <div class="lp-hero-cta tm-enter">
+      <a class="tm-btn tm-btn-primary tm-btn-lg" href="/signup.html">Start for free</a>
+      <a class="tm-btn tm-btn-glass tm-btn-lg" href="#features">See the products ↓</a>
+    </div>
+  </div>
+  <div class="lp-scroll-cue" id="scrollCue">
+    <span>Scroll</span>
+    <svg width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="16" height="26" rx="8" stroke="currentColor" stroke-opacity="0.3" stroke-width="1.5"/>
+      <circle class="lp-mouse-dot" cx="9" cy="7" r="2.5" fill="currentColor"/>
+    </svg>
+  </div>
 </header>
 
-<!-- ═══════════════════════════════════════════════════
-     DEVICE STAGE — 400vh scroll sequence
-     Real MacBook image as frame; content animates inside
-     the screen overlay as the user scrolls.
-═══════════════════════════════════════════════════ -->
-<section class="lp-device-stage" id="deviceStage">
-  <div class="lp-device-sticky">
+<!-- GLASS PRODUCTS SECTION -->
+<section class="lp-glass-section" id="features">
+  <div class="lp-glass-header">
+    <span class="lp-section-eyebrow">Three tools. One currency.</span>
+    <h2>Everything you need to build on the web.</h2>
+  </div>
+  <div class="lp-glass-grid">
 
-    <!-- Real MacBook image + screen overlay + orange decor -->
-    <div class="lp-mac-wrap" id="deviceFrame">
-      <!-- Glow sits behind the image -->
-      <div class="lp-mac-glow" aria-hidden="true"></div>
-      <!-- The actual laptop photo -->
-      <img class="lp-mac-img" src="/assets/macbook.png" alt="" draggable="false">
-
-      <!-- Screen content — positioned precisely over the MacBook's display area -->
-      <div class="lp-mac-screen" id="deviceScreen">
-
-        <!-- Browser chrome -->
-        <div class="lp-mac-chrome" aria-hidden="true">
-          <div class="lp-chrome-dots"><span></span><span></span><span></span></div>
-          <div class="lp-chrome-url">tamato.design</div>
-        </div>
-
-        <!-- Scan line sweep -->
-        <div class="lp-mac-scan" aria-hidden="true"></div>
-
-        <!-- STAGE 1: Pyramid + tagline -->
-        <div class="lp-ds-pane" id="pane1">
-          <div class="lp-ds-center">
-            <svg viewBox="0 0 200 164" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:min(160px,22vw);will-change:transform">
-              <polygon points="100,6 196,158 4,158" stroke="#B85C52" stroke-width="1.5" fill="rgba(184,92,82,0.04)"/>
-              <polygon points="100,42 162,150 38,150" stroke="#B85C52" stroke-width="1" stroke-opacity="0.7" fill="rgba(184,92,82,0.07)"/>
-              <polygon points="100,82 128,136 72,136" fill="rgba(184,92,82,0.28)"/>
-              <circle cx="100" cy="6" r="2.5" fill="#B85C52"/>
-              <circle cx="196" cy="158" r="2" fill="#B85C52" opacity="0.5"/>
-              <circle cx="4"   cy="158" r="2" fill="#B85C52" opacity="0.5"/>
-            </svg>
-            <div class="lp-ds-label">
-              <div class="slug">tamato.design</div>
-              <p>Build. Design. Own.</p>
-              <small>Three tools. One platform. One credit balance.</small>
-            </div>
-          </div>
-        </div>
-
-        <!-- STAGE 2: Product cards -->
-        <div class="lp-ds-pane" id="pane2">
-          <div class="lp-screen-cards">
-            <div class="lp-screen-card" id="sc0">
-              <div class="sc-slug">tamato.design/build</div>
-              <h4>AI Website Builder</h4>
-              <p>Unique site every time — desktop + mobile. Export clean HTML forever.</p>
-            </div>
-            <div class="lp-screen-card" id="sc1">
-              <div class="sc-slug">tamato.design/ai</div>
-              <h4>AI Chat Assistant</h4>
-              <p>Live interactive previews inline. @ mention your own sites directly.</p>
-            </div>
-            <div class="lp-screen-card" id="sc2">
-              <div class="sc-slug">tamato.design/studio</div>
-              <h4>Design System Extractor</h4>
-              <p>Turn any image into build-ready design tokens. Drop into Build or AI.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- STAGE 3: Feature highlights -->
-        <div class="lp-ds-pane" id="pane3">
-          <div class="lp-screen-feat-grid">
-            <div class="lp-screen-feat" id="sf0"><h5>No lock-in</h5><p>Clean HTML. Host anywhere. No platform required. Forever.</p></div>
-            <div class="lp-screen-feat" id="sf1"><h5>Structurally unique</h5><p>Same brief, two users — two completely different sites.</p></div>
-            <div class="lp-screen-feat" id="sf2"><h5>Tools that talk</h5><p>Studio → Build → AI. One continuous creative flow.</p></div>
-            <div class="lp-screen-feat" id="sf3"><h5>One credit balance</h5><p>Spend across every product. No silos, no surprises.</p></div>
-          </div>
-        </div>
-
-      </div><!-- /lp-mac-screen -->
-
-      <!-- Accent dots + badge — above the laptop image -->
-      <div class="lp-mac-decor" aria-hidden="true">
-        <div class="lp-mac-dot" style="top:18%;left:-3%"></div>
-        <div class="lp-mac-dot" style="top:55%;right:-2%;animation-delay:.9s;width:5px;height:5px"></div>
-        <div class="lp-mac-dot" style="top:30%;right:-4%;animation-delay:1.7s;width:3px;height:3px"></div>
+    <div class="lp-glass-card">
+      <div class="lgc-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <path d="M8 21h8M12 17v4"/>
+        </svg>
       </div>
-    </div><!-- /lp-mac-wrap -->
+      <div class="lgc-slug">/build</div>
+      <h3>AI Website Builder</h3>
+      <p>Unique site every time — desktop + mobile. Export clean HTML, host anywhere, forever.</p>
+      <a class="lgc-link" href="/build/">Open Build →</a>
+    </div>
 
-    <p class="lp-scroll-cue" id="scrollCue">Scroll to explore ↓</p>
-  </div><!-- /device-sticky -->
+    <div class="lp-glass-card">
+      <div class="lgc-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+      </div>
+      <div class="lgc-slug">/ai</div>
+      <h3>AI Chat Assistant</h3>
+      <p>Live interactive previews inline. @ mention your own sites directly in conversation.</p>
+      <a class="lgc-link" href="/ai/">Open AI →</a>
+    </div>
+
+    <div class="lp-glass-card">
+      <div class="lgc-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <div class="lgc-slug">/studio</div>
+      <h3>Design System Extractor</h3>
+      <p>Turn any image into build-ready design tokens. Drop into Build or AI instantly.</p>
+      <a class="lgc-link" href="/studio/">Open Studio →</a>
+    </div>
+
+  </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════
      FLOATING PROJECT CARDS
-     10 fictional brands — each a distinct visual identity —
-     drifting in two opposing rows to show structural variety.
+     10 fictional brands — each a distinct visual identity.
 ═══════════════════════════════════════════════════ -->
 <section class="lp-projects">
   <h2 class="lp-proj-head">Every site, structurally unique</h2>
@@ -130,10 +119,8 @@
 
   <div class="lp-belts">
 
-    <!-- Row 1 — drifts left to right -->
     <div class="lp-belt lp-belt-ltr">
 
-      <!-- Card 1: Origin Collective — coffee roastery, warm editorial -->
       <div class="pc-card" style="border-color:rgba(212,168,112,0.2)">
         <div class="pc-bg" style="background:linear-gradient(155deg,#180E07 55%,#2C1710 100%)"></div>
         <div class="pc-content" style="justify-content:flex-end">
@@ -144,7 +131,6 @@
         </div>
       </div>
 
-      <!-- Card 2: Blanc Studio — architecture, stark geometric -->
       <div class="pc-card" style="border-color:rgba(20,20,18,0.4)">
         <div class="pc-bg" style="background:#EDEBE6"></div>
         <div class="pc-content" style="justify-content:space-between">
@@ -160,7 +146,6 @@
         </div>
       </div>
 
-      <!-- Card 3: Levain & Co — sourdough bakery, terracotta warmth -->
       <div class="pc-card" style="border-color:rgba(196,112,72,0.3)">
         <div class="pc-bg" style="background:#B55E3C"></div>
         <div class="pc-bg" style="background:linear-gradient(0deg,rgba(0,0,0,0.35) 0%,transparent 55%);position:absolute;inset:0"></div>
@@ -171,7 +156,6 @@
         </div>
       </div>
 
-      <!-- Card 4: Apex Training — fitness, high-contrast neon -->
       <div class="pc-card" style="border-color:rgba(57,255,20,0.15)">
         <div class="pc-bg" style="background:#040404"></div>
         <div class="pc-content" style="justify-content:space-between">
@@ -185,7 +169,6 @@
         </div>
       </div>
 
-      <!-- Card 5: Lumière — skincare, delicate pastels -->
       <div class="pc-card" style="border-color:rgba(196,154,138,0.2)">
         <div class="pc-bg" style="background:linear-gradient(135deg,#F7ECEA 0%,#EDE0DC 100%)"></div>
         <div class="pc-content" style="justify-content:center;align-items:flex-start">
@@ -196,7 +179,7 @@
         </div>
       </div>
 
-      <!-- Duplicate set for seamless loop -->
+      <!-- duplicates for seamless loop -->
       <div class="pc-card" style="border-color:rgba(212,168,112,0.2)">
         <div class="pc-bg" style="background:linear-gradient(155deg,#180E07 55%,#2C1710 100%)"></div>
         <div class="pc-content" style="justify-content:flex-end">
@@ -253,10 +236,8 @@
 
     </div><!-- /belt-ltr -->
 
-    <!-- Row 2 — drifts right to left -->
     <div class="lp-belt lp-belt-rtl">
 
-      <!-- Card 6: Groove Theory — vinyl shop, navy/mustard -->
       <div class="pc-card" style="border-color:rgba(212,160,23,0.18)">
         <div class="pc-bg" style="background:#0C1825"></div>
         <div class="pc-content" style="justify-content:space-between">
@@ -274,7 +255,6 @@
         </div>
       </div>
 
-      <!-- Card 7: Stone & Fern — landscaping, forest green/stone -->
       <div class="pc-card" style="border-color:rgba(100,130,80,0.2)">
         <div class="pc-bg" style="background:linear-gradient(155deg,#1A3418 0%,#253F22 100%)"></div>
         <div class="pc-content" style="justify-content:space-between">
@@ -288,7 +268,6 @@
         </div>
       </div>
 
-      <!-- Card 8: Hargrove Legal — law firm, charcoal/gold institutional -->
       <div class="pc-card" style="border-color:rgba(201,168,76,0.18)">
         <div class="pc-bg" style="background:#0E0E0D"></div>
         <div class="pc-content" style="justify-content:space-between">
@@ -306,7 +285,6 @@
         </div>
       </div>
 
-      <!-- Card 9: Wobbly & Co — children's toys, bright primary -->
       <div class="pc-card" style="border-color:rgba(255,100,50,0.3)">
         <div class="pc-bg" style="background:linear-gradient(135deg,#FF6B35 0%,#FF8C58 100%)"></div>
         <div class="pc-content" style="justify-content:space-between">
@@ -323,7 +301,6 @@
         </div>
       </div>
 
-      <!-- Card 10: Clover & Brass — cocktail bar, deep burgundy/brass -->
       <div class="pc-card" style="border-color:rgba(196,154,42,0.18)">
         <div class="pc-bg" style="background:linear-gradient(155deg,#0C0408 0%,#180A10 100%)"></div>
         <div class="pc-content" style="justify-content:center;align-items:center;text-align:center">
@@ -335,7 +312,7 @@
         </div>
       </div>
 
-      <!-- Duplicate set for seamless loop -->
+      <!-- duplicates for seamless loop -->
       <div class="pc-card" style="border-color:rgba(212,160,23,0.18)">
         <div class="pc-bg" style="background:#0C1825"></div>
         <div class="pc-content" style="justify-content:space-between">

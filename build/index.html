@@ -189,8 +189,8 @@ let lastPreview = 0;
 function throttledPreview() {
   const now = Date.now();
   if (now - lastPreview < 800) return;
-  // Don't update until body content has started — avoids showing bare background color
-  if (!streamBuffer.includes('<body')) return;
+  // Don't update until past the <head> — avoids showing bare background color with no content
+  if (!streamBuffer.includes('</head>') && !streamBuffer.includes('<body')) return;
   lastPreview = now;
   livePreview.srcdoc = streamBuffer;
 }

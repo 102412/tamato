@@ -6,6 +6,23 @@
 
 const EDITABLE = 'h1,h2,h3,h4,h5,h6,p,span,a,li,button,label,td';
 
+/* CSS + script injected into <head> to make all CSS animations complete instantly
+   and trigger scroll/resize observers so content isn't stuck at opacity:0. */
+const PREVIEW_HEAD = `<style>
+*,*::before,*::after{animation-duration:.001s!important;animation-delay:0s!important;transition-delay:0s!important}
+</style><script>(function(){
+  function reveal(){
+    window.dispatchEvent(new Event('scroll'));
+    window.dispatchEvent(new Event('resize'));
+    if(typeof AOS!=='undefined'){AOS.init();AOS.refresh();}
+    if(typeof WOW!=='undefined'){try{new WOW().init();}catch(e){}}
+    if(typeof ScrollReveal!=='undefined'){try{ScrollReveal().reveal('[class]');}catch(e){}}
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',reveal);}
+  else{reveal();}
+  window.addEventListener('load',reveal);
+})();<\/script>`;
+
 /* Script injected into the generated document. */
 const INJECT = `
 <script>(function(){
@@ -28,11 +45,15 @@ const INJECT = `
   }
 })();<\/script>`;
 
-/** Return html with the inline-editor script injected before </body>. */
+/** Return html with preview fixes + inline-editor script injected. */
 export function injectEditor(html) {
   if (!html) return html;
-  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, INJECT + '</body>');
-  return html + INJECT;
+  let h = html;
+  // Inject animation-unlock CSS + observer triggers into <head>
+  if (/<\/head>/i.test(h)) h = h.replace(/<\/head>/i, PREVIEW_HEAD + '</head>');
+  // Inject inline-editor script before </body>
+  if (/<\/body>/i.test(h)) return h.replace(/<\/body>/i, INJECT + '</body>');
+  return h + INJECT;
 }
 
 /** Wire the parent-side listener. onChange(newHtml) fires on each commit. */

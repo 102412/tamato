@@ -78,7 +78,11 @@ const userMsg = (prompt) => `Business/site description: ${prompt}
 Generate a complete, unique, visually impressive website. Make design decisions a senior designer at a top agency would be proud of.`;
 
 function stripFences(html) {
-  return (html || '').replace(/^```html?\s*/i, '').replace(/```\s*$/i, '').trim();
+  let s = (html || '').replace(/^```html?\s*/i, '').replace(/```\s*$/i, '').trim();
+  // Strip any preamble text the model outputs before <!DOCTYPE
+  const dt = s.search(/<!DOCTYPE\s+html/i);
+  if (dt > 0) s = s.slice(dt);
+  return s;
 }
 
 /* Strip comments + collapse whitespace before sending as edit context.

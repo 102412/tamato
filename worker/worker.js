@@ -17,7 +17,7 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
 
-const OPENROUTER_MODELS = new Set(['google/gemma-4-26b-a4b-it:free']);
+const OPENROUTER_MODELS = new Set(['google/gemma-3-27b-it:free']);
 
 export default {
   async fetch(request, env) {

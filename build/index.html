@@ -110,6 +110,14 @@ const canvas = $('canvas'), empty = $('empty'), split = $('split'),
       livePreview = $('livePreview'), chatThread = $('chatThread'), promptEl = $('prompt');
 let streamBuffer = '';
 
+const LOADING_HTML = `<!DOCTYPE html><html><head><style>
+*{margin:0;box-sizing:border-box}
+body{background:#0f0a08;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:system-ui,sans-serif;gap:16px}
+.sp{width:36px;height:36px;border:3px solid rgba(184,92,82,.2);border-top-color:#B85C52;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+p{color:rgba(245,240,235,.45);font-size:13px;letter-spacing:.03em}
+</style></head><body><div class="sp"></div><p>Generating…</p></body></html>`;
+
 (async function init() {
   if (!await requireAuth()) return;
   profile = await getProfile();
@@ -151,10 +159,19 @@ let streamBuffer = '';
 /* ── UI handlers passed to generation core ─────────────────────── */
 const handlers = {
   renderCanvas: (html, v) => renderCanvas(html, v),
-  genStart() { empty.classList.add('tm-hidden'); canvas.classList.add('tm-hidden'); split.classList.remove('tm-hidden'); streamBuffer = ''; livePreview.srcdoc = ''; },
+  genStart() { empty.classList.add('tm-hidden'); canvas.classList.add('tm-hidden'); split.classList.remove('tm-hidden'); streamBuffer = ''; livePreview.srcdoc = LOADING_HTML; },
   streamDelta(which, chunk) { streamBuffer += chunk; throttledPreview(); },
   streamDone(which) {},
-  genComplete(html) { split.classList.add('tm-hidden'); showCanvas(); renderCanvas(html[view], view); flashSaved('Saved'); refreshCredits(); },
+  genComplete(html) {
+    split.classList.add('tm-hidden');
+    const finalHtml = html[view];
+    if (!finalHtml || finalHtml.length < 200) {
+      inlineError('Generation returned empty content — please try again.', () => doGenerate());
+      empty.classList.remove('tm-hidden');
+      return;
+    }
+    showCanvas(); renderCanvas(finalHtml, view); flashSaved('Saved'); refreshCredits();
+  },
   genCancelled() { split.classList.add('tm-hidden'); if (Gen.getCurrentState().html.desktop) showCanvas(); else empty.classList.remove('tm-hidden'); },
   genError(msg) { split.classList.add('tm-hidden'); inlineError(msg, () => doGenerate()); },
   editStart() { showLoading(true); },
@@ -172,6 +189,8 @@ let lastPreview = 0;
 function throttledPreview() {
   const now = Date.now();
   if (now - lastPreview < 800) return;
+  // Don't update until body content has started — avoids showing bare background color
+  if (!streamBuffer.includes('<body')) return;
   lastPreview = now;
   livePreview.srcdoc = streamBuffer;
 }

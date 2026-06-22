@@ -14,7 +14,7 @@ export const MODELS = {
     provider: 'groq',
     credits_per_unit: 0,
     always_free: true,
-    max_tokens: 8000,
+    max_tokens: 6000,
     description: 'Fast. Free. Always available.',
   },
   PYTHM: {
@@ -115,7 +115,7 @@ export async function streamModel({ modelId, system, messages, maxTokens = 8000,
   });
   if (!res.ok || !res.body) {
     let detail = '';
-    try { const e = await res.clone().json(); detail = e.detail || e.error || ''; } catch (_) {}
+    try { const e = await res.clone().json(); detail = e.detail || (typeof e.error === 'string' ? e.error : e.error?.message) || e.message || ''; } catch (_) {}
     const status = res.status;
     if (status === 429) throw new Error('Rate limit reached — try again in a moment.');
     if (status === 400) throw new Error('Prompt too large — shorten your input and try again.');

@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════════
    TAMATO — CLOUDFLARE WORKER
    Routes all AI calls. Keeps API keys server-side.
-     Pythm-4.5o mini  → Groq       (gemma2-9b-it)
+     Pythm-4.5o mini  → Groq       (llama-3.3-70b-versatile)
      Pythm 4.5        → Anthropic  (claude-haiku-4-5)
      Metrio 4.6       → Anthropic  (claude-sonnet-4-6)
      Megisto 4.8      → Anthropic  (claude-opus-4-8)

@@ -17,7 +17,7 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
 
-const GROQ_MODELS = new Set(['gemma2-9b-it']);
+const GROQ_MODELS = new Set(['llama-3.3-70b-versatile']);
 
 export default {
   async fetch(request, env) {

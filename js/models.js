@@ -10,8 +10,8 @@ export const MODELS = {
   PYTHM_MINI: {
     id: 'PYTHM_MINI',
     name: 'Pythm-4.5o mini',
-    backend: 'meta-llama/llama-3.3-70b-instruct:free',
-    provider: 'openrouter',
+    backend: 'gemma2-9b-it',
+    provider: 'groq',
     credits_per_unit: 0,
     always_free: true,
     max_tokens: 8000,

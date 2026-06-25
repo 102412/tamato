@@ -6,456 +6,345 @@
 <title>Tamato — Build. Design. Own.</title>
 <meta name="description" content="The only AI platform where every site is unique, every file is yours, and every tool works together.">
 <link rel="icon" href="/icon.png?v=2">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,300&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/global.css">
-<link rel="stylesheet" href="/css/hub.css">
+<link rel="stylesheet" href="/css/landing.css">
 </head>
-<body class="lp-body">
+<body class="landing-page">
 
-<!-- Fixed full-bleed background -->
-<div class="lp-bg" aria-hidden="true">
-  <div class="lp-bg-img"></div>
-  <div class="lp-bg-overlay"></div>
-</div>
-
-<!-- Film grain -->
-<div class="lp-grain" aria-hidden="true"></div>
-
-<!-- Navigation -->
-<nav class="lp-nav">
-  <a class="lp-nav-logo" href="/index.html">
-    <img src="/assets/wordmark-full.png" alt="Tamato" width="180" height="52">
-  </a>
-  <div class="lp-nav-actions">
-    <a class="tm-btn tm-btn-ghost tm-btn-sm" href="/login.html">Sign In</a>
-    <a class="tm-btn tm-btn-primary tm-btn-sm" href="/signup.html">Sign Up</a>
-    <button class="tm-btn tm-btn-text tm-btn-sm" id="adminBtn">Admin</button>
+<!-- NAV -->
+<nav class="tnav">
+  <a class="wordmark" href="/index.html"><span class="chrome-text">Tamat</span><span class="o-hot">o</span></a>
+  <div class="tnav-center">
+    <a href="#products">Products</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/help.html">Docs</a>
+    <a href="/help.html">Blog</a>
+  </div>
+  <div class="tnav-right">
+    <button class="tnav-admin" id="adminBtn">Admin</button>
+    <a class="btn btn-chrome" href="/login.html">Sign in</a>
+    <a class="btn btn-hot" href="/signup.html">Get started free</a>
   </div>
 </nav>
 
 <!-- HERO -->
-<header class="lp-hero" id="hero">
-  <div class="lp-hero-orbs" aria-hidden="true">
-    <div class="lp-orb lp-orb-1"></div>
-    <div class="lp-orb lp-orb-2"></div>
-    <div class="lp-orb lp-orb-3"></div>
+<header class="hero">
+  <div class="leak leak-red" aria-hidden="true"></div>
+  <div class="leak leak-purple" aria-hidden="true"></div>
+  <div class="leak leak-blue" aria-hidden="true"></div>
+
+  <div class="hero-pill glass"><span class="dot"></span> Megisto 4.8 — now available</div>
+
+  <h1>
+    <span class="l1">Build.</span>
+    <span class="l2">Design.</span>
+    <span class="l3">Own.</span>
+  </h1>
+  <p>The only AI platform where every site is unique, every file is yours, and every tool works together.</p>
+  <div class="hero-cta">
+    <a class="btn btn-hot" href="/signup.html">Start for free</a>
+    <a class="btn btn-chrome" href="#products">See the products ↓</a>
   </div>
-  <div class="lp-hero-inner">
-    <div class="lp-hero-badge tm-enter">
-      <span class="lp-hero-badge-dot"></span>
-      AI Platform
+
+  <div class="mock-browser glass">
+    <div class="mock-chrome">
+      <div class="mock-dot" style="background:#FF5F57"></div>
+      <div class="mock-dot" style="background:#FFBD2E"></div>
+      <div class="mock-dot" style="background:#28CA41"></div>
     </div>
-    <h1 class="tm-enter">Build.<br>Design.<br>Own.</h1>
-    <p class="tm-enter">The only AI platform where every site is unique, every file is yours, and every tool works together.</p>
-    <div class="lp-hero-cta tm-enter">
-      <a class="tm-btn tm-btn-primary tm-btn-lg" href="/signup.html">Start for free</a>
-      <a class="tm-btn tm-btn-glass tm-btn-lg" href="#features">See the products ↓</a>
+    <div class="mock-body">
+      <div class="mock-tabs">
+        <span class="on">Overview</span><span>Build</span><span>AI</span><span>Studio</span>
+      </div>
+      <div class="mock-toprow">
+        <span style="font-size:12px;color:rgba(255,255,255,0.4)">Welcome back</span>
+        <span class="mock-chip">🍅 4,820 credits</span>
+      </div>
+      <div class="mock-cards">
+        <div class="mock-card"></div>
+        <div class="mock-card"></div>
+        <div class="mock-card"></div>
+      </div>
+      <div class="mock-fade"></div>
     </div>
-  </div>
-  <div class="lp-scroll-cue" id="scrollCue">
-    <span>Scroll</span>
-    <svg width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="1" y="1" width="16" height="26" rx="8" stroke="currentColor" stroke-opacity="0.3" stroke-width="1.5"/>
-      <circle class="lp-mouse-dot" cx="9" cy="7" r="2.5" fill="currentColor"/>
-    </svg>
   </div>
 </header>
 
-<!-- GLASS PRODUCTS SECTION -->
-<section class="lp-glass-section" id="features">
-  <div class="lp-glass-header">
-    <span class="lp-section-eyebrow">Three tools. One currency.</span>
-    <h2>Everything you need to build on the web.</h2>
-  </div>
-  <div class="lp-glass-grid">
+<div class="wrap"><div class="hr-chrome"></div></div>
 
-    <div class="lp-glass-card">
-      <div class="lgc-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="3" width="20" height="14" rx="2"/>
-          <path d="M8 21h8M12 17v4"/>
-        </svg>
+<!-- HOW IT WORKS — scrollytelling -->
+<section class="how" id="how">
+  <div class="how-grid">
+    <div class="how-spine" aria-hidden="true"></div>
+    <div class="how-left">
+      <h2 class="chrome-text">How it works</h2>
+      <p>From a sentence to a shippable site — in four steps, in real time.</p>
+      <div class="how-dots" id="howDots">
+        <div class="how-dot active" data-dot="1"><span class="n">01</span> You describe it</div>
+        <div class="how-dot" data-dot="2"><span class="n">02</span> APIs fire instantly</div>
+        <div class="how-dot" data-dot="3"><span class="n">03</span> Watch it build live</div>
+        <div class="how-dot" data-dot="4"><span class="n">04</span> Download. Own it.</div>
       </div>
-      <div class="lgc-slug">/build</div>
-      <h3>AI Website Builder</h3>
-      <p>Unique site every time — desktop + mobile. Export clean HTML, host anywhere, forever.</p>
-      <a class="lgc-link" href="/build/">Open Build →</a>
     </div>
 
-    <div class="lp-glass-card">
-      <div class="lgc-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-        </svg>
-      </div>
-      <div class="lgc-slug">/ai</div>
-      <h3>AI Chat Assistant</h3>
-      <p>Live interactive previews inline. @ mention your own sites directly in conversation.</p>
-      <a class="lgc-link" href="/ai/">Open AI →</a>
+    <div class="how-right">
+
+      <article class="stage" data-stage="1">
+        <div class="stage-eyebrow">01 / describe</div>
+        <h3>You describe it.</h3>
+        <p>Type your prompt into Tamato /build. No wireframes. No templates. Just describe the site and hit build.</p>
+        <div class="stage-visual glass">
+          <div class="s1-prompt">"A landing page for a specialty coffee roaster in Lisbon"<span class="s1-cursor"></span></div>
+          <div class="s1-row">
+            <span class="s1-model">METRIO 4.6</span>
+            <span class="btn btn-hot" style="font-size:11px;padding:8px 16px">Build now →</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="stage" data-stage="2">
+        <div class="stage-eyebrow">02 / route</div>
+        <h3>APIs fire instantly.</h3>
+        <p>Your prompt routes through Cloudflare to Anthropic's Claude API. Code streams back in real time. Groq powers the free tier via Llama.</p>
+        <div class="stage-visual glass">
+          <div class="s2-flow">
+            <div class="s2-row">
+              <div class="s2-node">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="#FF4D2A" stroke-width="1.6"/></svg>
+                Tamato
+              </div>
+              <div class="s2-pulse"></div>
+              <div class="s2-node">
+                <svg viewBox="0 0 24 24" fill="#F98231"><path d="M18.5 10.5h-.4A5.6 5.6 0 0 0 7.2 9.1 4 4 0 0 0 6 17h12.3a3.7 3.7 0 0 0 .2-6.5z"/></svg>
+                Cloudflare
+              </div>
+              <div class="s2-pulse"></div>
+              <div class="s2-node">
+                <svg viewBox="0 0 24 24" fill="#CC5C47"><path d="M17.304 3.541 12.836 15.87h2.845l.823-2.425h4.684l.824 2.425H24L19.533 3.541h-2.229zm-.684 7.564 1.496-4.413 1.495 4.413h-2.991zM6.696 3.541 2.229 15.87H0l4.467-12.329h2.229zm-1.142 0H7.84l4.467 12.329H9.462L8.64 13.445H3.954l-.823 2.425H.286L4.753 3.541h.801z"/></svg>
+                Anthropic
+              </div>
+            </div>
+            <div class="s2-row">
+              <div class="s2-node">
+                <svg viewBox="0 0 24 24" fill="#3ECF8E"><path d="M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C.101 12.957.759 14.303 1.9 14.303h9.099l.016 8.661c.015.986 1.26 1.41 1.874.637l9.262-11.652c.663-.907.005-2.253-1.136-2.253h-9.099L11.9 1.036z"/></svg>
+                Supabase
+              </div>
+              <div class="s2-pulse"></div>
+              <div class="s2-node">
+                <svg viewBox="0 0 60 24" fill="#00C878"><text x="0" y="18" font-size="18" font-weight="700" font-family="sans-serif">groq</text></svg>
+                Groq (free)
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="stage" data-stage="3">
+        <div class="stage-eyebrow">03 / generate</div>
+        <h3>Watch it build live.</h3>
+        <p>HTML, CSS, and JS appear in real time as the model writes. You watch your site assemble itself in the browser.</p>
+        <div class="stage-visual glass">
+          <div class="s3-code" id="s3Code">&lt;<span class="tag">!DOCTYPE</span> html&gt;
+&lt;<span class="tag">html</span> <span class="attr">lang</span>="en"&gt;
+&lt;<span class="tag">head</span>&gt;
+  &lt;<span class="tag">style</span>&gt;
+    .hero { background: #0C0C0D; }<span class="s1-cursor"></span></div>
+          <div class="s3-counter" id="s3Counter">generating · 847 tokens</div>
+        </div>
+      </article>
+
+      <article class="stage" data-stage="4">
+        <div class="stage-eyebrow">04 / own it</div>
+        <h3>Download. Own it forever.</h3>
+        <p>Clean HTML, CSS, and JS. No dependencies, no frameworks, no Tamato lock-in. Host anywhere. Give it to a client. It's yours.</p>
+        <div class="stage-visual glass">
+          <div class="s4-files">
+            <div class="s4-file"><div class="name">index.html</div><div class="tag">yours</div></div>
+            <div class="s4-file"><div class="name">style.css</div><div class="tag">yours</div></div>
+            <div class="s4-file"><div class="name">script.js</div><div class="tag">yours</div></div>
+          </div>
+          <div class="s4-zip">↓ site.zip <span>Download</span></div>
+        </div>
+      </article>
+
     </div>
+  </div>
+</section>
 
-    <div class="lp-glass-card">
-      <div class="lgc-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-        </svg>
-      </div>
-      <div class="lgc-slug">/studio</div>
-      <h3>Design System Extractor</h3>
-      <p>Turn any image into build-ready design tokens. Drop into Build or AI instantly.</p>
-      <a class="lgc-link" href="/studio/">Open Studio →</a>
+<div class="wrap"><div class="hr-chrome"></div></div>
+
+<!-- LOGOS STRIP -->
+<section class="logos">
+  <div class="logos-label">Powered by world-class infrastructure</div>
+  <div class="logos-row">
+    <div class="logo-item" title="Anthropic" style="color:#CC5C47">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.304 3.541 12.836 15.87h2.845l.823-2.425h4.684l.824 2.425H24L19.533 3.541h-2.229zm-.684 7.564 1.496-4.413 1.495 4.413h-2.991zM6.696 3.541 2.229 15.87H0l4.467-12.329h2.229zm-1.142 0H7.84l4.467 12.329H9.462L8.64 13.445H3.954l-.823 2.425H.286L4.753 3.541h.801z"/></svg>
     </div>
-
+    <div class="logo-item" title="Groq" style="color:#00C878">
+      <svg viewBox="0 0 60 24" fill="currentColor"><text x="0" y="18" font-size="18" font-weight="700" font-family="sans-serif">groq</text></svg>
+    </div>
+    <div class="logo-item" title="Vercel" style="color:rgba(255,255,255,0.8)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L24 22H0L12 1z"/></svg>
+    </div>
+    <div class="logo-item" title="Supabase" style="color:#3ECF8E">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C.101 12.957.759 14.303 1.9 14.303h9.099l.016 8.661c.015.986 1.26 1.41 1.874.637l9.262-11.652c.663-.907.005-2.253-1.136-2.253h-9.099L11.9 1.036z"/></svg>
+    </div>
+    <div class="logo-item" title="Cloudflare" style="color:#F98231">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.5 10.5h-.4A5.6 5.6 0 0 0 7.2 9.1 4 4 0 0 0 6 17h12.3a3.7 3.7 0 0 0 .2-6.5z"/></svg>
+    </div>
+    <div class="logo-item" title="GitHub" style="color:rgba(255,255,255,0.85)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+    </div>
+    <div class="logo-item" title="Stripe" style="color:#635BFF">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/></svg>
+    </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════
-     FLOATING PROJECT CARDS
-     10 fictional brands — each a distinct visual identity.
-═══════════════════════════════════════════════════ -->
-<section class="lp-projects">
-  <h2 class="lp-proj-head">Every site, structurally unique</h2>
-  <p class="lp-proj-sub">No templates. No two Tamato sites ever look the same.</p>
+<div class="wrap"><div class="hr-chrome"></div></div>
 
-  <div class="lp-belts">
+<!-- PRODUCT SECTIONS -->
+<section id="products">
 
-    <div class="lp-belt lp-belt-ltr">
-
-      <div class="pc-card" style="border-color:rgba(212,168,112,0.2)">
-        <div class="pc-bg" style="background:linear-gradient(155deg,#180E07 55%,#2C1710 100%)"></div>
-        <div class="pc-content" style="justify-content:flex-end">
-          <div style="font-size:8px;letter-spacing:0.14em;color:#8A6030;text-transform:uppercase;font-family:Georgia,serif;margin-bottom:5px">Single Origin · Est. 2019</div>
-          <div style="font-family:Georgia,serif;font-size:22px;font-weight:700;color:#E8D5B0;line-height:1.08;margin-bottom:6px">Origin<br>Collective</div>
-          <div style="font-size:9px;color:#7A5828;margin-bottom:11px">Specialty coffee, sourced honestly.</div>
-          <div style="display:inline-block;border:1px solid rgba(212,168,112,0.4);color:#D4A870;font-size:8px;padding:4px 10px;border-radius:2px;letter-spacing:0.06em;width:fit-content">Shop Roasts →</div>
-        </div>
-      </div>
-
-      <div class="pc-card" style="border-color:rgba(20,20,18,0.4)">
-        <div class="pc-bg" style="background:#EDEBE6"></div>
-        <div class="pc-content" style="justify-content:space-between">
-          <div>
-            <div style="font-size:7px;letter-spacing:0.22em;color:#999;text-transform:uppercase;font-family:Arial,sans-serif">Architecture · Interior</div>
-            <div style="width:100%;height:1px;background:#C8C4BE;margin:8px 0"></div>
-          </div>
-          <div style="font-family:Arial,sans-serif;font-size:27px;font-weight:900;color:#0A0A09;line-height:0.92;letter-spacing:-0.035em;text-transform:uppercase">BLANC<br>STUDIO</div>
-          <div style="display:flex;align-items:center;justify-content:space-between">
-            <div style="font-size:8px;color:#888">Paris · London · Tokyo</div>
-            <div style="font-size:8px;color:#0A0A09;border-bottom:1px solid #0A0A09;padding-bottom:1px;letter-spacing:0.04em">View Work</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pc-card" style="border-color:rgba(196,112,72,0.3)">
-        <div class="pc-bg" style="background:#B55E3C"></div>
-        <div class="pc-bg" style="background:linear-gradient(0deg,rgba(0,0,0,0.35) 0%,transparent 55%);position:absolute;inset:0"></div>
-        <div class="pc-content" style="justify-content:flex-end">
-          <div style="font-size:8px;color:#E8C9A8;font-style:italic;font-family:Georgia,serif;margin-bottom:3px">Artisan Bakery · Portland</div>
-          <div style="font-family:Georgia,serif;font-size:25px;font-style:italic;color:#F5EDD9;line-height:1.05;margin-bottom:7px">Levain<br><span style="font-size:14px;font-weight:400">& Co.</span></div>
-          <div style="font-size:9px;color:#C4956A">Sourdough, pastry & things that matter.</div>
-        </div>
-      </div>
-
-      <div class="pc-card" style="border-color:rgba(57,255,20,0.15)">
-        <div class="pc-bg" style="background:#040404"></div>
-        <div class="pc-content" style="justify-content:space-between">
-          <div style="font-size:7px;letter-spacing:0.2em;color:#39FF14;text-transform:uppercase;font-family:monospace">Performance Training</div>
-          <div>
-            <div style="font-family:Arial,sans-serif;font-size:28px;font-weight:900;color:#F5F5F4;line-height:0.88;letter-spacing:-0.03em;text-transform:uppercase">APEX<br>TRAINING</div>
-            <div style="width:36px;height:2px;background:#39FF14;margin:9px 0"></div>
-            <div style="font-size:8px;color:#3A3A38;text-transform:uppercase;letter-spacing:0.1em">No limits. No excuses.</div>
-          </div>
-          <div style="background:#39FF14;color:#000;font-size:8px;font-weight:800;padding:4px 11px;text-transform:uppercase;letter-spacing:0.1em;border-radius:2px;width:fit-content">Join Now</div>
-        </div>
-      </div>
-
-      <div class="pc-card" style="border-color:rgba(196,154,138,0.2)">
-        <div class="pc-bg" style="background:linear-gradient(135deg,#F7ECEA 0%,#EDE0DC 100%)"></div>
-        <div class="pc-content" style="justify-content:center;align-items:flex-start">
-          <div style="font-size:7px;letter-spacing:0.2em;color:#C49A8A;text-transform:uppercase;margin-bottom:9px">Skincare Rituels</div>
-          <div style="font-family:Georgia,serif;font-size:30px;font-weight:300;color:#3A2822;letter-spacing:-0.01em;line-height:1;margin-bottom:5px;font-style:italic">Lumière</div>
-          <div style="width:26px;height:1px;background:#C49A8A;margin-bottom:8px"></div>
-          <div style="font-size:8px;color:#9A7A72;letter-spacing:0.06em">Glow from within.</div>
-        </div>
-      </div>
-
-      <!-- duplicates for seamless loop -->
-      <div class="pc-card" style="border-color:rgba(212,168,112,0.2)">
-        <div class="pc-bg" style="background:linear-gradient(155deg,#180E07 55%,#2C1710 100%)"></div>
-        <div class="pc-content" style="justify-content:flex-end">
-          <div style="font-size:8px;letter-spacing:0.14em;color:#8A6030;text-transform:uppercase;font-family:Georgia,serif;margin-bottom:5px">Single Origin · Est. 2019</div>
-          <div style="font-family:Georgia,serif;font-size:22px;font-weight:700;color:#E8D5B0;line-height:1.08;margin-bottom:6px">Origin<br>Collective</div>
-          <div style="font-size:9px;color:#7A5828;margin-bottom:11px">Specialty coffee, sourced honestly.</div>
-          <div style="display:inline-block;border:1px solid rgba(212,168,112,0.4);color:#D4A870;font-size:8px;padding:4px 10px;border-radius:2px;letter-spacing:0.06em;width:fit-content">Shop Roasts →</div>
-        </div>
-      </div>
-      <div class="pc-card" style="border-color:rgba(20,20,18,0.4)">
-        <div class="pc-bg" style="background:#EDEBE6"></div>
-        <div class="pc-content" style="justify-content:space-between">
-          <div>
-            <div style="font-size:7px;letter-spacing:0.22em;color:#999;text-transform:uppercase;font-family:Arial,sans-serif">Architecture · Interior</div>
-            <div style="width:100%;height:1px;background:#C8C4BE;margin:8px 0"></div>
-          </div>
-          <div style="font-family:Arial,sans-serif;font-size:27px;font-weight:900;color:#0A0A09;line-height:0.92;letter-spacing:-0.035em;text-transform:uppercase">BLANC<br>STUDIO</div>
-          <div style="display:flex;align-items:center;justify-content:space-between">
-            <div style="font-size:8px;color:#888">Paris · London · Tokyo</div>
-            <div style="font-size:8px;color:#0A0A09;border-bottom:1px solid #0A0A09;padding-bottom:1px;letter-spacing:0.04em">View Work</div>
-          </div>
-        </div>
-      </div>
-      <div class="pc-card" style="border-color:rgba(196,112,72,0.3)">
-        <div class="pc-bg" style="background:#B55E3C"></div>
-        <div class="pc-bg" style="background:linear-gradient(0deg,rgba(0,0,0,0.35) 0%,transparent 55%);position:absolute;inset:0"></div>
-        <div class="pc-content" style="justify-content:flex-end">
-          <div style="font-size:8px;color:#E8C9A8;font-style:italic;font-family:Georgia,serif;margin-bottom:3px">Artisan Bakery · Portland</div>
-          <div style="font-family:Georgia,serif;font-size:25px;font-style:italic;color:#F5EDD9;line-height:1.05;margin-bottom:7px">Levain<br><span style="font-size:14px;font-weight:400">& Co.</span></div>
-          <div style="font-size:9px;color:#C4956A">Sourdough, pastry & things that matter.</div>
-        </div>
-      </div>
-      <div class="pc-card" style="border-color:rgba(57,255,20,0.15)">
-        <div class="pc-bg" style="background:#040404"></div>
-        <div class="pc-content" style="justify-content:space-between">
-          <div style="font-size:7px;letter-spacing:0.2em;color:#39FF14;text-transform:uppercase;font-family:monospace">Performance Training</div>
-          <div>
-            <div style="font-family:Arial,sans-serif;font-size:28px;font-weight:900;color:#F5F5F4;line-height:0.88;letter-spacing:-0.03em;text-transform:uppercase">APEX<br>TRAINING</div>
-            <div style="width:36px;height:2px;background:#39FF14;margin:9px 0"></div>
-            <div style="font-size:8px;color:#3A3A38;text-transform:uppercase;letter-spacing:0.1em">No limits. No excuses.</div>
-          </div>
-          <div style="background:#39FF14;color:#000;font-size:8px;font-weight:800;padding:4px 11px;text-transform:uppercase;letter-spacing:0.1em;border-radius:2px;width:fit-content">Join Now</div>
-        </div>
-      </div>
-      <div class="pc-card" style="border-color:rgba(196,154,138,0.2)">
-        <div class="pc-bg" style="background:linear-gradient(135deg,#F7ECEA 0%,#EDE0DC 100%)"></div>
-        <div class="pc-content" style="justify-content:center;align-items:flex-start">
-          <div style="font-size:7px;letter-spacing:0.2em;color:#C49A8A;text-transform:uppercase;margin-bottom:9px">Skincare Rituels</div>
-          <div style="font-family:Georgia,serif;font-size:30px;font-weight:300;color:#3A2822;letter-spacing:-0.01em;line-height:1;margin-bottom:5px;font-style:italic">Lumière</div>
-          <div style="width:26px;height:1px;background:#C49A8A;margin-bottom:8px"></div>
-          <div style="font-size:8px;color:#9A7A72;letter-spacing:0.06em">Glow from within.</div>
-        </div>
-      </div>
-
-    </div><!-- /belt-ltr -->
-
-    <div class="lp-belt lp-belt-rtl">
-
-      <div class="pc-card" style="border-color:rgba(212,160,23,0.18)">
-        <div class="pc-bg" style="background:#0C1825"></div>
-        <div class="pc-content" style="justify-content:space-between">
-          <div style="display:flex;align-items:center;justify-content:space-between">
-            <div style="font-size:7px;letter-spacing:0.14em;color:#D4A020;text-transform:uppercase;font-family:Georgia,serif">Vinyl · Music · NYC</div>
-            <div style="width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(212,160,32,0.4)"></div>
-          </div>
-          <div>
-            <div style="font-family:Georgia,serif;font-size:21px;font-weight:700;color:#E8D070;line-height:1;letter-spacing:-0.01em">Groove<br>Theory</div>
-            <div style="font-size:8px;color:#3A4A5A;margin-top:5px;letter-spacing:0.04em">The record shop that still matters</div>
-          </div>
-          <div style="display:flex;gap:6px">
-            <div style="background:rgba(212,160,23,0.12);border:1px solid rgba(212,160,23,0.28);color:#D4A020;font-size:7px;padding:3px 8px;border-radius:2px;letter-spacing:0.04em">New Arrivals</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pc-card" style="border-color:rgba(100,130,80,0.2)">
-        <div class="pc-bg" style="background:linear-gradient(155deg,#1A3418 0%,#253F22 100%)"></div>
-        <div class="pc-content" style="justify-content:space-between">
-          <div style="font-size:7px;letter-spacing:0.14em;color:#7A9A68;text-transform:uppercase">Landscape Design</div>
-          <div>
-            <div style="font-family:Georgia,serif;font-size:22px;color:#C5B9A8;font-weight:600;line-height:1.1">Stone<br><span style="font-weight:300;font-size:18px">&amp; Fern</span></div>
-            <div style="width:22px;height:1px;background:#7A9A68;margin:7px 0"></div>
-            <div style="font-size:8px;color:#4A6A40">Gardens designed to endure.</div>
-          </div>
-          <div style="font-size:8px;color:#7A9A68;border-bottom:1px solid rgba(122,154,104,0.5);padding-bottom:1px;width:fit-content;letter-spacing:0.04em">Request Consultation →</div>
-        </div>
-      </div>
-
-      <div class="pc-card" style="border-color:rgba(201,168,76,0.18)">
-        <div class="pc-bg" style="background:#0E0E0D"></div>
-        <div class="pc-content" style="justify-content:space-between">
-          <div style="display:flex;align-items:center;gap:6px">
-            <div style="width:14px;height:1px;background:#C9A84C"></div>
-            <div style="font-size:7px;letter-spacing:0.2em;color:#C9A84C;text-transform:uppercase">Est. 1987</div>
-          </div>
-          <div style="text-align:center">
-            <div style="font-family:Georgia,serif;font-size:12px;color:#C9A84C;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:3px">Hargrove</div>
-            <div style="font-size:8px;color:#504030;letter-spacing:0.2em;text-transform:uppercase">Legal Partners</div>
-            <div style="width:28px;height:1px;background:rgba(201,168,76,0.4);margin:7px auto"></div>
-            <div style="font-family:Georgia,serif;font-size:9px;color:#6A5A38;font-style:italic">Integrity. Counsel. Resolution.</div>
-          </div>
-          <div style="text-align:center;font-size:7px;color:#C9A84C;letter-spacing:0.12em;text-transform:uppercase">Schedule Consultation</div>
-        </div>
-      </div>
-
-      <div class="pc-card" style="border-color:rgba(255,100,50,0.3)">
-        <div class="pc-bg" style="background:linear-gradient(135deg,#FF6B35 0%,#FF8C58 100%)"></div>
-        <div class="pc-content" style="justify-content:space-between">
-          <div style="display:flex;gap:5px">
-            <div style="width:10px;height:10px;border-radius:50%;background:#FFE135"></div>
-            <div style="width:10px;height:10px;border-radius:50%;background:#00C8FF"></div>
-            <div style="width:10px;height:10px;border-radius:50%;background:#FF3E9A"></div>
-          </div>
-          <div>
-            <div style="font-size:27px;font-weight:900;color:#FFF;letter-spacing:-0.025em;line-height:1;font-family:Arial,sans-serif">Wobbly<br><span style="color:#FFE135">&amp; Co.</span></div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.65);margin-top:5px">Toys that spark big imagination.</div>
-          </div>
-          <div style="background:#FFE135;color:#1A0800;font-size:8px;font-weight:800;padding:5px 12px;border-radius:20px;width:fit-content;letter-spacing:0.04em">Shop Now!</div>
-        </div>
-      </div>
-
-      <div class="pc-card" style="border-color:rgba(196,154,42,0.18)">
-        <div class="pc-bg" style="background:linear-gradient(155deg,#0C0408 0%,#180A10 100%)"></div>
-        <div class="pc-content" style="justify-content:center;align-items:center;text-align:center">
-          <div style="font-size:7px;letter-spacing:0.22em;color:#6A4810;text-transform:uppercase;margin-bottom:10px">Craft Cocktails</div>
-          <div style="font-family:Georgia,serif;font-size:20px;color:#C49A2A;font-style:italic;line-height:1.1;margin-bottom:3px">Clover</div>
-          <div style="font-size:7px;color:#4A3808;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:10px">&amp; Brass</div>
-          <div style="width:36px;height:1px;background:rgba(196,154,42,0.35);margin:0 auto 10px"></div>
-          <div style="font-size:8px;color:#5A3A10;letter-spacing:0.05em;font-style:italic;font-family:Georgia,serif">Where the night begins</div>
-        </div>
-      </div>
-
-      <!-- duplicates for seamless loop -->
-      <div class="pc-card" style="border-color:rgba(212,160,23,0.18)">
-        <div class="pc-bg" style="background:#0C1825"></div>
-        <div class="pc-content" style="justify-content:space-between">
-          <div style="display:flex;align-items:center;justify-content:space-between">
-            <div style="font-size:7px;letter-spacing:0.14em;color:#D4A020;text-transform:uppercase;font-family:Georgia,serif">Vinyl · Music · NYC</div>
-            <div style="width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(212,160,32,0.4)"></div>
-          </div>
-          <div>
-            <div style="font-family:Georgia,serif;font-size:21px;font-weight:700;color:#E8D070;line-height:1;letter-spacing:-0.01em">Groove<br>Theory</div>
-            <div style="font-size:8px;color:#3A4A5A;margin-top:5px;letter-spacing:0.04em">The record shop that still matters</div>
-          </div>
-          <div style="display:flex;gap:6px">
-            <div style="background:rgba(212,160,23,0.12);border:1px solid rgba(212,160,23,0.28);color:#D4A020;font-size:7px;padding:3px 8px;border-radius:2px;letter-spacing:0.04em">New Arrivals</div>
-          </div>
-        </div>
-      </div>
-      <div class="pc-card" style="border-color:rgba(100,130,80,0.2)">
-        <div class="pc-bg" style="background:linear-gradient(155deg,#1A3418 0%,#253F22 100%)"></div>
-        <div class="pc-content" style="justify-content:space-between">
-          <div style="font-size:7px;letter-spacing:0.14em;color:#7A9A68;text-transform:uppercase">Landscape Design</div>
-          <div>
-            <div style="font-family:Georgia,serif;font-size:22px;color:#C5B9A8;font-weight:600;line-height:1.1">Stone<br><span style="font-weight:300;font-size:18px">&amp; Fern</span></div>
-            <div style="width:22px;height:1px;background:#7A9A68;margin:7px 0"></div>
-            <div style="font-size:8px;color:#4A6A40">Gardens designed to endure.</div>
-          </div>
-          <div style="font-size:8px;color:#7A9A68;border-bottom:1px solid rgba(122,154,104,0.5);padding-bottom:1px;width:fit-content;letter-spacing:0.04em">Request Consultation →</div>
-        </div>
-      </div>
-      <div class="pc-card" style="border-color:rgba(201,168,76,0.18)">
-        <div class="pc-bg" style="background:#0E0E0D"></div>
-        <div class="pc-content" style="justify-content:space-between">
-          <div style="display:flex;align-items:center;gap:6px">
-            <div style="width:14px;height:1px;background:#C9A84C"></div>
-            <div style="font-size:7px;letter-spacing:0.2em;color:#C9A84C;text-transform:uppercase">Est. 1987</div>
-          </div>
-          <div style="text-align:center">
-            <div style="font-family:Georgia,serif;font-size:12px;color:#C9A84C;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:3px">Hargrove</div>
-            <div style="font-size:8px;color:#504030;letter-spacing:0.2em;text-transform:uppercase">Legal Partners</div>
-            <div style="width:28px;height:1px;background:rgba(201,168,76,0.4);margin:7px auto"></div>
-            <div style="font-family:Georgia,serif;font-size:9px;color:#6A5A38;font-style:italic">Integrity. Counsel. Resolution.</div>
-          </div>
-          <div style="text-align:center;font-size:7px;color:#C9A84C;letter-spacing:0.12em;text-transform:uppercase">Schedule Consultation</div>
-        </div>
-      </div>
-      <div class="pc-card" style="border-color:rgba(255,100,50,0.3)">
-        <div class="pc-bg" style="background:linear-gradient(135deg,#FF6B35 0%,#FF8C58 100%)"></div>
-        <div class="pc-content" style="justify-content:space-between">
-          <div style="display:flex;gap:5px">
-            <div style="width:10px;height:10px;border-radius:50%;background:#FFE135"></div>
-            <div style="width:10px;height:10px;border-radius:50%;background:#00C8FF"></div>
-            <div style="width:10px;height:10px;border-radius:50%;background:#FF3E9A"></div>
-          </div>
-          <div>
-            <div style="font-size:27px;font-weight:900;color:#FFF;letter-spacing:-0.025em;line-height:1;font-family:Arial,sans-serif">Wobbly<br><span style="color:#FFE135">&amp; Co.</span></div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.65);margin-top:5px">Toys that spark big imagination.</div>
-          </div>
-          <div style="background:#FFE135;color:#1A0800;font-size:8px;font-weight:800;padding:5px 12px;border-radius:20px;width:fit-content;letter-spacing:0.04em">Shop Now!</div>
-        </div>
-      </div>
-      <div class="pc-card" style="border-color:rgba(196,154,42,0.18)">
-        <div class="pc-bg" style="background:linear-gradient(155deg,#0C0408 0%,#180A10 100%)"></div>
-        <div class="pc-content" style="justify-content:center;align-items:center;text-align:center">
-          <div style="font-size:7px;letter-spacing:0.22em;color:#6A4810;text-transform:uppercase;margin-bottom:10px">Craft Cocktails</div>
-          <div style="font-family:Georgia,serif;font-size:20px;color:#C49A2A;font-style:italic;line-height:1.1;margin-bottom:3px">Clover</div>
-          <div style="font-size:7px;color:#4A3808;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:10px">&amp; Brass</div>
-          <div style="width:36px;height:1px;background:rgba(196,154,42,0.35);margin:0 auto 10px"></div>
-          <div style="font-size:8px;color:#5A3A10;letter-spacing:0.05em;font-style:italic;font-family:Georgia,serif">Where the night begins</div>
-        </div>
-      </div>
-
-    </div><!-- /belt-rtl -->
-  </div><!-- /lp-belts -->
-</section>
-
-<!-- SHOWCASE -->
-<section class="lp-section">
-  <h2>Three tools. One currency.</h2>
-  <p class="lead">Everything lives at tamato.design — one login, one credit balance, one design language.</p>
-  <div class="lp-feature-grid">
-    <div class="lp-feature"><div class="slug">/build</div><h4>Unique every time</h4><p>No templates, ever. Each generation produces a structurally different site with real content.</p></div>
-    <div class="lp-feature"><div class="slug">/ai</div><h4>Live inline preview</h4><p>When the AI writes a site, it renders right in the conversation — interactive, not a screenshot.</p></div>
-    <div class="lp-feature"><div class="slug">/studio</div><h4>Extract &amp; export</h4><p>Upload a design, get tokens for color, type, spacing, motion — exported as a ready-to-use prompt.</p></div>
+  <div class="prod scroll-reveal">
+    <div>
+      <div class="eyebrow">/build</div>
+      <h2 class="chrome-text">AI website builder that ships real code.</h2>
+      <p>Unique site every time — desktop and mobile. Export clean HTML, host anywhere, forever.</p>
+    </div>
+    <div class="prod-mock glass">
+      <div class="pm-build-input">"A portfolio site for a wedding photographer"<span class="s1-cursor"></span></div>
+      <div class="pm-build-zip">↓ site.zip ready</div>
+    </div>
   </div>
+
+  <div class="wrap"><div class="hr-chrome"></div></div>
+
+  <div class="prod rev scroll-reveal">
+    <div>
+      <div class="eyebrow">/ai</div>
+      <h2 class="chrome-text">Your AI. Four models. One interface.</h2>
+      <p>From Pythm Mini on the free tier to Megisto 4.8 at the frontier.</p>
+    </div>
+    <div class="prod-mock glass">
+      <div class="pm-chat-top"><span class="pm-chat-label">MEGISTO 4.8</span></div>
+      <div class="pm-chat-line">Can you make the hero darker and add a CTA?</div>
+      <div class="pm-chat-line" style="color:var(--text-1)">Done — adjusted contrast and added a primary button<span class="s1-cursor"></span></div>
+    </div>
+  </div>
+
+  <div class="wrap"><div class="hr-chrome"></div></div>
+
+  <div class="prod scroll-reveal">
+    <div>
+      <div class="eyebrow">/studio</div>
+      <h2 class="chrome-text">Extract any brand's design system instantly.</h2>
+      <p>Drop a URL. Tamato pulls colors, fonts, spacing — ready to use in /build.</p>
+    </div>
+    <div class="prod-mock glass">
+      <div class="pm-studio-swatches">
+        <div class="pm-swatch" style="background:#FF4D2A"></div>
+        <div class="pm-swatch" style="background:#18181B"></div>
+        <div class="pm-swatch" style="background:#F4F4F5"></div>
+        <div class="pm-swatch" style="background:#0C0C0D"></div>
+      </div>
+      <div class="pm-studio-fonts">Plus Jakarta Sans · 800<br>Roboto Mono · 400<br>Spacing scale · 8px grid</div>
+    </div>
+  </div>
+
 </section>
 
-<!-- DIFFERENTIATORS -->
-<section class="lp-section">
-  <h2>They build it their way. You own it yours.</h2>
-  <div class="lp-feature-grid">
-    <div class="lp-feature"><h4>No lock-in</h4><p>Export clean HTML you can host anywhere. No platform required. Forever.</p></div>
-    <div class="lp-feature"><h4>Structurally unique</h4><p>Two people describing the same business get two completely different sites.</p></div>
-    <div class="lp-feature"><h4>Tools that talk</h4><p>Extract a design in Studio, send it to Build, refine it in AI — one continuous flow.</p></div>
-    <div class="lp-feature"><h4>One credit balance</h4><p>Spend the same credits across every product. No silos, no surprises.</p></div>
-  </div>
-</section>
+<div class="wrap"><div class="hr-chrome"></div></div>
 
 <!-- PRICING -->
-<section class="lp-section" id="pricing">
-  <h2>Pricing</h2>
-  <p class="lead">Start free. Pay once, subscribe, or top up credits — your call.</p>
-  <div class="price-grid">
-    <div class="price-col"><h3>Free</h3><div class="amt">$0</div><ul><li>All 3 products</li><li>Pythm-4.5o mini, unlimited chat</li><li>1 lifetime build · 1 design system</li></ul><a class="tm-btn tm-btn-ghost" href="/signup.html">Start free</a></div>
-    <div class="price-col"><h3>Single Site</h3><div class="amt">$14.97</div><ul><li>150 credits, never expire</li><li>Pythm 4.5 + Metrio 4.6</li><li>Unlimited export · no site cap</li></ul><a class="tm-btn tm-btn-ghost" href="/signup.html">Buy once</a></div>
-    <div class="price-col featured"><h3>Pro</h3><div class="amt">$29.99/mo</div><ul><li>500 credits/month</li><li>All models · Dev mode included</li><li>10 sites · 5 free Studio creations</li></ul><a class="tm-btn tm-btn-primary" href="/signup.html">Go Pro</a></div>
-    <div class="price-col"><h3>Agency</h3><div class="amt">$99.97+/mo</div><ul><li>3 / 5 / 10 seats</li><li>2,400 – 6,000 credits/month</li><li>Everything in Pro</li></ul><a class="tm-btn tm-btn-ghost" href="/pricing.html">Compare</a></div>
-    <div class="price-col"><h3>Brand Wide</h3><div class="amt">$107.97/mo</div><ul><li>600 AI + 800 Studio credits</li><li>All models, all features</li><li>Unlimited Pythm-4.5o mini</li></ul><a class="tm-btn tm-btn-ghost" href="/signup.html">Choose</a></div>
-  </div>
-  <p style="text-align:center;margin-top:var(--sp-6)"><a class="tm-btn tm-btn-text" href="/pricing.html">See full pricing &amp; credit packs →</a></p>
-</section>
+<section class="pricing" id="pricing">
+  <div class="eyebrow" style="text-align:center">Pricing</div>
+  <h2 class="chrome-text">One platform.<br>Every scale.</h2>
+  <p class="sub">Start free. Grow as you go. Own everything always.</p>
 
-<!-- MELIO -->
-<section class="lp-section">
-  <div class="lp-melio">
-    <div class="slug tm-mono" style="color:#B85C52;margin-bottom:var(--sp-2)">θεμέλιο · foundation</div>
-    <h2 style="margin-bottom:var(--sp-3)">Melio</h2>
-    <p class="lead" style="margin-bottom:var(--sp-6)">A piece of the foundation, given to those building theirs. Free for a year, reviewed personally.</p>
-    <a class="tm-btn tm-btn-primary tm-btn-lg" href="/melio.html">Apply for Melio</a>
+  <div class="price-grid">
+    <div class="price-card glass">
+      <h3>Free</h3>
+      <div class="price-amt">$0 <span>/ forever</span></div>
+      <ul>
+        <li>3 sites in /build</li>
+        <li>Pythm Mini (Llama via Groq)</li>
+        <li>10K credits/mo</li>
+        <li>Tamato watermark</li>
+      </ul>
+      <a class="btn btn-chrome" href="/signup.html">Start free</a>
+    </div>
+    <div class="price-card glass">
+      <h3>Single Site</h3>
+      <div class="price-amt">$14.97 <span>/ one time</span></div>
+      <ul>
+        <li>1 site export</li>
+        <li>No watermark</li>
+        <li>Pythm 4.5 access</li>
+        <li>Full code ownership</li>
+      </ul>
+      <a class="btn btn-chrome" href="/signup.html">Buy once</a>
+    </div>
+    <div class="price-card price-card glass featured">
+      <div class="price-badge">Most popular</div>
+      <h3>Pro</h3>
+      <div class="price-amt">$29.99 <span>/mo</span></div>
+      <ul>
+        <li>Unlimited sites</li>
+        <li>Metrio 4.6 + Pythm</li>
+        <li>500K credits/mo</li>
+        <li>Priority generation</li>
+        <li>Export anything</li>
+      </ul>
+      <a class="btn btn-hot" href="/signup.html">Start Pro</a>
+    </div>
+    <div class="price-card glass">
+      <h3>Agency</h3>
+      <div class="price-amt">$107.97 <span>/mo</span></div>
+      <ul>
+        <li>Everything in Pro</li>
+        <li>Megisto 4.8 (Opus)</li>
+        <li>2M credits/mo</li>
+        <li>Client seat management</li>
+        <li>White-label exports</li>
+      </ul>
+      <a class="btn btn-chrome" href="/pricing.html">Contact us</a>
+    </div>
+  </div>
+
+  <div class="tier-strip glass">
+    <div class="tier-col"><div class="name">PYTHM MINI</div><div class="plan">Free</div><div class="backend">Llama · Groq</div></div>
+    <div class="tier-col"><div class="name">PYTHM 4.5</div><div class="plan">Pro</div><div class="backend">Haiku</div></div>
+    <div class="tier-col"><div class="name">METRIO 4.6</div><div class="plan">Pro+</div><div class="backend">Sonnet</div></div>
+    <div class="tier-col"><div class="name">MEGISTO 4.8</div><div class="plan">Agency</div><div class="backend">Opus · Frontier</div></div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="lp-foot">
-  <div style="text-align:center">
-    <img src="/assets/wordmark.png" alt="Tamato" width="200" height="200" style="margin:0 auto var(--sp-3)">
-    <p class="tm-muted">Build. Design. Own.</p>
-    <div class="lp-foot-links">
-      <a href="/build/">Build</a><a href="/ai/">AI</a><a href="/studio/">Studio</a>
-      <a href="/pricing.html">Pricing</a><a href="/melio.html">Melio</a><a href="/api.html">API</a>
-      <a href="/help.html">Help</a><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a>
+<footer class="tfoot">
+  <div class="tfoot-row">
+    <a class="wordmark" href="/index.html"><span class="chrome-text">Tamat</span><span class="o-hot">o</span></a>
+    <div class="tfoot-links">
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/help.html">Docs</a>
+      <a href="/help.html">Status</a>
     </div>
+    <div class="tfoot-copy">© 2026 Tamato Design, Inc.</div>
   </div>
 </footer>
 
-<!-- ADMIN MODAL -->
-<div class="tm-modal-overlay tm-hidden" id="adminModal">
-  <div class="tm-modal" style="max-width:380px;position:relative">
-    <h2 class="tm-modal-title">Admin access</h2>
-    <p class="tm-modal-sub">Enter your access code.</p>
-    <input class="tm-input" type="password" id="adminCode" placeholder="Access code" autocomplete="off">
-    <div class="auth-error" id="adminErr"></div>
-    <div class="tm-row" style="margin-top:var(--sp-4);justify-content:flex-end">
-      <button class="tm-btn tm-btn-ghost" id="adminCancel">Cancel</button>
-      <button class="tm-btn tm-btn-primary" id="adminEnter">Enter</button>
+<!-- ADMIN MODAL (functionality preserved) -->
+<div class="tmodal-overlay tm-hidden" id="adminModal">
+  <div class="tmodal glass">
+    <h2>Admin access</h2>
+    <p class="sub">Enter your access code.</p>
+    <input type="password" id="adminCode" placeholder="Access code" autocomplete="off">
+    <div class="tmodal-err" id="adminErr"></div>
+    <div class="tmodal-actions">
+      <button class="btn btn-chrome" id="adminCancel">Cancel</button>
+      <button class="btn btn-hot" id="adminEnter">Enter</button>
     </div>
   </div>
 </div>

@@ -1,29 +1,10 @@
 /* ═══════════════════════════════════════════════════════════════════
    TAMATO — LANDING PAGE
-   Parallax background, hero fade, scroll-reveal glass cards, admin modal.
+   Scroll-reveal fades, "How it works" scrollytelling, admin modal.
 ═══════════════════════════════════════════════════════════════════ */
 import { ADMIN_CODES } from '/js/supabase.js';
 
-const bgImg     = document.querySelector('.lp-bg-img');
-const hero      = document.getElementById('hero');
-const scrollCue = document.getElementById('scrollCue');
-
-/* ── Parallax + hero fade ────────────────────────────────────────── */
-let ticking = false;
-window.addEventListener('scroll', () => {
-  if (ticking) return;
-  ticking = true;
-  requestAnimationFrame(() => {
-    const y  = window.scrollY;
-    const vh = window.innerHeight;
-    if (bgImg) bgImg.style.transform = `scale(1.08) translateY(${(y * 0.22).toFixed(1)}px)`;
-    if (hero)  hero.style.opacity    = Math.max(0, 1 - y / (vh * 0.62)).toFixed(3);
-    if (scrollCue) scrollCue.classList.toggle('hidden', y > 90);
-    ticking = false;
-  });
-}, { passive: true });
-
-/* ── Scroll-reveal for glass cards, features, pricing ──────────── */
+/* ── Scroll-reveal ───────────────────────────────────────────────── */
 const revealObs = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
@@ -31,20 +12,52 @@ const revealObs = new IntersectionObserver((entries) => {
       revealObs.unobserve(e.target);
     }
   });
-}, { threshold: 0.1 });
+}, { threshold: 0.15 });
+document.querySelectorAll('.scroll-reveal').forEach(el => revealObs.observe(el));
 
-['.lp-glass-grid', '.lp-feature-grid', '.price-grid'].forEach(sel => {
-  document.querySelectorAll(`${sel} > *`).forEach((el, i) => {
-    el.style.transitionDelay = `${i * 80}ms`;
-    revealObs.observe(el);
+/* ── How it works — active stage + dot sync ─────────────────────── */
+const stages = document.querySelectorAll('.stage');
+const dots = document.querySelectorAll('.how-dot');
+
+const stageObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    const n = e.target.dataset.stage;
+    if (e.isIntersecting) {
+      e.target.classList.add('active');
+      dots.forEach(d => d.classList.toggle('active', d.dataset.dot === n));
+    } else {
+      e.target.classList.remove('active');
+    }
   });
-});
+}, { threshold: 0.5 });
+stages.forEach(s => stageObs.observe(s));
 
-/* ── Admin modal ────────────────────────────────────────────────── */
+/* ── Stage 3 fake token counter ──────────────────────────────────── */
+const counterEl = document.getElementById('s3Counter');
+const stage3 = document.querySelector('.stage[data-stage="3"]');
+if (counterEl && stage3) {
+  let started = false;
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !started) {
+        started = true;
+        let n = 0;
+        const tick = setInterval(() => {
+          n += Math.floor(Math.random() * 60) + 20;
+          counterEl.textContent = `generating · ${n} tokens`;
+          if (n > 1200) clearInterval(tick);
+        }, 280);
+      }
+    });
+  }, { threshold: 0.4 });
+  counterObs.observe(stage3);
+}
+
+/* ── Admin modal ─────────────────────────────────────────────────── */
 const modal     = document.getElementById('adminModal');
 const codeInput = document.getElementById('adminCode');
 const adminErr  = document.getElementById('adminErr');
-const adminCard = modal.querySelector('.tm-modal');
+const adminCard = modal.querySelector('.tmodal');
 
 document.getElementById('adminBtn').addEventListener('click', () => {
   modal.classList.remove('tm-hidden');

@@ -116,8 +116,8 @@ body.landing-page {
 
 .landing-page .hero h1 {
   position: relative; z-index: 2;
-  font-size: clamp(44px, 7vw, 72px); font-weight: 800; letter-spacing: -0.05em; line-height: 0.92;
-  margin: 0 0 24px;
+  font-size: clamp(64px, 11vw, 132px); font-weight: 800; letter-spacing: -0.05em; line-height: 0.9;
+  margin: 0 0 28px;
 }
 .landing-page .hero h1 span { display: block; }
 .landing-page .hero h1 .l1 { background: linear-gradient(180deg, #fff 20%, rgba(255,255,255,0.32)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }

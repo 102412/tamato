@@ -21,6 +21,41 @@
   --mono: 'Roboto Mono', monospace;
 }
 
+/* ── Override the underlying design tokens themselves ─────────────
+   /build, /ai, /studio, and every hub.css component reference these
+   --tm-* variables directly. Redefining them at the same specificity
+   as global.css's :root[data-theme] blocks (plus !important) cascades
+   the black/glass system into every component automatically — no
+   need to chase every individual class. ────────────────────────── */
+:root[data-theme="dark"], :root[data-theme="light"], :root {
+  --tm-bg:           #000000 !important;
+  --tm-surface:      rgba(255,255,255,0.04) !important;
+  --tm-surface-2:    rgba(255,255,255,0.06) !important;
+  --tm-surface-3:    rgba(255,255,255,0.09) !important;
+  --tm-border:       rgba(255,255,255,0.09) !important;
+  --tm-border-2:     rgba(255,255,255,0.16) !important;
+  --tm-text:         #F4F4F5 !important;
+  --tm-text-2:       rgba(255,255,255,0.40) !important;
+  --tm-text-3:       rgba(255,255,255,0.20) !important;
+  --tm-accent:       #FF4D2A !important;
+  --tm-accent-dim:   #FF3A1A !important;
+  --tm-accent-muted: rgba(255,77,42,0.12) !important;
+  --tm-accent-glow:  rgba(255,77,42,0.20) !important;
+  --tm-green:        #3ECF8E !important;
+  --tm-dynamic-bg:      #000000 !important;
+  --tm-dynamic-surface: rgba(255,255,255,0.04) !important;
+  --tm-dynamic-accent:  #FF4D2A !important;
+  --tm-dynamic-border:  rgba(255,255,255,0.09) !important;
+  --tm-overlay:      0 4px 24px rgba(0,0,0,0.5) !important;
+}
+
+/* Glass blur needs backdrop-filter, which a plain background-color swap can't add */
+.bd-top, .bd-promptbar, .bd-canvas-wrap, .bd-dev-side, .bd-model-menu,
+.ai-sidebar, .ai-sb-head, .ai-input-wrap, .ai-model-menu,
+.st-top, .st-canvas-wrap {
+  backdrop-filter: blur(20px) !important; -webkit-backdrop-filter: blur(20px) !important;
+}
+
 html, body {
   background: #000000 !important;
   color: var(--text-1) !important;

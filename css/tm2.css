@@ -205,3 +205,25 @@ hr, .tm-hr, .auth-divider::before, .auth-divider::after {
 }
 .activity-card .ac-title { color: var(--text-1) !important; -webkit-text-fill-color: var(--text-1) !important; }
 .activity-card .ac-meta { color: rgba(255,255,255,0.40) !important; }
+
+/* ── More breathing room — dashboard felt cramped ────────────────── */
+.db-hero {
+  padding-top: calc(62px + clamp(80px, 14vh, 160px)) !important;
+  padding-bottom: clamp(64px, 10vh, 100px) !important;
+  min-height: 62vh !important;
+}
+.db-greeting { margin-bottom: 20px !important; }
+.db-summary { margin-bottom: 44px !important; }
+.db-quick-actions { gap: 14px !important; }
+.db-quick-action { padding: 15px 26px !important; }
+
+.db-panel-wrap { padding-top: 44px !important; }
+.module-tabs { margin-bottom: 36px !important; padding: 6px !important; }
+.module-tab { padding: 10px 20px !important; }
+
+.activity-grid { gap: 18px !important; }
+.activity-card { padding: 24px !important; }
+.reload-grid { gap: 16px !important; margin: 28px 0 !important; }
+.reload-card { padding: 28px 20px !important; }
+.credits-balance-block { padding: 32px !important; }
+.credits-module { gap: 32px !important; }

@@ -1,8 +1,8 @@
 /* ═══════════════════════════════════════════════════════════════════
    TAMATO v2 — SITEWIDE DESIGN SYSTEM
-   Loaded after global.css / hub.css / auth.css on every non-index page.
-   Overrides existing classes visually only — no markup/JS dependencies
-   are touched. Black background, glass panels, chrome text, hot accent.
+   Loaded last on every non-index page. Every declaration is !important
+   so it always wins regardless of selector specificity in hub.css /
+   auth.css / global.css. No markup/JS dependencies are touched.
 ═══════════════════════════════════════════════════════════════════ */
 
 :root {
@@ -23,31 +23,31 @@
 
 html, body {
   background: #000000 !important;
-  color: var(--text-1);
-  font-family: var(--font);
+  color: var(--text-1) !important;
+  font-family: var(--font) !important;
 }
 
 /* ── Text wordmark (replaces raster logo images) ────────────────── */
 .tm-wordmark {
-  font-size: 15px; font-weight: 800; letter-spacing: -0.04em;
-  text-decoration: none; display: inline-flex; align-items: center;
-  background: linear-gradient(135deg, #fff 50%, rgba(255,255,255,0.38));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  font-size: 15px !important; font-weight: 800 !important; letter-spacing: -0.04em !important;
+  text-decoration: none !important; display: inline-flex !important; align-items: center !important;
+  background: linear-gradient(135deg, #fff 50%, rgba(255,255,255,0.38)) !important;
+  -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; background-clip: text !important;
 }
-.tm-wordmark span { -webkit-text-fill-color: var(--accent-hot); }
+.tm-wordmark span { -webkit-text-fill-color: var(--accent-hot) !important; }
 
 /* ── Buttons ─────────────────────────────────────────────────────── */
 .tm-btn, .btn-chrome, .btn-hot {
-  font-family: inherit; border-radius: 999px; cursor: pointer; text-decoration: none;
-  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  font-family: inherit !important; border-radius: 999px !important; cursor: pointer !important; text-decoration: none !important;
+  display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important;
 }
-.tm-btn-primary, .btn-hot {
+.tm-btn-primary, .btn-hot, .auth-actions .tm-btn, #submit, #enter, #m_build {
   background: linear-gradient(135deg, #FF4422, #B81E04) !important;
   border: 1px solid rgba(255,55,20,0.5) !important;
   box-shadow: 0 0 14px rgba(255,50,20,0.3), inset 0 1px 0 rgba(255,255,255,0.18) !important;
   color: #fff !important;
 }
-.tm-btn-ghost, .tm-btn-text, .btn-chrome {
+.tm-btn-ghost, .tm-btn-text, .btn-chrome, .auth-google {
   background: rgba(255,255,255,0.04) !important;
   border: 1px solid rgba(255,255,255,0.14) !important;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.09) !important;
@@ -68,29 +68,35 @@ html, body {
 .tm-label { color: var(--text-2) !important; }
 
 /* ── Glass surfaces (cards, modals, auth cards, panels) ─────────── */
-.auth-card, .tm-card, .tm-modal, .price-col, .activity-card,
-.conn-row, .credits-module, .module-tabs, .tm-modal-overlay .tm-modal {
+.auth-card, .tm-card, .tm-modal, .price-col, .activity-card, .plan-card,
+.conn-row, .credits-module, .module-tabs, .acct-card, .consent-box,
+.tm-modal-overlay .tm-modal {
   background: rgba(255,255,255,0.04) !important;
   border: 1px solid rgba(255,255,255,0.09) !important;
-  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid rgba(255,255,255,0.09) !important;
+  backdrop-filter: blur(24px) !important; -webkit-backdrop-filter: blur(24px) !important;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.07), 0 4px 24px rgba(0,0,0,0.5) !important;
 }
 .price-col.featured { border-left: 2px solid var(--accent-hot) !important; background: rgba(255,255,255,0.06) !important; }
+.plan-card.selected { border-color: var(--accent-hot) !important; background: rgba(255,77,42,0.08) !important; }
 
 .auth-wrap { background: transparent !important; }
 
-/* ── Headlines ───────────────────────────────────────────────────── */
-.auth-title, h1, h2 {
-  background: linear-gradient(180deg, #ffffff 20%, rgba(255,255,255,0.45));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  font-weight: 800; letter-spacing: -0.03em;
+/* ── Headlines (the fix: !important beats class-vs-element specificity) ── */
+h1, h2, h3, .auth-title, .lp-melio h2, .doc h1, .legal h1, .help h1 {
+  background: linear-gradient(180deg, #ffffff 20%, rgba(255,255,255,0.45)) !important;
+  -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; background-clip: text !important;
+  font-weight: 800 !important; letter-spacing: -0.03em !important;
 }
-.auth-sub, .tm-muted, .lead, p.auth-sub { color: var(--text-2) !important; }
+.auth-sub, .tm-muted, .lead, p.auth-sub, .doc p, .legal p, .auth-foot, .tm-dim {
+  color: var(--text-2) !important;
+  -webkit-text-fill-color: var(--text-2) !important;
+}
 
 /* ── Top bars / nav across app + marketing pages ────────────────── */
-.db-topbar, .lp-nav, nav {
+.db-topbar, .lp-nav, .lp-top, .bd-top, .ai-sb-head, .st-top, nav {
   background: transparent !important;
-  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px) !important; -webkit-backdrop-filter: blur(24px) !important;
   border-bottom: 1px solid rgba(255,255,255,0.05) !important;
 }
 
@@ -103,15 +109,21 @@ html, body {
 .lp-foot-links a:hover, .tm-footer-links a:hover { color: rgba(255,255,255,0.5) !important; }
 
 /* ── Pills / chips / badges ──────────────────────────────────────── */
-.tm-credit-pill, .tm-pill, .mr-cost, .tm-badge {
+.tm-credit-pill, .tm-pill, .mr-cost, .tm-badge, .mock-chip {
   background: rgba(255,255,255,0.04) !important;
   border: 1px solid rgba(255,255,255,0.09) !important;
   color: var(--text-2) !important;
 }
 
 /* ── Rules / dividers ────────────────────────────────────────────── */
-hr, .tm-hr { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07) 20%, rgba(255,255,255,0.07) 80%, transparent) !important; border: none !important; height: 1px !important; }
+hr, .tm-hr, .auth-divider::before, .auth-divider::after {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07) 20%, rgba(255,255,255,0.07) 80%, transparent) !important;
+  border: none !important; height: 1px !important;
+}
 
 /* ── Misc surfaces ───────────────────────────────────────────────── */
-.tm-surface, .tm-shell, .db-main, .db-sidebar { background: transparent !important; }
+.tm-surface, .tm-shell, .db-main, .db-sidebar, .ai-sidebar, .key-display, .acct-wrap {
+  background: transparent !important;
+}
+.key-display { border: 1px solid rgba(255,255,255,0.09) !important; }
 ::selection { background: rgba(255,77,42,0.25); color: #fff; }

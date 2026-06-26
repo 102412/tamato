@@ -105,6 +105,7 @@ html, body {
 /* ── Glass surfaces (cards, modals, auth cards, panels) ─────────── */
 .auth-card, .tm-card, .tm-modal, .price-col, .activity-card, .plan-card,
 .conn-row, .credits-module, .module-tabs, .acct-card, .consent-box,
+.reload-card, .module-panel .reload-card, .credits-balance-block,
 .tm-modal-overlay .tm-modal {
   background: rgba(255,255,255,0.04) !important;
   border: 1px solid rgba(255,255,255,0.09) !important;
@@ -231,3 +232,8 @@ hr, .tm-hr, .auth-divider::before, .auth-divider::after {
 .credits-module { gap: 56px !important; align-items: stretch !important; }
 .module-panel[data-module="credits"] h4 { margin-bottom: 14px !important; }
 .module-panel[data-module="credits"] > div > div:last-child { padding-top: 4px !important; }
+
+.reload-card:hover, .module-panel .reload-card:hover {
+  border-color: rgba(255,77,42,0.4) !important;
+  background: rgba(255,77,42,0.10) !important;
+}

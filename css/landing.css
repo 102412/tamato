@@ -307,10 +307,38 @@ body.landing-page {
   .landing-page .mock-cards { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
+  .landing-page .tnav { padding: 0 16px; }
   .landing-page .tnav-center { display: none; }
+  .landing-page .tnav-admin { display: none; }
+  .landing-page .tnav-right { gap: 6px; }
+  .landing-page .btn-chrome, .landing-page .btn-hot { font-size: 12px; padding: 8px 14px; }
+
+  .landing-page .hero { padding: 90px 20px 60px; }
+  .landing-page .hero-cta { flex-direction: column; width: 100%; margin-bottom: 40px; }
+  .landing-page .hero-cta .btn { width: 100%; }
+  .landing-page .hero p { font-size: 13px; padding: 0 8px; }
+
+  .landing-page .mock-browser { border-radius: 10px; }
+  .landing-page .mock-cards { padding: 0 14px 20px; }
+  .landing-page .mock-toprow, .landing-page .mock-tabs { padding: 12px 14px; }
+
+  .landing-page .how, .landing-page .pricing, .landing-page .logos { padding: 70px 20px; }
+  .landing-page .stage h3 { font-size: 20px; }
+  .landing-page .stage-visual { padding: 18px; }
+
+  .landing-page .prod { padding: 60px 20px; gap: 32px; }
+  .landing-page .prod h2 { font-size: 26px; }
+
   .landing-page .price-grid, .landing-page .tier-strip { grid-template-columns: 1fr; }
   .landing-page .tier-col { border-right: none; border-bottom: 1px solid var(--border); }
   .landing-page .tier-col:last-child { border-left: none; border-top: 2px solid var(--accent-hot); }
   .landing-page .logos-row { gap: 28px; }
+  .landing-page .tfoot { padding: 28px 20px; }
   .landing-page .tfoot-row { flex-direction: column; text-align: center; }
+}
+@media (max-width: 380px) {
+  .landing-page .hero h1 { font-size: 52px; }
+  .landing-page .logos-row { gap: 20px; }
+  .landing-page .logo-item { height: 24px; }
+  .landing-page .logo-item svg { height: 18px; }
 }

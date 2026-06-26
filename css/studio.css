@@ -286,4 +286,10 @@ html, body { height: 100%; }
   .st-tokens { border-right: none; border-bottom: 1px solid var(--tm-border); }
   .st-top { padding: var(--sp-3) var(--sp-4); }
   .st-home { padding: var(--sp-4); }
+  .st-home-head { flex-wrap: wrap; gap: var(--sp-3); }
+  .ds-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 420px) {
+  .st-top .tm-row { gap: 6px; }
+  .st-home-head h1, .st-home-head h2 { font-size: 22px; }
 }

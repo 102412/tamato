@@ -407,3 +407,38 @@ html, body { height: 100%; overflow: hidden; }
   color: var(--tm-text);
   animation: tm-enter 150ms ease forwards;
 }
+
+/* ── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 760px) {
+  .bd-top {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: var(--sp-2);
+    padding: var(--sp-2) var(--sp-3);
+  }
+  .bd-top::-webkit-scrollbar { display: none; }
+  .bd-sitename { max-width: 110px; flex-shrink: 0; }
+  .bd-save { display: none; }
+  .tm-credit-pill { flex-shrink: 0; white-space: nowrap; }
+
+  .bd-canvas.mobile {
+    width: min(390px, 100%);
+    margin: var(--sp-2) auto 0;
+  }
+
+  .bd-promptbar { padding: var(--sp-3) var(--sp-4); }
+  .bd-prompt-inner { flex-direction: column; align-items: stretch; gap: var(--sp-2); }
+  .bd-edit-wrap { flex-direction: row; align-items: center; justify-content: space-between; width: 100%; }
+  #generateBtn { width: 100%; }
+
+  .bd-model-menu { width: min(320px, 90vw); }
+
+  .bd-dev { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+
+  .melio-form { padding: var(--sp-8) var(--sp-4); }
+}
+@media (max-width: 420px) {
+  .bd-sitename { max-width: 80px; }
+  .bd-viewtoggle button { padding: 4px 8px; font-size: 11px; }
+}

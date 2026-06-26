@@ -237,3 +237,24 @@ hr, .tm-hr, .auth-divider::before, .auth-divider::after {
   border-color: rgba(255,77,42,0.4) !important;
   background: rgba(255,77,42,0.10) !important;
 }
+
+/* ── lp-top (pricing/melio simple nav) — give it real spacing ────── */
+.lp-top {
+  display: flex !important;
+  gap: 8px !important;
+  padding: 0 32px 24px !important;
+}
+
+/* ── Sitewide mobile pass ──────────────────────────────────────── */
+@media (max-width: 640px) {
+  .lp-top { padding: 0 20px 20px !important; flex-wrap: wrap; }
+  .db-topbar-right { gap: 8px !important; flex-wrap: nowrap; overflow-x: auto; }
+  .tm-credit-pill { font-size: 12px !important; padding: 5px 10px !important; }
+  .acct-wrap, .doc, .legal, .help { padding: var(--sp-6) var(--sp-4) !important; }
+  .price-grid { grid-template-columns: 1fr !important; }
+  .reload-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .credits-module { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 420px) {
+  .reload-grid { grid-template-columns: 1fr !important; }
+}

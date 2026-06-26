@@ -398,4 +398,17 @@ h6 { font-weight: 600; font-size: 13px; line-height: 1.4;  letter-spacing: 0.01e
 
 @media (max-width: 768px) {
   .tm-container { padding: 0 var(--sp-4); }
+  .activity-grid { grid-template-columns: 1fr !important; }
+  .acct-row { flex-wrap: wrap; gap: var(--sp-2); }
+  .acct-head { flex-wrap: wrap; gap: var(--sp-3); }
+}
+@media (max-width: 600px) {
+  .tm-modal-overlay { padding: var(--sp-3); }
+  .tm-modal { padding: var(--sp-6) var(--sp-4); max-height: 85vh; }
+  .tm-modal-lg, .tm-modal-xl { max-width: 100%; }
+}
+/* Touch-friendly minimum tap targets on small screens */
+@media (max-width: 480px) {
+  .tm-btn { min-height: 40px; }
+  button, a.tm-btn, input[type="checkbox"] { touch-action: manipulation; }
 }

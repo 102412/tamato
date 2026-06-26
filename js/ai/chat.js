@@ -200,4 +200,12 @@ function wire() {
   document.addEventListener('click', e => { if (!e.target.closest('.ai-model-wrap')) $('modelMenu').classList.remove('open'); });
   $('attachBtn').addEventListener('click', () => { if (!tier.ai.imageUploads) return toast('Image uploads are available on paid plans.', 'error'); $('fileInput').click(); });
   $('fileInput').addEventListener('change', e => handleFiles(Array.from(e.target.files)));
+
+  // Mobile sidebar toggle
+  const sidebar = document.querySelector('.ai-sidebar');
+  const backdrop = $('aiSbBackdrop');
+  function closeSidebar() { sidebar.classList.remove('open'); backdrop.classList.remove('show'); }
+  $('aiSbToggle').addEventListener('click', () => { sidebar.classList.toggle('open'); backdrop.classList.toggle('show'); });
+  backdrop.addEventListener('click', closeSidebar);
+  $('convList').addEventListener('click', () => { if (window.innerWidth <= 720) closeSidebar(); });
 }

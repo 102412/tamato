@@ -223,7 +223,11 @@ hr, .tm-hr, .auth-divider::before, .auth-divider::after {
 
 .activity-grid { gap: 18px !important; }
 .activity-card { padding: 24px !important; }
-.reload-grid { gap: 16px !important; margin: 28px 0 !important; }
-.reload-card { padding: 28px 20px !important; }
-.credits-balance-block { padding: 32px !important; }
-.credits-module { gap: 32px !important; }
+.reload-grid { gap: 18px !important; margin: 28px 0 !important; }
+.reload-card { padding: 30px 22px !important; }
+.credits-balance-block { padding: 44px 32px !important; }
+.credits-balance-num { font-size: 64px !important; margin-bottom: 14px !important; }
+.credits-balance-label { margin-bottom: 16px !important; }
+.credits-module { gap: 56px !important; align-items: stretch !important; }
+.module-panel[data-module="credits"] h4 { margin-bottom: 14px !important; }
+.module-panel[data-module="credits"] > div > div:last-child { padding-top: 4px !important; }

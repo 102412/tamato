@@ -2,7 +2,7 @@
    TAMATO AI — CHAT
 ═══════════════════════════════════════════════════════════════════ */
 html, body { height: 100%; overflow: hidden; }
-.ai-app { display: flex; height: 100vh; background: var(--tm-bg); }
+.ai-app { display: flex; height: 100vh; height: 100dvh; background: var(--tm-bg); }
 
 /* ── Sidebar ─────────────────────────────────────────────────────── */
 .ai-sidebar {
@@ -411,10 +411,11 @@ body.ai-sidepanel .ai-app {
   .ai-sidebar:hover { width: 280px !important; }
   .ai-sidebar.open { transform: translateX(0); }
   .ai-messages { padding: var(--sp-4); }
-  .ai-input-wrap { padding: var(--sp-3); }
+  .ai-input-wrap { padding: var(--sp-3); padding-bottom: calc(var(--sp-3) + env(safe-area-inset-bottom)); }
   .ai-topbar { gap: 10px; }
   .ai-input-row { flex-wrap: wrap; }
   .ai-model-btn { font-size: 11px; }
+  #sendBtn { flex-shrink: 0; }
 }
 @media (max-width: 480px) {
   .ai-messages { padding: var(--sp-3); }

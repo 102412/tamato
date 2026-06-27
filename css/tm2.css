@@ -180,6 +180,8 @@ hr, .tm-hr, .auth-divider::before, .auth-divider::after {
   -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; background-clip: text !important;
   font-family: var(--font-hero) !important;
   font-weight: 400 !important;
+  line-height: 1.18 !important;
+  padding-bottom: 0.1em !important;
 }
 .db-summary { color: var(--text-2) !important; }
 .db-quick-action {
@@ -255,7 +257,7 @@ hr, .tm-hr, .auth-divider::before, .auth-divider::after {
     gap: 6px !important; flex-wrap: nowrap !important;
     flex: 1 1 auto !important; min-width: 0 !important;
     overflow-x: auto !important; -webkit-overflow-scrolling: touch;
-    justify-content: flex-end !important;
+    justify-content: flex-start !important;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
   }

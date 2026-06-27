@@ -16,7 +16,8 @@ body.landing-page {
   --text-1: #F4F4F5;
   --text-2: rgba(255,255,255,0.40);
   --text-3: rgba(255,255,255,0.20);
-  --font: 'Boldonse', 'Plus Jakarta Sans', sans-serif;
+  --font: 'Oswald', 'Plus Jakarta Sans', sans-serif;
+  --font-hero: 'Boldonse', 'Oswald', sans-serif;
   --mono: 'Roboto Mono', monospace;
 
   background: var(--black) !important;
@@ -116,7 +117,8 @@ body.landing-page {
 
 .landing-page .hero h1 {
   position: relative; z-index: 2;
-  font-size: clamp(64px, 11vw, 132px); font-weight: 800; letter-spacing: -0.05em; line-height: 0.9;
+  font-family: var(--font-hero);
+  font-size: clamp(64px, 11vw, 132px); font-weight: 400; letter-spacing: -0.02em; line-height: 0.9;
   margin: 0 0 28px;
 }
 .landing-page .hero h1 span { display: block; }

@@ -17,7 +17,8 @@
   --text-1: #F4F4F5;
   --text-2: rgba(255,255,255,0.40);
   --text-3: rgba(255,255,255,0.20);
-  --font: 'Boldonse', 'Plus Jakarta Sans', sans-serif;
+  --font: 'Oswald', 'Plus Jakarta Sans', sans-serif;
+  --font-hero: 'Boldonse', 'Oswald', sans-serif;
   --mono: 'Roboto Mono', monospace;
 }
 
@@ -177,7 +178,8 @@ hr, .tm-hr, .auth-divider::before, .auth-divider::after {
 .db-greeting {
   background: linear-gradient(180deg, #ffffff 20%, rgba(255,255,255,0.45)) !important;
   -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; background-clip: text !important;
-  font-weight: 800 !important;
+  font-family: var(--font-hero) !important;
+  font-weight: 400 !important;
 }
 .db-summary { color: var(--text-2) !important; }
 .db-quick-action {

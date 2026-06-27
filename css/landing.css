@@ -219,8 +219,16 @@ body.landing-page {
 .landing-page .logos { padding: 60px 32px; text-align: center; }
 .landing-page .logos-label { font-family: var(--mono); font-size: 10px; color: var(--text-3); margin-bottom: 36px; letter-spacing: 0.04em; }
 .landing-page .logos-row { display: flex; align-items: center; justify-content: center; gap: 52px; flex-wrap: wrap; }
-.landing-page .logo-item { height: 32px; display: flex; align-items: center; opacity: 0.35; transition: opacity 200ms ease; filter: saturate(0.4); }
-.landing-page .logo-item:hover { opacity: 0.8; filter: saturate(1); }
+.landing-page .logo-item {
+  height: 32px; display: flex; align-items: center; opacity: 0.85;
+  filter: saturate(1) drop-shadow(0 0 6px currentColor) drop-shadow(0 0 14px currentColor);
+  animation: logoGlow 2.6s ease-in-out infinite;
+}
+.landing-page .logo-item:hover { opacity: 1; filter: saturate(1) drop-shadow(0 0 10px currentColor) drop-shadow(0 0 22px currentColor); }
+@keyframes logoGlow {
+  0%, 100% { filter: saturate(1) drop-shadow(0 0 5px currentColor) drop-shadow(0 0 12px currentColor); }
+  50%      { filter: saturate(1) drop-shadow(0 0 9px currentColor) drop-shadow(0 0 20px currentColor); }
+}
 .landing-page .logo-item svg { height: 24px; width: auto; }
 
 /* ── Product sections ────────────────────────────────────────────── */

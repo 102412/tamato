@@ -17,13 +17,14 @@ export const CHECKOUT_ENDPOINT = WORKER_URL + '/api/checkout';
 export const PORTAL_ENDPOINT = WORKER_URL + '/api/portal';
 
 /* ── Product catalogue (price metadata; price IDs filled at deploy) ──
-   Only `single` has a real Stripe Price ID so far — the rest are
-   placeholders until those products are created in the Stripe dashboard. */
+   `single` and `pro_monthly` have real Stripe Price IDs so far — the
+   rest are placeholders until those products are created in the
+   Stripe dashboard. */
 export const STRIPE_PRODUCTS = {
   single:            { mode: 'payment',      amount: 1497,  label: 'Single Site',            price_id: 'price_1Tmzi0Go0WwBpBOqarAZcFWW' },
   single_dev:        { mode: 'payment',      amount: 1997,  label: 'Single Site + Dev Mode', price_id: 'price_single_dev' },
   dev_addon:         { mode: 'payment',      amount: 500,   label: 'Dev Mode add-on',        price_id: 'price_dev_addon' },
-  pro_monthly:       { mode: 'subscription', amount: 2999,  label: 'Pro (monthly)',          price_id: 'price_pro_m' },
+  pro_monthly:       { mode: 'subscription', amount: 2999,  label: 'Pro (monthly)',          price_id: 'price_1TmzsWGo0WwBpBOq75PTdw6l' },
   pro_annual:        { mode: 'subscription', amount: 34189, label: 'Pro (annual)',           price_id: 'price_pro_y' },
   agency3_monthly:   { mode: 'subscription', amount: 9997,  label: 'Agency 3 (monthly)',     price_id: 'price_ag3_m' },
   agency3_annual:    { mode: 'subscription', amount: 113966,label: 'Agency 3 (annual)',      price_id: 'price_ag3_y' },

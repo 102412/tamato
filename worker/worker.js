@@ -1,10 +1,10 @@
 /* ═══════════════════════════════════════════════════════════════════
    TAMATO — CLOUDFLARE WORKER
    Routes all AI calls. Keeps API keys server-side.
-     Pythm-4.5o mini  → Groq       (llama-3.3-70b-versatile)
-     Pythm 4.5        → Anthropic  (claude-haiku-4-5)
-     Metrio 4.6       → Anthropic  (claude-sonnet-4-6)
-     Megisto 4.8      → Anthropic  (claude-opus-4-8)
+     pythm-mini    → Groq       (llama-3.3-70b-versatile)  — free tier
+     pythm-4.5     → Anthropic  (claude-haiku-4-5)          — standard
+     metrio-4.6    → Anthropic  (claude-sonnet-4-6)         — advanced
+     megisto-4.8   → Anthropic  (claude-opus-4-8)           — frontier/agency
    Also serves the public Megisto API for tm-meg-* keys.
    Env vars: GROQ_API_KEY, ANTHROPIC_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_KEY
 ═══════════════════════════════════════════════════════════════════ */
@@ -17,20 +17,28 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
 
-const GROQ_MODELS = new Set(['llama-3.3-70b-versatile']);
+const ANTHROPIC_MODEL_MAP = {
+  'pythm-4.5':   'claude-haiku-4-5',
+  'metrio-4.6':  'claude-sonnet-4-6',
+  'megisto-4.8': 'claude-opus-4-8',
+};
+const GROQ_MODEL_MAP = {
+  'pythm-mini': 'llama-3.3-70b-versatile',
+};
 
 export default {
   async fetch(request, env) {
     if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
-    if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
 
     const url = new URL(request.url);
 
     // Public Megisto API (tm-meg-* keys)
     if (url.pathname.startsWith('/v1/generate')) {
+      if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
       return handleApiGenerate(request, env);
     }
 
+    if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
     return handleChat(request, env);
   },
 };
@@ -40,42 +48,81 @@ async function handleChat(request, env) {
   let body;
   try { body = await request.json(); } catch { return json({ error: 'Invalid JSON' }, 400); }
 
-  const { model, messages, stream = false, max_tokens = 8000 } = body;
-  if (!model || !Array.isArray(messages)) return json({ error: 'model and messages required' }, 400);
+  const { model, messages, system, stream = false, max_tokens = 1024 } = body;
+  if (!model || !Array.isArray(messages)) {
+    return json({ error: 'Missing required fields: model, messages' }, 400);
+  }
 
-  if (GROQ_MODELS.has(model)) return callGroq({ model, messages, stream, max_tokens }, env);
-  return callAnthropic({ model, messages, stream, max_tokens }, env);
+  if (GROQ_MODEL_MAP[model]) {
+    return handleGroq({ tamatoModel: model, messages, system, max_tokens, stream, env });
+  }
+  if (ANTHROPIC_MODEL_MAP[model]) {
+    return handleAnthropic({ tamatoModel: model, messages, system, max_tokens, stream, env });
+  }
+  return json({ error: `Unknown model: ${model}` }, 400);
 }
 
-/* ── Groq (OpenAI-compatible) ───────────────────────────────────── */
-async function callGroq({ model, messages, stream, max_tokens }, env) {
+/* ── Groq (OpenAI-compatible) — pythm-mini ──────────────────────── */
+async function handleGroq({ tamatoModel, messages, system, max_tokens, stream, env }) {
+  const groqMessages = [];
+  if (system) groqMessages.push({ role: 'system', content: system });
+  messages.forEach(m => groqMessages.push({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content }));
+
   const upstream = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + env.GROQ_API_KEY,
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ model, messages, stream, max_tokens }),
+    body: JSON.stringify({ model: GROQ_MODEL_MAP[tamatoModel], messages: groqMessages, max_tokens, stream, temperature: 0.7 }),
   });
-  return passthrough(upstream, stream);
+
+  if (stream) return passthroughStream(upstream);
+
+  if (!upstream.ok) {
+    const detail = await upstream.text();
+    return json({ error: 'Groq API error', status: upstream.status, detail }, upstream.status);
+  }
+  const data = await upstream.json();
+  return json({
+    content: data.choices?.[0]?.message?.content || '',
+    model: tamatoModel,
+    provider: 'groq',
+    usage: data.usage || null,
+  });
 }
 
-/* ── Anthropic ─────────────────────────────────────────────────── */
-async function callAnthropic({ model, messages, stream, max_tokens }, env) {
-  // Split out system messages → Anthropic's top-level system field
-  const system = messages.filter(m => m.role === 'system').map(m => m.content).join('\n\n');
-  const convo = messages.filter(m => m.role !== 'system').map(m => ({ role: m.role, content: m.content }));
+/* ── Anthropic — pythm-4.5, metrio-4.6, megisto-4.8 ─────────────── */
+async function handleAnthropic({ tamatoModel, messages, system, max_tokens, stream, env }) {
+  const anthropicModel = ANTHROPIC_MODEL_MAP[tamatoModel];
+  const anthropicMessages = messages.map(m => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content }));
+
+  const requestBody = { model: anthropicModel, max_tokens, messages: anthropicMessages, stream };
+  if (system) requestBody.system = system;
 
   const upstream = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
       'x-api-key': env.ANTHROPIC_API_KEY,
       'anthropic-version': ANTHROPIC_VERSION,
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ model, system: system || undefined, messages: convo, stream, max_tokens }),
+    body: JSON.stringify(requestBody),
   });
-  return passthrough(upstream, stream, true);
+
+  if (stream) return passthroughStream(upstream);
+
+  if (!upstream.ok) {
+    const detail = await upstream.text();
+    return json({ error: 'Anthropic API error', status: upstream.status, detail }, upstream.status);
+  }
+  const data = await upstream.json();
+  return json({
+    content: data.content?.[0]?.text || '',
+    model: tamatoModel,
+    provider: 'anthropic',
+    usage: data.usage || null,
+  });
 }
 
 /* ── Public API: POST /v1/generate (Bearer tm-meg-*) ───────────── */
@@ -89,7 +136,7 @@ async function handleApiGenerate(request, env) {
 
   let body;
   try { body = await request.json(); } catch { return json({ error: 'Invalid JSON' }, 400); }
-  const { prompt, mode = 'both', stream = false } = body;
+  const { prompt, mode = 'both' } = body;
   if (!prompt) return json({ error: 'prompt required' }, 400);
 
   // Routed to Megisto (claude-opus-4-8)
@@ -129,7 +176,6 @@ async function validateApiKey(key, env) {
 }
 
 async function logApiUsage(id, inTok, outTok, env) {
-  // increment token counters
   await fetch(env.SUPABASE_URL + '/rest/v1/rpc/increment_api_usage', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', apikey: env.SUPABASE_SERVICE_KEY, Authorization: 'Bearer ' + env.SUPABASE_SERVICE_KEY },
@@ -138,23 +184,13 @@ async function logApiUsage(id, inTok, outTok, env) {
 }
 
 /* ── Utilities ─────────────────────────────────────────────────── */
-function passthrough(upstream, stream, anthropic = false) {
+function passthroughStream(upstream) {
   if (!upstream.ok) {
     return upstream.text().then(t => json({ error: 'Upstream error', detail: t }, upstream.status));
   }
-  if (stream) {
-    return new Response(upstream.body, {
-      status: 200,
-      headers: { ...CORS, 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', Connection: 'keep-alive' },
-    });
-  }
-  // normalize non-stream body
-  return upstream.json().then(data => {
-    if (anthropic) {
-      return json({ text: data.content?.[0]?.text || '', usage: data.usage || {} });
-    }
-    const choice = data.choices?.[0]?.message?.content || '';
-    return json({ text: choice, usage: data.usage || {} });
+  return new Response(upstream.body, {
+    status: 200,
+    headers: { ...CORS, 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', Connection: 'keep-alive' },
   });
 }
 

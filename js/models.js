@@ -10,7 +10,7 @@ export const MODELS = {
   PYTHM_MINI: {
     id: 'PYTHM_MINI',
     name: 'Pythm-4.5o mini',
-    backend: 'llama-3.3-70b-versatile',
+    backend: 'pythm-mini',
     provider: 'groq',
     credits_per_unit: 0,
     always_free: true,
@@ -20,7 +20,7 @@ export const MODELS = {
   PYTHM: {
     id: 'PYTHM',
     name: 'Pythm 4.5',
-    backend: 'claude-haiku-4-5',
+    backend: 'pythm-4.5',
     provider: 'anthropic',
     credits_per_unit: 1,
     description: 'Clean quality. 1 credit/unit.',
@@ -28,7 +28,7 @@ export const MODELS = {
   METRIO: {
     id: 'METRIO',
     name: 'Metrio 4.6',
-    backend: 'claude-sonnet-4-6',
+    backend: 'metrio-4.6',
     provider: 'anthropic',
     credits_per_unit: 3,
     description: 'Balanced precision. 3 credits/unit.',
@@ -36,7 +36,7 @@ export const MODELS = {
   MEGISTO: {
     id: 'MEGISTO',
     name: 'Megisto 4.8',
-    backend: 'claude-opus-4-8',
+    backend: 'megisto-4.8',
     provider: 'anthropic',
     credits_per_unit: 8,
     description: 'Maximum quality. 8 credits/unit.',
@@ -72,7 +72,8 @@ export async function callModel({ modelId, system, messages, maxTokens = 8000, s
   const m = getModel(modelId);
   const payload = {
     model: m.backend,
-    messages: system ? [{ role: 'system', content: system }, ...messages] : messages,
+    messages,
+    system: system || undefined,
     stream: false,
     max_tokens: maxTokens,
   };
@@ -82,11 +83,7 @@ export async function callModel({ modelId, system, messages, maxTokens = 8000, s
   });
   if (!res.ok) throw new Error('Model request failed (' + res.status + ')');
   const data = await res.json();
-  const text =
-    data.text ??
-    (data.content && data.content[0] && data.content[0].text) ??
-    (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) ??
-    '';
+  const text = data.content ?? data.text ?? '';
   const usage = data.usage || {};
   return {
     text,
@@ -105,7 +102,8 @@ export async function streamModel({ modelId, system, messages, maxTokens = 8000,
   const m = getModel(modelId);
   const payload = {
     model: m.backend,
-    messages: system ? [{ role: 'system', content: system }, ...messages] : messages,
+    messages,
+    system: system || undefined,
     stream: true,
     max_tokens: m.max_tokens ? Math.min(maxTokens, m.max_tokens) : maxTokens,
   };

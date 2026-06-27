@@ -5,16 +5,22 @@
 ═══════════════════════════════════════════════════════════════════ */
 
 /* ── Constants (set for this deployment) ───────────────────────── */
-export const STRIPE_PUBLISHABLE_KEY = 'pk_live_REPLACE_ME';
-export const STRIPE_SECRET_KEY = 'sk_live_REPLACE_ME'; // server-side only — keep out of shipped frontend
-/* Checkout session creation must happen server-side. This endpoint is a
-   Cloudflare Worker / serverless route that uses STRIPE_SECRET_KEY. */
-export const CHECKOUT_ENDPOINT = '/api/create-checkout-session'; // TODO: deploy backend route
-export const PORTAL_ENDPOINT = '/api/create-portal-session';     // TODO: deploy backend route
+/* Publishable keys are meant to be public — safe to ship in frontend JS.
+   The SECRET key never lives here; it's a Cloudflare Worker secret
+   (env.STRIPE_SECRET_KEY), used only server-side in worker/worker.js. */
+export const STRIPE_PUBLISHABLE_KEY = 'pk_test_51TmzbaGo0WwBpBOqtBSgLiQ6m1RTW6G0fFTsZFc97AYRrFEf0mLINQVPLWR74uJ3ymwpLtRs7lvNAYLbc1ObXCkG00PBT4dfZx';
+/* Checkout session creation + webhook handling happen server-side in the
+   Cloudflare Worker, which already holds GROQ_API_KEY/ANTHROPIC_API_KEY
+   the same way. */
+const WORKER_URL = 'https://tamatoaiworker.ryland-ritchie.workers.dev';
+export const CHECKOUT_ENDPOINT = WORKER_URL + '/api/checkout';
+export const PORTAL_ENDPOINT = WORKER_URL + '/api/portal';
 
-/* ── Product catalogue (price metadata; price IDs filled at deploy) ── */
+/* ── Product catalogue (price metadata; price IDs filled at deploy) ──
+   Only `single` has a real Stripe Price ID so far — the rest are
+   placeholders until those products are created in the Stripe dashboard. */
 export const STRIPE_PRODUCTS = {
-  single:            { mode: 'payment',      amount: 1497,  label: 'Single Site',            price_id: 'price_single' },
+  single:            { mode: 'payment',      amount: 1497,  label: 'Single Site',            price_id: 'price_1Tmzi0Go0WwBpBOqarAZcFWW' },
   single_dev:        { mode: 'payment',      amount: 1997,  label: 'Single Site + Dev Mode', price_id: 'price_single_dev' },
   dev_addon:         { mode: 'payment',      amount: 500,   label: 'Dev Mode add-on',        price_id: 'price_dev_addon' },
   pro_monthly:       { mode: 'subscription', amount: 2999,  label: 'Pro (monthly)',          price_id: 'price_pro_m' },
@@ -61,7 +67,7 @@ export async function checkout(productKey, { userId, email } = {}) {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       price_id: product.price_id, mode: product.mode, product: productKey,
-      user_id: userId, email,
+      credits: product.credits, user_id: userId, email,
       success_url: location.origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: location.href,
     }),

@@ -28,7 +28,7 @@ export const STRIPE_PRODUCTS = {
   pro_annual:        { mode: 'subscription', amount: 34189, label: 'Pro (annual)',           price_id: 'price_pro_y' },
   agency3_monthly:   { mode: 'subscription', amount: 9997,  label: 'Agency 3 (monthly)',     price_id: 'price_1Tn1RsGo0WwBpBOqG2ybHLqG' },
   agency3_annual:    { mode: 'subscription', amount: 113966,label: 'Agency 3 (annual)',      price_id: 'price_ag3_y' },
-  agency5_monthly:   { mode: 'subscription', amount: 13497, label: 'Agency 5 (monthly)',     price_id: 'price_ag5_m' },
+  agency5_monthly:   { mode: 'subscription', amount: 13497, label: 'Agency 5 (monthly)',     price_id: 'price_1Tn4WeGo0WwBpBOqkh8lHd47' },
   agency5_annual:    { mode: 'subscription', amount: 153866,label: 'Agency 5 (annual)',      price_id: 'price_ag5_y' },
   agency10_monthly:  { mode: 'subscription', amount: 21697, label: 'Agency 10 (monthly)',    price_id: 'price_ag10_m' },
   agency10_annual:   { mode: 'subscription', amount: 247346,label: 'Agency 10 (annual)',     price_id: 'price_ag10_y' },

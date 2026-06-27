@@ -320,10 +320,14 @@ function positionIndicator(tab) {
   const indicator = document.getElementById('tabIndicator');
   const bar       = document.getElementById('moduleTabs');
   if (!tab || !indicator || !bar) return;
-  const barRect = bar.getBoundingClientRect();
-  const tabRect = tab.getBoundingClientRect();
-  indicator.style.transform = `translateX(${tabRect.left - barRect.left - 5}px)`;
-  indicator.style.width     = `${tabRect.width}px`;
+  // Use offsetLeft (layout position, scroll-independent) rather than
+  // getBoundingClientRect (viewport position, scroll-dependent) — the
+  // tab bar scrolls horizontally on mobile, and rect-diffing double
+  // counts that scroll offset, throwing the indicator off by however
+  // far the bar has been scrolled.
+  indicator.style.transform = `translateX(${tab.offsetLeft - 5}px)`;
+  indicator.style.width     = `${tab.offsetWidth}px`;
+  tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
 }
 
 /* ── UI wiring ─────────────────────────────────────────────────── */

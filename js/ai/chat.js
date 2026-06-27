@@ -16,6 +16,20 @@ import { initMentions, attachMentions, resolveContext } from '/js/ai/mentions.js
 const $ = id => document.getElementById(id);
 const SYS = `You are Tamato AI — a sharp, capable assistant for builders and small businesses. When asked to create a webpage or component, return a single complete HTML document (starting with <!DOCTYPE html>) so it can render live. Otherwise answer with clear, concise markdown.`;
 
+/* ── Mobile viewport fix ───────────────────────────────────────────
+   100dvh isn't reliable on iOS Safari when the keyboard opens — the
+   layout viewport often doesn't resize. visualViewport.height does
+   track the actual visible area reliably, so we use it to pin the
+   app's height directly and keep the input bar always reachable. */
+if (window.visualViewport) {
+  const setAppHeight = () => {
+    document.querySelector('.ai-app').style.height = window.visualViewport.height + 'px';
+  };
+  window.visualViewport.addEventListener('resize', setAppHeight);
+  window.visualViewport.addEventListener('scroll', setAppHeight);
+  setAppHeight();
+}
+
 let profile, tier, model = 'PYTHM_MINI', conv = null, images = [];
 
 (async function init() {
@@ -208,4 +222,9 @@ function wire() {
   $('aiSbToggle').addEventListener('click', () => { sidebar.classList.toggle('open'); backdrop.classList.toggle('show'); });
   backdrop.addEventListener('click', closeSidebar);
   $('convList').addEventListener('click', () => { if (window.innerWidth <= 720) closeSidebar(); });
+
+  // Keep the input bar in view once the on-screen keyboard finishes opening
+  $('text').addEventListener('focus', () => {
+    setTimeout(() => $('text').scrollIntoView({ block: 'end', behavior: 'smooth' }), 300);
+  });
 }

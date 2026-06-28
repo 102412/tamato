@@ -245,9 +245,9 @@ async function handlePortal(request, env) {
 /* ── Stripe: webhook — grants credits / upgrades tier on payment ── */
 const TIER_FROM_PRODUCT = {
   pro_monthly: 'pro', pro_annual: 'pro',
-  agency3_monthly: 'agency', agency3_annual: 'agency',
-  agency5_monthly: 'agency', agency5_annual: 'agency',
-  agency10_monthly: 'agency', agency10_annual: 'agency',
+  agency3_monthly: 'agency3', agency3_annual: 'agency3',
+  agency5_monthly: 'agency5', agency5_annual: 'agency5',
+  agency10_monthly: 'agency10', agency10_annual: 'agency10',
   brandwide_monthly: 'brandwide', brandwide_annual: 'brandwide',
 };
 const DEV_MODE_PRODUCTS = new Set(['single_dev', 'dev_addon']);

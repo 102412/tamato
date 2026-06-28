@@ -58,12 +58,23 @@
     <section class="step" data-step="3">
       <h1 class="auth-title">Choose your plan</h1>
       <p class="auth-sub">Start free. Upgrade any time.</p>
+
+      <div class="tm-row" style="justify-content:center;margin-bottom:var(--sp-5);gap:var(--sp-3)">
+        <label class="tm-row" style="gap:var(--sp-2);cursor:pointer;font-size:13px;color:var(--tm-text-2)">
+          <input type="checkbox" id="annualToggle">
+          Bill annually <span style="color:var(--tm-accent)">(save 2 months)</span>
+        </label>
+      </div>
+
       <div class="plan-grid" id="plans">
         <div class="plan-card selected" data-plan="free"><h3>Free</h3><div class="price">$0</div><ul><li>All 3 products</li><li>Pythm-4.5o mini</li><li>Strict limits</li></ul></div>
-        <div class="plan-card" data-plan="single"><h3>Single Site</h3><div class="price">$14.97 once</div><ul><li>150 credits</li><li>Pythm + Metrio</li><li>Unlimited export</li></ul></div>
-        <div class="plan-card" data-plan="pro"><h3>Pro</h3><div class="price">$29.99/mo</div><ul><li>500 credits/mo</li><li>All models</li><li>Dev mode included</li></ul></div>
-        <div class="plan-card" data-plan="agency3"><h3>Agency</h3><div class="price">from $99.97/mo</div><ul><li>3 / 5 / 10 seats</li><li>2,400+ credits</li><li>Everything in Pro</li></ul></div>
-        <div class="plan-card" data-plan="brandwide"><h3>Brand Wide</h3><div class="price">$107.97/mo</div><ul><li>600 AI credits</li><li>800 Studio credits</li><li>All features</li></ul></div>
+        <div class="plan-card" data-plan="single"><h3>Single Site</h3><div class="price">$14.97 once</div><ul><li>1 site export</li><li>No watermark</li><li>Pythm 4.5 access</li></ul></div>
+        <div class="plan-card" data-plan="single_dev"><h3>Single Site + Dev</h3><div class="price">$19.97 once</div><ul><li>Everything in Single Site</li><li>Dev mode editor</li></ul></div>
+        <div class="plan-card" data-plan="pro" data-monthly="pro_monthly" data-annual="pro_annual"><h3>Pro</h3><div class="price" data-price-m="$29.99/mo" data-price-y="$341.89/yr">$29.99/mo</div><ul><li>500 credits/mo</li><li>All models</li><li>Dev mode included</li></ul></div>
+        <div class="plan-card" data-plan="agency3" data-monthly="agency3_monthly" data-annual="agency3_annual"><h3>Agency 3</h3><div class="price" data-price-m="$99.97/mo" data-price-y="$1,139.66/yr">$99.97/mo</div><ul><li>3 seats</li><li>2,400 credits/mo</li><li>Everything in Pro</li></ul></div>
+        <div class="plan-card" data-plan="agency5" data-monthly="agency5_monthly" data-annual="agency5_annual"><h3>Agency 5</h3><div class="price" data-price-m="$134.97/mo" data-price-y="$1,538.66/yr">$134.97/mo</div><ul><li>5 seats</li><li>4,000 credits/mo</li><li>Everything in Pro</li></ul></div>
+        <div class="plan-card" data-plan="agency10" data-monthly="agency10_monthly" data-annual="agency10_annual"><h3>Agency 10</h3><div class="price" data-price-m="$216.97/mo" data-price-y="$2,473.46/yr">$216.97/mo</div><ul><li>10 seats</li><li>6,000 credits/mo</li><li>Everything in Pro</li></ul></div>
+        <div class="plan-card" data-plan="brandwide" data-monthly="brandwide_monthly" data-annual="brandwide_annual"><h3>Brand Wide</h3><div class="price" data-price-m="$107.97/mo" data-price-y="$1,230.88/yr">$107.97/mo</div><ul><li>600 AI credits</li><li>800 Studio credits</li><li>All features</li></ul></div>
       </div>
       <div class="auth-error" id="err3"></div>
       <div class="auth-actions"><button class="tm-btn tm-btn-primary" id="finish">Create account</button></div>
@@ -120,11 +131,20 @@ document.getElementById('next2').addEventListener('click', () => {
 });
 
 // Step 3
+const SUBSCRIPTION_TIERS = new Set(['pro', 'agency3', 'agency5', 'agency10', 'brandwide']);
+
 document.getElementById('plans').addEventListener('click', (e) => {
   const cardEl = e.target.closest('.plan-card'); if (!cardEl) return;
   document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
   cardEl.classList.add('selected');
   state.plan = cardEl.dataset.plan;
+});
+
+document.getElementById('annualToggle').addEventListener('change', (e) => {
+  state.annual = e.target.checked;
+  document.querySelectorAll('.plan-card .price[data-price-m]').forEach(priceEl => {
+    priceEl.textContent = state.annual ? priceEl.dataset.priceY : priceEl.dataset.priceM;
+  });
 });
 
 document.getElementById('finish').addEventListener('click', async () => {
@@ -135,10 +155,12 @@ document.getElementById('finish').addEventListener('click', async () => {
   const { data, error } = await signUpEmail(email.value.trim(), password.value);
   if (error) { btn.disabled = false; btn.textContent = 'Create account'; return shake('err3', error.message); }
 
-  // record consent + chosen tier on the auto-created profile
-  const patch = { tier: state.plan === 'agency3' ? 'agency3' : state.plan };
+  // record consent + chosen tier on the auto-created profile (one-time
+  // purchases don't set a subscription tier — the webhook handles dev_mode)
+  const patch = {};
+  if (SUBSCRIPTION_TIERS.has(state.plan)) patch.tier = state.plan;
   if (state.under18) { patch.parental_consent_email = state.parentEmail; patch.parental_consent_at = new Date().toISOString(); }
-  await updateProfile(patch).catch(() => {});
+  if (Object.keys(patch).length) await updateProfile(patch).catch(() => {});
 
   if (state.plan === 'free') {
     toast('Welcome to Tamato!', 'success');
@@ -147,8 +169,10 @@ document.getElementById('finish').addEventListener('click', async () => {
   }
   // Paid: send to Stripe, then dashboard on success
   try {
-    const key = state.plan === 'single' ? 'single' : state.plan === 'pro' ? 'pro_monthly'
-      : state.plan === 'brandwide' ? 'brandwide_monthly' : 'agency3_monthly';
+    const cardEl = document.querySelector(`.plan-card[data-plan="${state.plan}"]`);
+    const key = state.plan === 'single' || state.plan === 'single_dev'
+      ? state.plan
+      : cardEl.dataset[state.annual ? 'annual' : 'monthly'];
     await checkout(key, { userId: data.user?.id, email: email.value.trim() });
   } catch (e) {
     btn.disabled = false; btn.textContent = 'Create account';

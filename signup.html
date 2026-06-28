@@ -32,7 +32,8 @@
       <div class="auth-divider">or</div>
       <div class="auth-field"><label class="tm-label">Email</label><input class="tm-input" type="email" id="email" autocomplete="email"></div>
       <div class="auth-field"><label class="tm-label">Password</label><input class="tm-input" type="password" id="password" autocomplete="new-password" placeholder="At least 8 characters"></div>
-      <div class="checkbox-row" style="margin-bottom:var(--sp-4)"><input type="checkbox" id="age13"><label for="age13">I am 13 or older.</label></div>
+      <div class="checkbox-row" style="margin-bottom:var(--sp-2)"><input type="checkbox" id="age13"><label for="age13">I am 13 or older.</label></div>
+      <div class="checkbox-row" style="margin-bottom:var(--sp-4)"><input type="checkbox" id="acceptTerms"><label for="acceptTerms">I agree to the <a href="/terms.html" target="_blank" style="color:var(--tm-accent)">Terms of Service</a> and <a href="/privacy.html" target="_blank" style="color:var(--tm-accent)">Privacy Policy</a>.</label></div>
       <div class="auth-error" id="err1"></div>
       <div class="auth-actions"><button class="tm-btn tm-btn-primary" id="next1">Continue</button></div>
       <p class="auth-foot">Already have an account? <a href="/login.html">Sign in</a></p>
@@ -102,17 +103,22 @@ function shake(elId, msg) {
 }
 
 // Step 1
+const TERMS_VERSION = '2026-06-28';
+
 document.getElementById('next1').addEventListener('click', () => {
   document.getElementById('err1').textContent = '';
   if (!document.getElementById('age13').checked) return shake('err1', 'You must be 13 or older to use Tamato.');
+  if (!document.getElementById('acceptTerms').checked) return shake('err1', 'You must agree to the Terms of Service and Privacy Policy.');
   if (!email.value.includes('@')) return shake('err1', 'Enter a valid email.');
   if (password.value.length < 8) return shake('err1', 'Password must be at least 8 characters.');
   show(2);
 });
 document.getElementById('google').addEventListener('click', async () => {
   if (!document.getElementById('age13').checked) return shake('err1', 'Confirm you are 13 or older first.');
+  if (!document.getElementById('acceptTerms').checked) return shake('err1', 'You must agree to the Terms of Service and Privacy Policy.');
   const { error } = await signInGoogle();
   if (error) shake('err1', error.message);
+  else await updateProfile({ terms_accepted_at: new Date().toISOString(), terms_version: TERMS_VERSION }).catch(() => {});
 });
 
 // Step 2
@@ -157,10 +163,10 @@ document.getElementById('finish').addEventListener('click', async () => {
 
   // record consent + chosen tier on the auto-created profile (one-time
   // purchases don't set a subscription tier — the webhook handles dev_mode)
-  const patch = {};
+  const patch = { terms_accepted_at: new Date().toISOString(), terms_version: TERMS_VERSION };
   if (SUBSCRIPTION_TIERS.has(state.plan)) patch.tier = state.plan;
   if (state.under18) { patch.parental_consent_email = state.parentEmail; patch.parental_consent_at = new Date().toISOString(); }
-  if (Object.keys(patch).length) await updateProfile(patch).catch(() => {});
+  await updateProfile(patch).catch(() => {});
 
   if (state.plan === 'free') {
     toast('Welcome to Tamato!', 'success');

@@ -243,3 +243,9 @@ CREATE POLICY own_invites ON agency_invites FOR ALL USING (auth.uid() = owner_id
 
 DROP POLICY IF EXISTS melio_insert ON melio_applications;
 CREATE POLICY melio_insert ON melio_applications FOR INSERT WITH CHECK (true);
+
+/* ── Terms of Service consent record ─────────────────────────────
+   Run this once in the Supabase SQL editor to add consent tracking. */
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS terms_accepted_at TIMESTAMP;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS terms_version TEXT;
+ALTER TABLE melio_applications ADD COLUMN IF NOT EXISTS terms_accepted_at TIMESTAMP;

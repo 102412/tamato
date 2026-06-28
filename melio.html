@@ -41,6 +41,7 @@
         <div class="auth-field"><label class="tm-label">What are you building and who is it for?</label><textarea class="tm-textarea" id="q1" rows="3" required></textarea></div>
         <div class="auth-field"><label class="tm-label">Where are you right now — pre-revenue, just starting out?</label><textarea class="tm-textarea" id="q2" rows="3" required></textarea></div>
         <div class="auth-field"><label class="tm-label">What would having a real website change for you right now?</label><textarea class="tm-textarea" id="q3" rows="3" required></textarea></div>
+        <div class="checkbox-row" style="margin-bottom:var(--sp-4)"><input type="checkbox" id="melioTerms" required><label for="melioTerms">I agree to the <a href="/terms.html" target="_blank" style="color:var(--tm-accent)">Terms of Service</a> and <a href="/privacy.html" target="_blank" style="color:var(--tm-accent)">Privacy Policy</a>.</label></div>
         <div class="auth-error" id="err"></div>
         <button class="tm-btn tm-btn-primary tm-btn-lg" type="submit" id="submit" style="width:100%">Apply for Melio</button>
       </form>
@@ -61,9 +62,15 @@ const form = document.getElementById('form') || document.getElementById('melioFo
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const btn = document.getElementById('submit'); btn.disabled = true; btn.textContent = 'Submitting…';
+  if (!document.getElementById('melioTerms').checked) {
+    document.getElementById('err').textContent = 'You must agree to the Terms of Service and Privacy Policy.';
+    btn.disabled = false; btn.textContent = 'Apply for Melio';
+    return;
+  }
   const ok = await submitMelioApplication({
     name: name.value.trim(), email: email.value.trim(),
     what_building: q1.value.trim(), current_situation: q2.value.trim(), why_website_matters: q3.value.trim(),
+    terms_accepted_at: new Date().toISOString(),
   });
   if (ok) { form.classList.add('tm-hidden'); document.getElementById('thanks').classList.remove('tm-hidden'); }
   else { document.getElementById('err').textContent = 'Could not submit. Please try again.'; btn.disabled = false; btn.textContent = 'Apply for Melio'; }

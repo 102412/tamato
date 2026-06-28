@@ -28,8 +28,42 @@ export function connectedAccount(profile, id) {
   return c.email || c.username || c.account_id || c.list_id || '';
 }
 
+/** Risk acknowledgment shown once before any OAuth connect. */
+function connectRiskModal(name) {
+  return new Promise((resolve) => {
+    const overlay = document.createElement('div');
+    overlay.className = 'tm-modal-overlay';
+    overlay.innerHTML = `
+      <div class="tm-modal" style="position:relative">
+        <h2 class="tm-modal-title">Connect ${name}?</h2>
+        <p class="tm-modal-sub">Connectors are used at your own risk.</p>
+        <p style="font-size:14px;color:var(--tm-text-2);margin-bottom:var(--sp-4)">
+          By connecting, you acknowledge that your ${name} credentials may be
+          embedded in exported site files in plain text, and that Tamato is not
+          liable for any unauthorized access, data loss, or financial harm
+          resulting from your use of this connector. See our
+          <a href="/terms.html" target="_blank" style="color:var(--tm-accent)">Terms of Service §13</a> for full details.
+        </p>
+        <label class="checkbox-row" style="margin-bottom:var(--sp-4)"><input type="checkbox" id="connAckChk"> I understand and accept this risk.</label>
+        <div class="tm-row" style="justify-content:flex-end">
+          <button class="tm-btn tm-btn-ghost" id="connAckCancel">Cancel</button>
+          <button class="tm-btn tm-btn-primary" id="connAckGo" disabled>Connect</button>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    const chk = overlay.querySelector('#connAckChk');
+    const go = overlay.querySelector('#connAckGo');
+    chk.addEventListener('change', () => { go.disabled = !chk.checked; });
+    overlay.querySelector('#connAckCancel').addEventListener('click', () => { overlay.remove(); resolve(false); });
+    go.addEventListener('click', () => { overlay.remove(); resolve(true); });
+  });
+}
+
 /** Open OAuth popup; resolves when the popup signals completion. */
 export async function connect(id) {
+  const meta = CONNECTORS.find(c => c.id === id);
+  const ok = await connectRiskModal(meta ? meta.name : id);
+  if (!ok) return false;
   const session = await getSession();
   const token = session ? session.access_token : '';
   return new Promise((resolve) => {

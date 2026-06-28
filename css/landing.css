@@ -258,8 +258,8 @@ body.landing-page {
 .landing-page .pricing h2 { font-size: 40px; font-weight: 800; letter-spacing: -0.03em; margin: 14px 0 0; }
 .landing-page .pricing .sub { font-size: 14px; font-style: italic; color: rgba(255,255,255,0.28); margin: 16px 0 48px; }
 .landing-page .price-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-  max-width: 900px; margin: 0 auto; text-align: left;
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;
+  max-width: 1100px; margin: 0 auto; text-align: left;
 }
 .landing-page .price-card { border-radius: 16px; padding: 24px 20px; display: flex; flex-direction: column; }
 .landing-page .price-card.featured { background: rgba(255,255,255,0.06); border-left: 2px solid var(--accent-hot); }
@@ -315,6 +315,7 @@ body.landing-page {
   .landing-page .how-left { position: static; }
   .landing-page .prod, .landing-page .prod.rev { grid-template-columns: 1fr; direction: ltr; }
   .landing-page .mock-cards { grid-template-columns: 1fr; }
+  .landing-page .price-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 640px) {
   .landing-page .tnav { padding: 0 16px; }

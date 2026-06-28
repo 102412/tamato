@@ -21,6 +21,7 @@ let allSites = [], allConvos = [], allSystems = [];
   syncThemeFromProfile(profile);
   renderTopbar();
   wireUI();
+  resumePendingCheckout();
   // Position indicator after first paint (DOM widths available)
   requestAnimationFrame(() => positionIndicator(document.querySelector('.module-tab.active')));
 
@@ -30,6 +31,17 @@ let allSites = [], allConvos = [], allSystems = [];
   ]);
   renderAllModules();
 })();
+
+/* If the user clicked Buy on /pricing.html before signing in, resume
+   that checkout automatically once they land here post-signup/login. */
+function resumePendingCheckout() {
+  const productKey = sessionStorage.getItem('tm_pending_checkout');
+  if (!productKey) return;
+  sessionStorage.removeItem('tm_pending_checkout');
+  if (!STRIPE_PRODUCTS[productKey]) return;
+  checkout(productKey, { userId: profile.id, email: profile.email })
+    .catch(e => toast(e.message || 'Could not start checkout.', 'error'));
+}
 
 /* ── Topbar ────────────────────────────────────────────────────── */
 function greetWord() {

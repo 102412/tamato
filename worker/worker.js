@@ -5,6 +5,7 @@
      pythm-4.5     → Anthropic  (claude-haiku-4-5)          — standard
      metrio-4.6    → Anthropic  (claude-sonnet-4-6)         — advanced
      megisto-4.8   → Anthropic  (claude-opus-4-8)           — frontier/agency
+     krator        → Anthropic  (claude-fable-5)            — frontier-class
    Also serves the public Megisto API for tm-meg-* keys, and Stripe
    checkout/portal/webhook routes for payments.
    Env vars: GROQ_API_KEY, ANTHROPIC_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_KEY,
@@ -23,6 +24,7 @@ const ANTHROPIC_MODEL_MAP = {
   'pythm-4.5':   'claude-haiku-4-5',
   'metrio-4.6':  'claude-sonnet-4-6',
   'megisto-4.8': 'claude-opus-4-8',
+  'krator':      'claude-fable-5',
 };
 const GROQ_MODEL_MAP = {
   'pythm-mini': 'llama-3.3-70b-versatile',
@@ -245,12 +247,14 @@ async function handlePortal(request, env) {
 /* ── Stripe: webhook — grants credits / upgrades tier on payment ── */
 const TIER_FROM_PRODUCT = {
   pro_monthly: 'pro', pro_annual: 'pro',
+  pro_krator_monthly: 'pro_krator', pro_krator_annual: 'pro_krator',
   agency3_monthly: 'agency3', agency3_annual: 'agency3',
   agency5_monthly: 'agency5', agency5_annual: 'agency5',
   agency10_monthly: 'agency10', agency10_annual: 'agency10',
   brandwide_monthly: 'brandwide', brandwide_annual: 'brandwide',
 };
 const DEV_MODE_PRODUCTS = new Set(['single_dev', 'dev_addon']);
+const SINGLE_MK_ADDON_PRODUCTS = new Set(['single_megisto_krator_addon']);
 
 async function handleStripeWebhook(request, env) {
   const sig = request.headers.get('Stripe-Signature') || '';
@@ -276,6 +280,7 @@ async function handleStripeWebhook(request, env) {
         if (session.subscription) fields.stripe_subscription_id = session.subscription;
         if (product && TIER_FROM_PRODUCT[product]) fields.tier = TIER_FROM_PRODUCT[product];
         if (product && DEV_MODE_PRODUCTS.has(product)) fields.dev_mode = true;
+        if (product && SINGLE_MK_ADDON_PRODUCTS.has(product)) fields.single_site_megisto_krator_addon = true;
         if (credits > 0) fields.credits = (profile.credits || 0) + credits;
         await patchProfile(userId, fields, env);
       }

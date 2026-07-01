@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
    TAMATO — UNIVERSAL MODEL SYSTEM
-   Four models, identical across /build, /ai, /studio. Same names,
+   Five models, identical across /build, /ai, /studio. Same names,
    same backends, same credit units everywhere.
 ═══════════════════════════════════════════════════════════════════ */
 
@@ -41,9 +41,19 @@ export const MODELS = {
     credits_per_unit: 8,
     description: 'Maximum quality. 8 credits/unit.',
   },
+  KRATOR: {
+    id: 'KRATOR',
+    name: 'Krator',
+    backend: 'krator',
+    provider: 'anthropic',
+    credits_per_unit: 28,
+    credits_per_unit_gen: 28,
+    credits_per_unit_edit: 22,
+    description: 'Frontier-class. Beyond Megisto. 28 credits/unit.',
+  },
 };
 
-export const MODEL_ORDER = ['PYTHM_MINI', 'PYTHM', 'METRIO', 'MEGISTO'];
+export const MODEL_ORDER = ['PYTHM_MINI', 'PYTHM', 'METRIO', 'MEGISTO', 'KRATOR'];
 
 /* Credit unit = per 3,000 words (input + output). ~4,000 tokens. */
 export const WORDS_PER_UNIT = 3000;

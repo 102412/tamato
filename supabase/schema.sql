@@ -249,3 +249,9 @@ CREATE POLICY melio_insert ON melio_applications FOR INSERT WITH CHECK (true);
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS terms_accepted_at TIMESTAMP;
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS terms_version TEXT;
 ALTER TABLE melio_applications ADD COLUMN IF NOT EXISTS terms_accepted_at TIMESTAMP;
+
+/* ── Krator (Fable 5) integration ────────────────────────────────
+   Run this once in the Supabase SQL editor. */
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS krator_edit_count INT DEFAULT 0;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS pro_krator_addon BOOLEAN DEFAULT false;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS single_site_megisto_krator_addon BOOLEAN DEFAULT false;

@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Account · Tamato</title>
 <link rel="icon" href="/icon.png?v=3">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&family=Boldonse&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Syne:wght@700;800&family=Boldonse&family=Oswald:wght@400;500;600;700&family=Cinzel:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/global.css">
 <link rel="stylesheet" href="/css/hub.css">
 <link rel="stylesheet" href="/css/tm2.css">
 <script>(function(){var t=localStorage.getItem('tm_theme')||'dark';document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;})();</script>
+<script src="/js/krator-announce.js" defer></script>
 <style>
 .acct-wrap{max-width:760px;margin:0 auto;padding:var(--sp-8) var(--sp-6);}
 .acct-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--sp-8);}
@@ -38,6 +39,10 @@
     <h3>Plan</h3>
     <div class="acct-row"><span>Current plan</span><span class="tm-badge tm-badge-accent" id="tier">—</span></div>
     <div class="acct-row"><span>Renewal</span><span class="tm-dim" id="renewal">—</span></div>
+    <div id="kratorUpsell" style="display:none;padding:var(--sp-3) 0;border-top:1px solid var(--tm-border);margin-top:var(--sp-2)">
+      <div style="font-size:13px;color:var(--tm-text-2);margin-bottom:var(--sp-2)" id="kratorUpsellText"></div>
+      <button class="tm-btn tm-btn-ghost tm-btn-sm" id="kratorUpsellBtn" style="border-color:var(--tm-accent);color:var(--tm-accent)"></button>
+    </div>
     <div class="acct-row"><a class="tm-btn tm-btn-primary tm-btn-sm" href="/pricing.html">Upgrade</a><button class="tm-btn tm-btn-ghost tm-btn-sm" id="manageBilling">Manage billing</button></div>
   </div>
 
@@ -66,7 +71,7 @@
 import { requireAuth, getProfile, getUser, toggleTheme, syncThemeFromProfile, initials, supabase, toast, sha256 } from '/js/supabase.js';
 import { getTier } from '/js/tiers.js';
 import { totalCredits, creditBreakdown } from '/js/credits.js';
-import { openBillingPortal } from '/js/stripe.js';
+import { openBillingPortal, checkout } from '/js/stripe.js';
 
 let profile, user;
 (async () => {
@@ -76,11 +81,32 @@ let profile, user;
   document.getElementById('avatar').textContent = initials(profile.email);
   document.getElementById('email').textContent = profile.email;
   document.getElementById('userId').textContent = user.id;
-  document.getElementById('tier').textContent = getTier(profile).name;
+  const tierObj = getTier(profile);
+  document.getElementById('tier').textContent = tierObj.name;
   document.getElementById('renewal').textContent = profile.credits_reset ? new Date(profile.credits_reset).toLocaleDateString() : 'One-time / no renewal';
   document.getElementById('credits').textContent = totalCredits(profile).toLocaleString();
   const bd = creditBreakdown(profile);
   if (bd.split) { document.getElementById('breakdownRow').style.display = 'flex'; document.getElementById('breakdown').textContent = `AI: ${bd.ai} · Studio: ${bd.studio}`; }
+
+  // Krator upsell row
+  const upsellWrap = document.getElementById('kratorUpsell');
+  const upsellText = document.getElementById('kratorUpsellText');
+  const upsellBtn  = document.getElementById('kratorUpsellBtn');
+  if (tierObj.id === 'pro') {
+    upsellText.textContent = 'Want frontier-class generation? Krator unlocks Claude Fable 5 on your existing 500 credit pool.';
+    upsellBtn.textContent = 'Add Krator — $7.98/month more';
+    upsellWrap.style.display = 'block';
+    upsellBtn.addEventListener('click', () =>
+      checkout('pro_krator_monthly', { userId: user.id, email: profile.email }).catch(e => toast(e.message, 'error'))
+    );
+  } else if (tierObj.id === 'single' && !profile.single_site_megisto_krator_addon) {
+    upsellText.textContent = 'Unlock Megisto 4.8 and Krator on your existing 150 lifetime credits — one payment, no subscription.';
+    upsellBtn.textContent = 'Add Megisto + Krator — $7 one-time';
+    upsellWrap.style.display = 'block';
+    upsellBtn.addEventListener('click', () =>
+      checkout('single_megisto_krator_addon', { userId: user.id, email: profile.email }).catch(e => toast(e.message, 'error'))
+    );
+  }
 })();
 
 document.getElementById('theme').addEventListener('click', toggleTheme);

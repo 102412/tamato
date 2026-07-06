@@ -143,7 +143,7 @@ export async function generate(prompt) {
 async function runStream(which, system, content) {
   return streamModel({
     modelId: state.model, system, messages: [{ role: 'user', content }],
-    maxTokens: 8000, signal: state.abort.signal,
+    maxTokens: 16000, signal: state.abort.signal,
     onDelta: (chunk) => handlers.streamDelta && handlers.streamDelta(which, chunk),
   }).then(res => { handlers.streamDone && handlers.streamDone(which); return res; });
 }

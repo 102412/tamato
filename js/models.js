@@ -127,7 +127,11 @@ export async function streamModel({ modelId, system, messages, maxTokens = 8000,
     try { const e = await res.clone().json(); detail = e.detail || (typeof e.error === 'string' ? e.error : e.error?.message) || e.message || ''; } catch (_) {}
     const status = res.status;
     if (status === 429) throw new Error('Rate limit reached — try again in a moment.');
-    if (status === 400) throw new Error('Prompt too large — shorten your input and try again.');
+    if (status === 400) {
+      let msg = '';
+      try { const d = JSON.parse(detail); msg = d?.error?.message || d?.message || ''; } catch (_) { msg = detail; }
+      throw new Error(msg || 'Request error (400) — check model availability.');
+    }
     throw new Error('Model stream failed (' + status + ')' + (detail ? ': ' + detail : ''));
   }
 

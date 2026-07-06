@@ -2,7 +2,7 @@
    TAMATO BUILD — WEBSITE BUILDER
 ═══════════════════════════════════════════════════════════════════ */
 html, body { height: 100%; overflow: hidden; }
-.bd-app { display: flex; flex-direction: column; height: 100vh; background: var(--tm-bg); }
+.bd-app { display: flex; flex-direction: column; height: 100vh; height: 100dvh; background: var(--tm-bg); }
 
 /* ── Top bar — borderless, floating ─────────────────────────────── */
 .bd-top {
@@ -59,7 +59,7 @@ html, body { height: 100%; overflow: hidden; }
 }
 
 /* ── Canvas ──────────────────────────────────────────────────────── */
-.bd-canvas-wrap { flex: 1; position: relative; background: var(--tm-bg); overflow: hidden; }
+.bd-canvas-wrap { flex: 1; min-height: 0; position: relative; background: var(--tm-bg); overflow: hidden; }
 
 .bd-canvas {
   width: 100%;

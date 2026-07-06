@@ -12,7 +12,7 @@
              STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
 ═══════════════════════════════════════════════════════════════════ */
 
-const ANTHROPIC_VERSION = '2023-06-01';
+const ANTHROPIC_VERSION = '2024-10-22';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',

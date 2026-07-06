@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════
-   TAMATO — UNIVERSAL MODEL SYSTEM
+   TAMATO — UNIVERSAL MODEL SYSTEM  v3.1
    Five models, identical across /build, /ai, /studio. Same names,
    same backends, same credit units everywhere.
 ═══════════════════════════════════════════════════════════════════ */
@@ -43,12 +43,13 @@ export const MODELS = {
   },
   KRATOR: {
     id: 'KRATOR',
-    name: 'Krator',
+    name: 'Krator 5',
     backend: 'krator',
     provider: 'anthropic',
     credits_per_unit: 28,
     credits_per_unit_gen: 28,
     credits_per_unit_edit: 22,
+    max_output_tokens: 128000,
     description: 'Frontier-class. Beyond Megisto. 28 credits/unit.',
   },
 };
@@ -115,7 +116,7 @@ export async function streamModel({ modelId, system, messages, maxTokens = 8000,
     messages,
     system: system || undefined,
     stream: true,
-    max_tokens: m.max_tokens ? Math.min(maxTokens, m.max_tokens) : maxTokens,
+    max_tokens: m.max_output_tokens ? Math.min(maxTokens, m.max_output_tokens) : (m.max_tokens ? Math.min(maxTokens, m.max_tokens) : maxTokens),
   };
   const res = await fetch(WORKER_URL, {
     method: 'POST', headers: { 'Content-Type': 'application/json' },

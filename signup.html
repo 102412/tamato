@@ -73,6 +73,7 @@
         <div class="plan-card" data-plan="single"><h3>Single Site</h3><div class="price">$14.97 once</div><ul><li>1 site export</li><li>No watermark</li><li>Pythm 4.5 access</li></ul></div>
         <div class="plan-card" data-plan="single_dev"><h3>Single Site + Dev</h3><div class="price">$19.97 once</div><ul><li>Everything in Single Site</li><li>Dev mode editor</li></ul></div>
         <div class="plan-card" data-plan="pro" data-monthly="pro_monthly" data-annual="pro_annual"><h3>Pro</h3><div class="price" data-price-m="$29.99/mo" data-price-y="$341.89/yr">$29.99/mo</div><ul><li>500 credits/mo</li><li>All models</li><li>Dev mode included</li></ul></div>
+        <div class="plan-card" data-plan="pro_krator" data-monthly="pro_krator_monthly" data-annual="pro_krator_annual"><h3>Pro + Krator 5</h3><div class="price" data-price-m="$37.97/mo" data-price-y="$432.85/yr">$37.97/mo</div><ul><li>500 credits/mo</li><li>All 5 models incl. Krator 5</li><li>Dev mode included</li></ul></div>
         <div class="plan-card" data-plan="agency3" data-monthly="agency3_monthly" data-annual="agency3_annual"><h3>Agency 3</h3><div class="price" data-price-m="$99.97/mo" data-price-y="$1,139.66/yr">$99.97/mo</div><ul><li>3 seats</li><li>2,400 credits/mo</li><li>Everything in Pro</li></ul></div>
         <div class="plan-card" data-plan="agency5" data-monthly="agency5_monthly" data-annual="agency5_annual"><h3>Agency 5</h3><div class="price" data-price-m="$134.97/mo" data-price-y="$1,538.66/yr">$134.97/mo</div><ul><li>5 seats</li><li>4,000 credits/mo</li><li>Everything in Pro</li></ul></div>
         <div class="plan-card" data-plan="agency10" data-monthly="agency10_monthly" data-annual="agency10_annual"><h3>Agency 10</h3><div class="price" data-price-m="$216.97/mo" data-price-y="$2,473.46/yr">$216.97/mo</div><ul><li>10 seats</li><li>6,000 credits/mo</li><li>Everything in Pro</li></ul></div>
@@ -138,7 +139,7 @@ document.getElementById('next2').addEventListener('click', () => {
 });
 
 // Step 3
-const SUBSCRIPTION_TIERS = new Set(['pro', 'agency3', 'agency5', 'agency10', 'brandwide']);
+const SUBSCRIPTION_TIERS = new Set(['pro', 'pro_krator', 'agency3', 'agency5', 'agency10', 'brandwide']);
 
 document.getElementById('plans').addEventListener('click', (e) => {
   const cardEl = e.target.closest('.plan-card'); if (!cardEl) return;

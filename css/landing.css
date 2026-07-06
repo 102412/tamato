@@ -118,7 +118,7 @@ body.landing-page {
 .landing-page .hero h1 {
   position: relative; z-index: 2;
   font-family: var(--font-hero);
-  font-size: clamp(64px, 11vw, 132px); font-weight: 400; letter-spacing: -0.02em; line-height: 0.9;
+  font-size: clamp(64px, 11vw, 132px); font-weight: 400; letter-spacing: -0.02em; line-height: 1.05;
   margin: 0 0 28px;
 }
 .landing-page .hero h1 span { display: block; }

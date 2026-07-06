@@ -51,7 +51,7 @@ export const TIERS = {
     creditsMonthly: 500, pools: 'shared', annualBonus: 200,
   },
   pro_krator: {
-    id: 'pro_krator', name: 'Pro + Krator', price: '$37.97/mo · $432.85/yr',
+    id: 'pro_krator', name: 'Pro + Krator 5', price: '$37.97/mo · $432.85/yr',
     models: { build: KRATOR_MODELS, ai: KRATOR_MODELS, studio: KRATOR_MODELS },
     build: { genLifetime: Infinity, editLifetime: Infinity, freeChat: true, devMode: true, exportLocked: false, siteCap: 10, dailyGenCap: 5 },
     ai: { imageUploads: true, livePreview: true, mentions: true },
@@ -226,7 +226,7 @@ export function getModelSelectorState(profile, product) {
     if (!allowed.includes(id)) {
       state = 'locked';
       tooltip = id === 'KRATOR'
-        ? 'Available on Pro + Krator, all Agency plans, and Brand Wide'
+        ? 'Available on Pro + Krator 5, all Agency plans, and Brand Wide'
         : 'Upgrade your plan to use ' + m.name;
     } else if (!m.always_free && balance < m.credits_per_unit) {
       state = 'no_credits';

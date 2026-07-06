@@ -93,15 +93,15 @@ let profile, user;
   const upsellText = document.getElementById('kratorUpsellText');
   const upsellBtn  = document.getElementById('kratorUpsellBtn');
   if (tierObj.id === 'pro') {
-    upsellText.textContent = 'Want frontier-class generation? Krator unlocks Claude Fable 5 on your existing 500 credit pool.';
-    upsellBtn.textContent = 'Add Krator — $7.98/month more';
+    upsellText.textContent = 'Want frontier-class generation? Krator 5 unlocks Claude Fable 5 on your existing 500 credit pool.';
+    upsellBtn.textContent = 'Add Krator 5 — $7.98/month more';
     upsellWrap.style.display = 'block';
     upsellBtn.addEventListener('click', () =>
       checkout('pro_krator_monthly', { userId: user.id, email: profile.email }).catch(e => toast(e.message, 'error'))
     );
   } else if (tierObj.id === 'single' && !profile.single_site_megisto_krator_addon) {
-    upsellText.textContent = 'Unlock Megisto 4.8 and Krator on your existing 150 lifetime credits — one payment, no subscription.';
-    upsellBtn.textContent = 'Add Megisto + Krator — $7 one-time';
+    upsellText.textContent = 'Unlock Megisto 4.8 and Krator 5 on your existing 150 lifetime credits — one payment, no subscription.';
+    upsellBtn.textContent = 'Add Megisto + Krator 5 — $7 one-time';
     upsellWrap.style.display = 'block';
     upsellBtn.addEventListener('click', () =>
       checkout('single_megisto_krator_addon', { userId: user.id, email: profile.email }).catch(e => toast(e.message, 'error'))

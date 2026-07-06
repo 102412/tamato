@@ -4,7 +4,7 @@
    Shown once per browser via localStorage; never again after dismiss.
 ═══════════════════════════════════════════════════════════════════ */
 (function () {
-  if (localStorage.getItem('tm_krator_announcement_seen')) return;
+  if (localStorage.getItem('tm_krator5_announcement_seen')) return;
 
   function init() {
     const style = document.createElement('style');
@@ -102,7 +102,7 @@
     document.body.appendChild(overlay);
 
     function dismiss() {
-      localStorage.setItem('tm_krator_announcement_seen', 'true');
+      localStorage.setItem('tm_krator5_announcement_seen', 'true');
       overlay.remove();
     }
 

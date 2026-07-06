@@ -110,21 +110,31 @@ async function handleGroq({ tamatoModel, messages, system, max_tokens, stream, e
   });
 }
 
-/* ── Anthropic — pythm-4.5, metrio-4.6, megisto-4.8 ─────────────── */
+/* ── Anthropic — pythm-4.5, metrio-4.6, megisto-4.8, krator ─────── */
 async function handleAnthropic({ tamatoModel, messages, system, max_tokens, stream, env }) {
   const anthropicModel = ANTHROPIC_MODEL_MAP[tamatoModel];
+  const isKrator = tamatoModel === 'krator';
   const anthropicMessages = messages.map(m => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content }));
 
   const requestBody = { model: anthropicModel, max_tokens, messages: anthropicMessages, stream };
   if (system) requestBody.system = system;
 
+  // Fable 5 (Krator) is an extended thinking model — must opt in
+  if (isKrator) {
+    const thinkingBudget = Math.max(1000, Math.floor(max_tokens * 0.25));
+    requestBody.thinking = { type: 'enabled', budget_tokens: thinkingBudget };
+  }
+
+  const headers = {
+    'x-api-key': env.ANTHROPIC_API_KEY,
+    'anthropic-version': ANTHROPIC_VERSION,
+    'Content-Type': 'application/json',
+  };
+  if (isKrator) headers['anthropic-beta'] = 'interleaved-thinking-2025-05-14';
+
   const upstream = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: {
-      'x-api-key': env.ANTHROPIC_API_KEY,
-      'anthropic-version': ANTHROPIC_VERSION,
-      'Content-Type': 'application/json',
-    },
+    headers,
     body: JSON.stringify(requestBody),
   });
 

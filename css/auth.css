@@ -85,11 +85,11 @@
   font-size: 14px;
   color: var(--tm-text-2);
 }
-.auth-foot a { color: var(--tm-accent); font-weight: 600; }
+.auth-foot a { color: var(--tm-accent-deep); font-weight: 600; }
 .auth-foot a:hover { opacity: 0.8; }
 
 .auth-error {
-  color: var(--tm-accent);
+  color: var(--tm-red);
   font-size: 13px;
   margin-top: var(--sp-3);
   min-height: 18px;

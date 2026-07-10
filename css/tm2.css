@@ -1,276 +1,257 @@
 /* ═══════════════════════════════════════════════════════════════════
-   TAMATO v2 — SITEWIDE DESIGN SYSTEM
-   Loaded last on every non-index page. Every declaration is !important
-   so it always wins regardless of selector specificity in hub.css /
-   auth.css / global.css. No markup/JS dependencies are touched.
+   TAMATO — SITEWIDE REBRAND OVERRIDES
+   Loaded last on every non-landing page. Applies glass/lime design
+   system over any component-level CSS with !important enforcement.
 ═══════════════════════════════════════════════════════════════════ */
 
-:root {
-  --black: #000000;
-  --surface: #0C0C0D;
-  --card: #18181B;
-  --glass: rgba(255,255,255,0.04);
-  --glass-border: rgba(255,255,255,0.09);
-  --border: rgba(255,255,255,0.07);
-  --accent: #FF4D2A;
-  --accent-hot: #FF3A1A;
-  --text-1: #F4F4F5;
-  --text-2: rgba(255,255,255,0.40);
-  --text-3: rgba(255,255,255,0.20);
-  --font: 'Oswald', 'Plus Jakarta Sans', sans-serif;
-  --font-hero: 'Boldonse', 'Oswald', sans-serif;
-  --mono: 'Roboto Mono', monospace;
+/* ── Ensure new tokens win everywhere ──────────────────────────── */
+:root,
+:root[data-theme="dark"],
+:root[data-theme="light"] {
+  --tm-bg:           transparent !important;
+  --tm-surface:      rgba(250,248,244,0.88) !important;
+  --tm-surface-2:    rgba(240,237,230,0.82) !important;
+  --tm-surface-3:    rgba(228,224,215,0.76) !important;
+  --tm-border:       rgba(255,255,255,0.28) !important;
+  --tm-border-2:     rgba(0,0,0,0.10) !important;
+  --tm-text:         #1a1a1a !important;
+  --tm-text-2:       #585858 !important;
+  --tm-text-3:       #999999 !important;
+  --tm-accent:       #c4f542 !important;
+  --tm-accent-dim:   #a3d436 !important;
+  --tm-accent-deep:  #7ab020 !important;
+  --tm-accent-muted: rgba(196,245,66,0.16) !important;
+  --tm-accent-glow:  rgba(196,245,66,0.32) !important;
+  --tm-green:        #3ecf8e !important;
+  --tm-red:          #f87171 !important;
+  --font-display:    'Playfair Display', Georgia, serif !important;
+  --font-ui:         'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  --r-input:         10px !important;
+  --r-card:          16px !important;
+  --r-modal:         20px !important;
+  --r-pill:          999px !important;
 }
 
-/* ── Override the underlying design tokens themselves ─────────────
-   /build, /ai, /studio, and every hub.css component reference these
-   --tm-* variables directly. Redefining them at the same specificity
-   as global.css's :root[data-theme] blocks (plus !important) cascades
-   the black/glass system into every component automatically — no
-   need to chase every individual class. ────────────────────────── */
-:root[data-theme="dark"], :root[data-theme="light"], :root {
-  --tm-bg:           #000000 !important;
-  --tm-surface:      rgba(255,255,255,0.04) !important;
-  --tm-surface-2:    rgba(255,255,255,0.06) !important;
-  --tm-surface-3:    rgba(255,255,255,0.09) !important;
-  --tm-border:       rgba(255,255,255,0.09) !important;
-  --tm-border-2:     rgba(255,255,255,0.16) !important;
-  --tm-text:         #F4F4F5 !important;
-  --tm-text-2:       rgba(255,255,255,0.40) !important;
-  --tm-text-3:       rgba(255,255,255,0.20) !important;
-  --tm-accent:       #FF4D2A !important;
-  --tm-accent-dim:   #FF3A1A !important;
-  --tm-accent-muted: rgba(255,77,42,0.12) !important;
-  --tm-accent-glow:  rgba(255,77,42,0.20) !important;
-  --tm-green:        #3ECF8E !important;
-  --tm-dynamic-bg:      #000000 !important;
-  --tm-dynamic-surface: rgba(255,255,255,0.04) !important;
-  --tm-dynamic-accent:  #FF4D2A !important;
-  --tm-dynamic-border:  rgba(255,255,255,0.09) !important;
-  --tm-overlay:      0 4px 24px rgba(0,0,0,0.5) !important;
+/* ── Kill old background layers ────────────────────────────────── */
+.db-bg,
+.db-bg-img,
+.db-bg-overlay,
+.db-ambient,
+.lp-grain,
+.tm-theme-toggle { display: none !important; }
+
+/* ── Body base ─────────────────────────────────────────────────── */
+html { background: #0d1124 !important; }
+body {
+  background: transparent !important;
+  color: var(--tm-text) !important;
+  font-family: var(--font-ui) !important;
 }
 
-/* Glass blur needs backdrop-filter, which a plain background-color swap can't add */
-.bd-top, .bd-promptbar, .bd-canvas-wrap, .bd-dev-side, .bd-model-menu,
-.ai-sidebar, .ai-sb-head, .ai-input-wrap, .ai-model-menu,
-.st-top, .st-canvas-wrap {
-  backdrop-filter: blur(20px) !important; -webkit-backdrop-filter: blur(20px) !important;
+/* ── Dark glass nav / topbars ──────────────────────────────────── */
+.db-topbar,
+.bd-top,
+.ai-topbar,
+.st-top,
+.ai-sidebar,
+.ai-sb-head,
+.bd-sidebar,
+.st-sidebar,
+nav.tm-glass-dark {
+  background: rgba(14,16,25,0.72) !important;
+  backdrop-filter: blur(28px) saturate(1.5) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(1.5) !important;
+  border-color: rgba(255,255,255,0.09) !important;
+  color: #f5f0e8 !important;
 }
 
-html, body {
-  background: #000000 !important;
-  color: var(--text-1) !important;
-  font-family: var(--font) !important;
+/* Text inside dark bars */
+.db-topbar *,
+.bd-top *,
+.ai-topbar *,
+.st-top *,
+.ai-sb-head * {
+  color: inherit;
 }
 
-/* ── Text wordmark (replaces raster logo images) ────────────────── */
-.tm-wordmark {
-  font-size: 15px !important; font-weight: 800 !important; letter-spacing: -0.04em !important;
-  text-decoration: none !important; display: inline-flex !important; align-items: center !important;
-  background: linear-gradient(135deg, #fff 50%, rgba(255,255,255,0.38)) !important;
-  -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; background-clip: text !important;
+/* Active nav indicator */
+.db-nav-item.active,
+.ai-nav-item.active,
+.st-nav-item.active {
+  background: var(--tm-accent-muted) !important;
+  color: var(--tm-accent-deep) !important;
+  border-color: rgba(196,245,66,0.25) !important;
 }
-.tm-wordmark span { -webkit-text-fill-color: var(--accent-hot) !important; }
 
-/* ── Buttons ─────────────────────────────────────────────────────── */
-.tm-btn, .btn-chrome, .btn-hot {
-  font-family: inherit !important; border-radius: 999px !important; cursor: pointer !important; text-decoration: none !important;
-  display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important;
+/* ── Light glass content surfaces ──────────────────────────────── */
+.tm-card,
+.tm-panel,
+.tm-modal,
+.auth-card,
+.db-panel,
+.plan-card,
+.consent-box,
+.dev-modal,
+.bd-prompt-wrap,
+.st-panel,
+.ai-thread,
+.ai-msg.assistant {
+  background: rgba(250,248,244,0.88) !important;
+  backdrop-filter: blur(24px) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(130%) !important;
+  border: 1px solid rgba(255,255,255,0.28) !important;
+  color: #1a1a1a !important;
 }
-.tm-btn-primary, .btn-hot, .auth-actions .tm-btn, #submit, #enter, #m_build {
-  background: linear-gradient(135deg, #FF4422, #B81E04) !important;
-  border: 1px solid rgba(255,55,20,0.5) !important;
-  box-shadow: 0 0 14px rgba(255,50,20,0.3), inset 0 1px 0 rgba(255,255,255,0.18) !important;
+
+/* ── Modal overlay ─────────────────────────────────────────────── */
+.tm-modal-overlay {
+  background: rgba(0,0,0,0.50) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+}
+
+/* ── Inputs ────────────────────────────────────────────────────── */
+.tm-input,
+.tm-textarea,
+.tm-select,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  background: rgba(255,255,255,0.72) !important;
+  border: 1px solid rgba(0,0,0,0.10) !important;
+  border-radius: 10px !important;
+  color: #1a1a1a !important;
+  font-family: var(--font-ui) !important;
+}
+.tm-input:focus,
+.tm-textarea:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+  border-color: #a3d436 !important;
+  box-shadow: 0 0 0 3px rgba(196,245,66,0.30) !important;
+  background: rgba(255,255,255,0.92) !important;
+}
+.tm-input::placeholder,
+.tm-textarea::placeholder,
+input::placeholder,
+textarea::placeholder {
+  color: #999999 !important;
+}
+
+/* ── All buttons → pill radius ─────────────────────────────────── */
+.tm-btn,
+.btn,
+.btn-hot,
+.btn-chrome,
+button[class*="btn"],
+a[class*="btn"] {
+  border-radius: 999px !important;
+}
+
+/* ── Primary / CTA buttons → lime ─────────────────────────────── */
+.tm-btn-primary,
+.btn-hot {
+  background: #c4f542 !important;
+  color: #14161f !important;
+  border-color: transparent !important;
+  font-weight: 600 !important;
+}
+.tm-btn-primary:hover,
+.btn-hot:hover {
+  background: #a3d436 !important;
+  box-shadow: 0 0 0 3px rgba(196,245,66,0.32) !important;
+}
+
+/* Chrome/secondary buttons */
+.btn-chrome {
+  background: rgba(255,255,255,0.12) !important;
+  color: #f5f0e8 !important;
+  border: 1px solid rgba(255,255,255,0.22) !important;
+  backdrop-filter: blur(10px) !important;
+}
+.btn-chrome:hover {
+  background: rgba(255,255,255,0.20) !important;
+}
+
+/* Danger button */
+.tm-btn-danger {
+  background: rgba(248,113,113,0.14) !important;
+  color: #f87171 !important;
+  border-color: rgba(248,113,113,0.25) !important;
+}
+.tm-btn-danger:hover {
+  background: #f87171 !important;
   color: #fff !important;
 }
-.tm-btn-ghost, .tm-btn-text, .btn-chrome, .auth-google {
-  background: rgba(255,255,255,0.04) !important;
-  border: 1px solid rgba(255,255,255,0.14) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.09) !important;
-  color: rgba(255,255,255,0.7) !important;
-}
-.tm-btn-danger { background: rgba(255,77,42,0.12) !important; border: 1px solid rgba(255,77,42,0.3) !important; color: #FF5535 !important; }
 
-/* ── Inputs ──────────────────────────────────────────────────────── */
-.tm-input, .tm-textarea, .tm-select {
-  background: rgba(255,255,255,0.04) !important;
-  border: 1px solid rgba(255,255,255,0.09) !important;
-  border-radius: 10px !important;
-  color: var(--text-1) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05) !important;
-}
-.tm-input::placeholder, .tm-textarea::placeholder { color: rgba(255,255,255,0.22) !important; }
-.tm-input:focus, .tm-textarea:focus, .tm-select:focus { border-color: rgba(255,255,255,0.18) !important; box-shadow: none !important; }
-.tm-label { color: var(--text-2) !important; }
-
-/* ── Glass surfaces (cards, modals, auth cards, panels) ─────────── */
-.auth-card, .tm-card, .tm-modal, .price-col, .activity-card, .plan-card,
-.conn-row, .credits-module, .module-tabs, .acct-card, .consent-box,
-.reload-card, .module-panel .reload-card, .credits-balance-block,
-.tm-modal-overlay .tm-modal {
-  background: rgba(255,255,255,0.04) !important;
-  border: 1px solid rgba(255,255,255,0.09) !important;
-  border-top: 1px solid rgba(255,255,255,0.09) !important;
-  backdrop-filter: blur(24px) !important; -webkit-backdrop-filter: blur(24px) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.07), 0 4px 24px rgba(0,0,0,0.5) !important;
-}
-.price-col.featured { border-left: 2px solid var(--accent-hot) !important; background: rgba(255,255,255,0.06) !important; }
-.plan-card.selected { border-color: var(--accent-hot) !important; background: rgba(255,77,42,0.08) !important; }
-
-.auth-wrap { background: transparent !important; }
-
-/* ── Headlines (the fix: !important beats class-vs-element specificity) ── */
-h1, h2, h3, .auth-title, .lp-melio h2, .doc h1, .legal h1, .help h1 {
-  background: linear-gradient(180deg, #ffffff 20%, rgba(255,255,255,0.45)) !important;
-  -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; background-clip: text !important;
-  font-weight: 800 !important; letter-spacing: -0.03em !important;
-}
-.auth-sub, .tm-muted, .lead, p.auth-sub, .doc p, .legal p, .auth-foot, .tm-dim {
-  color: var(--text-2) !important;
-  -webkit-text-fill-color: var(--text-2) !important;
-}
-
-/* ── Top bars / nav across app + marketing pages ────────────────── */
-.db-topbar, .lp-nav, .lp-top, .bd-top, .ai-sb-head, .st-top, nav {
-  background: transparent !important;
-  backdrop-filter: blur(24px) !important; -webkit-backdrop-filter: blur(24px) !important;
-  border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-}
-
-/* ── Footers ─────────────────────────────────────────────────────── */
-.lp-foot, .tm-footer {
-  background: transparent !important;
-  border-top: 1px solid rgba(255,255,255,0.05) !important;
-}
-.lp-foot-links a, .tm-footer-links a { color: rgba(255,255,255,0.22) !important; }
-.lp-foot-links a:hover, .tm-footer-links a:hover { color: rgba(255,255,255,0.5) !important; }
-
-/* ── Pills / chips / badges ──────────────────────────────────────── */
-.tm-credit-pill, .tm-pill, .mr-cost, .tm-badge, .mock-chip {
-  background: rgba(255,255,255,0.04) !important;
-  border: 1px solid rgba(255,255,255,0.09) !important;
-  color: var(--text-2) !important;
-}
-
-/* ── Rules / dividers ────────────────────────────────────────────── */
-hr, .tm-hr, .auth-divider::before, .auth-divider::after {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07) 20%, rgba(255,255,255,0.07) 80%, transparent) !important;
-  border: none !important; height: 1px !important;
-}
-
-/* ── Misc surfaces ───────────────────────────────────────────────── */
-.tm-surface, .tm-shell, .db-main, .db-sidebar, .ai-sidebar, .key-display, .acct-wrap {
-  background: transparent !important;
-}
-.key-display { border: 1px solid rgba(255,255,255,0.09) !important; }
-::selection { background: rgba(255,77,42,0.25); color: #fff; }
-
-/* ── Dashboard: kill the old rice-terrace background image ──────── */
-.db-bg, .db-bg-img, .db-bg-overlay, .db-ambient, .lp-grain {
-  display: none !important;
-}
-.db-hero, .db-panel-wrap, body {
-  background: #000000 !important;
-}
-.db-greeting, .db-summary {
+/* ── Typography overrides ──────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6,
+.tm-modal-title,
+.auth-title {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  color: #1a1a1a !important;
+  background: none !important;
   -webkit-text-fill-color: initial !important;
-}
-.db-greeting {
-  background: linear-gradient(180deg, #ffffff 20%, rgba(255,255,255,0.45)) !important;
-  -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; background-clip: text !important;
-  font-family: var(--font-hero) !important;
-  font-weight: 400 !important;
-  line-height: 1.18 !important;
-  padding-bottom: 0.1em !important;
-}
-.db-summary { color: var(--text-2) !important; }
-.db-quick-action {
-  background: rgba(255,255,255,0.04) !important;
-  border: 1px solid rgba(255,255,255,0.09) !important;
-  backdrop-filter: blur(24px) !important; -webkit-backdrop-filter: blur(24px) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.07) !important;
-  color: var(--text-1) !important;
-}
-.db-panel-wrap {
-  border-top: 1px solid rgba(255,255,255,0.07) !important;
-  box-shadow: none !important;
-}
-.module-tabs {
-  background: rgba(255,255,255,0.03) !important;
-  border: 1px solid rgba(255,255,255,0.08) !important;
-}
-.module-tab-indicator {
-  background: linear-gradient(135deg, #FF4422, #B81E04) !important;
-}
-.module-tab { color: rgba(255,255,255,0.4) !important; }
-.module-tab.active { color: #fff !important; }
-.module-panel .activity-card, .activity-card {
-  background: rgba(255,255,255,0.04) !important;
-  border: 1px solid rgba(255,255,255,0.09) !important;
-}
-.activity-card .ac-title { color: var(--text-1) !important; -webkit-text-fill-color: var(--text-1) !important; }
-.activity-card .ac-meta { color: rgba(255,255,255,0.40) !important; }
-
-/* ── More breathing room — dashboard felt cramped ────────────────── */
-.db-hero {
-  padding-top: calc(62px + clamp(80px, 14vh, 160px)) !important;
-  padding-bottom: clamp(64px, 10vh, 100px) !important;
-  min-height: 62vh !important;
-}
-.db-greeting { margin-bottom: 20px !important; }
-.db-summary { margin-bottom: 44px !important; }
-.db-quick-actions { gap: 14px !important; }
-.db-quick-action { padding: 15px 26px !important; }
-
-.db-panel-wrap { padding-top: 44px !important; }
-.module-tabs { margin-bottom: 36px !important; padding: 6px !important; }
-.module-tab { padding: 10px 20px !important; }
-
-.activity-grid { gap: 18px !important; }
-.activity-card { padding: 24px !important; }
-.reload-grid { gap: 18px !important; margin: 28px 0 !important; }
-.reload-card { padding: 30px 22px !important; }
-.credits-balance-block { padding: 44px 32px !important; }
-.credits-balance-num { font-size: 64px !important; margin-bottom: 14px !important; }
-.credits-balance-label { margin-bottom: 16px !important; }
-.credits-module { gap: 56px !important; align-items: stretch !important; }
-.module-panel[data-module="credits"] h4 { margin-bottom: 14px !important; }
-.module-panel[data-module="credits"] > div > div:last-child { padding-top: 4px !important; }
-
-.reload-card:hover, .module-panel .reload-card:hover {
-  border-color: rgba(255,77,42,0.4) !important;
-  background: rgba(255,77,42,0.10) !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
 }
 
-/* ── lp-top (pricing/melio simple nav) — give it real spacing ────── */
-.lp-top {
-  display: flex !important;
-  gap: 8px !important;
-  padding: 0 32px 24px !important;
+/* ── Auth card specific ─────────────────────────────────────────── */
+.auth-card {
+  border-top: 3px solid #c4f542 !important;
+  border-radius: var(--r-modal) !important;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.20) !important;
 }
 
-/* ── Sitewide mobile pass ──────────────────────────────────────── */
-@media (max-width: 640px) {
-  .lp-top { padding: 0 20px 20px !important; flex-wrap: wrap; }
-  .db-topbar { padding: 0 10px !important; gap: 6px !important; }
-  .db-topbar-right {
-    gap: 6px !important; flex-wrap: nowrap !important;
-    flex: 1 1 auto !important; min-width: 0 !important;
-    overflow-x: auto !important; -webkit-overflow-scrolling: touch;
-    justify-content: flex-start !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-  }
-  .db-topbar-right::-webkit-scrollbar { display: none !important; }
-  .db-topbar-right > * { flex-shrink: 0 !important; }
-  .tm-credit-pill { font-size: 11px !important; padding: 5px 8px !important; }
-  #addCredits { font-size: 11px !important; padding: 6px 10px !important; }
-  .tm-avatar { width: 30px !important; height: 30px !important; font-size: 12px !important; }
-  .acct-wrap, .doc, .legal, .help { padding: var(--sp-6) var(--sp-4) !important; }
-  .price-grid { grid-template-columns: 1fr !important; }
-  .reload-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  .credits-module { grid-template-columns: 1fr !important; }
+/* ── Wordmark ────────────────────────────────────────────────────── */
+.tm-wordmark {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  color: #f5f0e8 !important;
+  font-style: italic !important;
+  background: none !important;
+  -webkit-text-fill-color: #f5f0e8 !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
 }
-@media (max-width: 420px) {
-  .reload-grid { grid-template-columns: 1fr !important; }
+
+/* On light panels the wordmark should be dark */
+.tm-glass .tm-wordmark,
+.tm-card .tm-wordmark,
+.auth-wrap .tm-wordmark {
+  color: #1a1a1a !important;
+  -webkit-text-fill-color: #1a1a1a !important;
+}
+
+/* ── Credit pill ─────────────────────────────────────────────────── */
+.tm-credit-pill {
+  background: rgba(255,255,255,0.50) !important;
+  border: 1px solid rgba(196,245,66,0.30) !important;
+  color: #1a1a1a !important;
+  border-radius: 999px !important;
+}
+
+/* ── Accent highlights ───────────────────────────────────────────── */
+.tm-accent { color: #7ab020 !important; }
+.tm-badge-accent {
+  background: rgba(196,245,66,0.16) !important;
+  color: #7ab020 !important;
+  border-color: rgba(196,245,66,0.28) !important;
+}
+
+/* ── Mobile canvas container ─────────────────────────────────────── */
+.bd-canvas-wrap,
+.bd-mobile-frame {
+  background: transparent !important;
+}
+
+/* ── Build prompt bar ────────────────────────────────────────────── */
+.bd-prompt-wrap {
+  border-radius: 20px !important;
+}
+.bd-prompt-bar {
+  background: rgba(250,248,244,0.92) !important;
+  border-color: rgba(255,255,255,0.28) !important;
 }

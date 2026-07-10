@@ -102,36 +102,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Sky + horizon gradient + layered mountain silhouettes */
+/* Mountain dusk photo background */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -2;
   background:
-    /* near mountains — darkest foreground */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100'%3E%3Cpath fill='%2314161f' d='M0,100 L0,64 L60,56 L100,62 L150,48 L200,54 L250,38 L310,50 L360,32 L420,46 L470,26 L530,40 L580,52 L640,30 L700,44 L760,18 L820,34 L880,48 L940,22 L1000,36 L1060,20 L1120,34 L1180,50 L1240,36 L1310,46 L1380,54 L1440,58 L1440,100 Z'/%3E%3C/svg%3E")
-      bottom center / 100% 42% no-repeat,
-    /* mid mountains — muted blue-slate */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100'%3E%3Cpath fill='%233d4a60' fill-opacity='0.7' d='M0,100 L0,80 L90,72 L200,64 L310,72 L420,60 L540,68 L650,54 L760,64 L880,58 L990,66 L1100,72 L1220,66 L1340,70 L1440,74 L1440,100 Z'/%3E%3C/svg%3E")
-      bottom center / 100% 54% no-repeat,
-    /* far mountains — hazy lavender */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100'%3E%3Cpath fill='%23607090' fill-opacity='0.38' d='M0,100 L0,86 L200,82 L440,76 L680,80 L920,74 L1160,80 L1440,84 L1440,100 Z'/%3E%3C/svg%3E")
-      bottom center / 100% 62% no-repeat,
-    /* dusk sky gradient */
-    linear-gradient(
-      180deg,
-      #0d1124 0%,
-      #151a32 12%,
-      #231c42 24%,
-      #4a2040 34%,
-      #8c3e2a 46%,
-      #d67a50 56%,
-      #e8b870 66%,
-      #c8924e 76%,
-      #7a4a24 86%,
-      #2e1608 100%
-    );
+    /* dark vignette at top so nav text stays readable */
+    linear-gradient(180deg, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.10) 30%, transparent 55%) top / 100% 100% no-repeat,
+    url('/assets/bg-mountain.jpg') center / cover no-repeat;
   pointer-events: none;
 }
 

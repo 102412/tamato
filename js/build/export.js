@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════
+﻿/* ═══════════════════════════════════════════════════════════════════
    TAMATO BUILD — EXPORT
    Lazy-loads JSZip. Free tier gets an attribution comment; paid is clean.
    Active connectors trigger a risk-acknowledgment modal before download.
@@ -8,8 +8,8 @@ import { activeConnectors, DATA_CONNECTORS } from '/js/connectors.js';
 import { supabase, getUser, toast } from '/js/supabase.js';
 
 const JSZIP_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
-const FREE_COMMENT = '<!-- Built with Tamato | tamato.design -->\n';
-const README = `Built with Tamato — tamato.design | Your code. Forever.`;
+const FREE_COMMENT = '<!-- Built with Hasso | hasso.design -->\n';
+const README = `Built with Hasso — hasso.design | Your code. Forever.`;
 
 let _jszip = null;
 async function loadJSZip() {
@@ -55,7 +55,7 @@ export async function runExport(state, profile, { onHostingHelp } = {}) {
     const blob = await zip.generateAsync({ type: 'blob' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = (state.site?.name || 'tamato-site').replace(/\s+/g, '-').toLowerCase() + '.zip';
+    a.href = url; a.download = (state.site?.name || 'hasso-site').replace(/\s+/g, '-').toLowerCase() + '.zip';
     document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url);
     toast('Exported.', 'success');
@@ -75,7 +75,7 @@ function riskModal(active) {
           On export, data connectors (Stripe, PayPal, Mailchimp) become static
           <code>mailto:</code> fallbacks. Embed connectors keep their credentials
           in plain text, visible in your exported source. You accept full
-          responsibility for the exported code. Tamato is not liable for credentials
+          responsibility for the exported code. Hasso is not liable for credentials
           you choose to ship.
         </p>
         <label class="checkbox-row" style="margin-bottom:var(--sp-4)"><input type="checkbox" id="ackChk"> I understand and accept responsibility.</label>

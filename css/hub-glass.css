@@ -1,9 +1,9 @@
-/* ================================================================
+﻿/* ================================================================
    hub-glass.css — dashboard.html ONLY
    Dusk mountain backdrop. Dark glass panels. Lime accent.
    ================================================================ */
 
-:root { --db-amb-color: 196, 245, 66; }
+:root { --db-amb-color: 196, 123, 58; }
 
 body { background: transparent; }
 
@@ -37,7 +37,7 @@ body { background: transparent; }
   background: rgba(13,17,36,0.60);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(196,245,66,0.22);
+  border: 1px solid  rgba(196,123,58,0.12) ;
   color: #f5f0e8;
 }
 .db-topbar .tm-avatar {
@@ -97,10 +97,10 @@ body { background: transparent; }
   transition: background 180ms, border-color 180ms, transform 150ms, box-shadow 150ms;
 }
 .db-quick-action:hover {
-  background: rgba(196,245,66,0.12);
-  border-color: rgba(196,245,66,0.35);
+  background:  rgba(196,123,58,0.12) ;
+  border-color:  rgba(196,123,58,0.12) ;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(196,245,66,0.10);
+  box-shadow: 0 6px 20px  rgba(196,123,58,0.12) ;
   text-decoration: none;
 }
 .db-quick-action:active { transform: scale(0.98); }
@@ -146,7 +146,7 @@ body { background: transparent; }
   top: 5px; left: 5px;
   height: calc(100% - 10px);
   min-width: 10px;
-  background: var(--tm-accent, #c4f542);
+  background: var(--tm-accent, #C47B3A);
   border-radius: 9px;
   pointer-events: none;
   z-index: 0;
@@ -172,7 +172,7 @@ body { background: transparent; }
   flex-shrink: 0;
 }
 .module-tab:hover:not(.active) { color: rgba(245,240,232,0.85); }
-.module-tab.active { color: #14161f; }
+.module-tab.active { color: #ffffff; }
 
 @keyframes glassEnter {
   from { opacity: 0; transform: translateY(6px); }
@@ -211,7 +211,7 @@ body { background: transparent; }
   transition: border-color 120ms ease, border-left-color 120ms ease, background 120ms ease, transform 120ms ease, box-shadow 120ms ease;
 }
 .module-panel .activity-card:hover {
-  border-left-color: var(--tm-accent, #c4f542);
+  border-left-color: var(--tm-accent, #C47B3A);
   transform: translateY(-2px);
   box-shadow: 0 6px 24px rgba(0,0,0,0.22);
   background: rgba(255,255,255,0.06);
@@ -255,8 +255,8 @@ body { background: transparent; }
   transition: border-color 120ms ease, transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
 }
 .convo-item:hover {
-  border-color: rgba(196,245,66,0.32);
-  background: rgba(196,245,66,0.05);
+  border-color:  rgba(196,123,58,0.12) ;
+  background:  rgba(196,123,58,0.12) ;
   transform: translateX(4px);
   box-shadow: 0 4px 16px rgba(0,0,0,0.16);
   text-decoration: none;
@@ -275,8 +275,8 @@ body { background: transparent; }
   transition: border-color 120ms ease, background 120ms ease;
 }
 .module-panel .conn-row:hover {
-  border-color: rgba(196,245,66,0.30);
-  background: rgba(196,245,66,0.04);
+  border-color:  rgba(196,123,58,0.12) ;
+  background:  rgba(196,123,58,0.12) ;
 }
 
 /* ── Credits module ──────────────────────────────────────────────── */
@@ -299,12 +299,12 @@ body { background: transparent; }
   transition: color 400ms ease;
 }
 .credits-balance-num.low {
-  color: var(--tm-accent, #c4f542);
+  color: var(--tm-accent, #C47B3A);
   animation: creditPulse 2.6s ease-in-out infinite;
 }
 @keyframes creditPulse {
   0%, 100% { text-shadow: none; }
-  50%       { text-shadow: 0 0 18px rgba(196,245,66,0.45); }
+  50%       { text-shadow: 0 0 18px  rgba(196,123,58,0.12) ; }
 }
 .credits-balance-label { font-size: 13px; color: rgba(245,240,232,0.42); margin-bottom: var(--sp-3, 12px); }
 .credits-breakdown { font-size: 11px; color: rgba(245,240,232,0.55); font-family: ui-monospace, monospace; }
@@ -318,8 +318,8 @@ body { background: transparent; }
   transition: border-color 120ms, background 120ms;
 }
 .module-panel .reload-card:hover {
-  border-color: rgba(196,245,66,0.35);
-  background: rgba(196,245,66,0.06);
+  border-color:  rgba(196,123,58,0.12) ;
+  background:  rgba(196,123,58,0.12) ;
 }
 .reload-card .rc-credits { color: #f5f0e8; }
 .reload-card .rc-price   { color: rgba(245,240,232,0.45); }

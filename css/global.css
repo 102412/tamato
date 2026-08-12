@@ -1,39 +1,39 @@
 /* ═══════════════════════════════════════════════════════════════════
-   TAMATO — GLOBAL DESIGN SYSTEM
-   Dusk mountain landscape backdrop. Glass panels over scenic sky.
-   Playfair Display headlines, Inter body. Lime accent.
+   HASSO — GLOBAL DESIGN SYSTEM
+   Japanese terraced landscape. White glass panels. Copper accent.
+   Playfair Display headlines, Inter body. Claude.ai-inspired clarity.
 ═══════════════════════════════════════════════════════════════════ */
 
 /* ── Design tokens ─────────────────────────────────────────────── */
 :root {
-  /* Glass surfaces */
+  /* Glass surfaces — pure white, Claude.ai inspired */
   --tm-bg:              transparent;
-  --tm-surface:         rgba(250,248,244,0.88);
-  --tm-surface-2:       rgba(240,237,230,0.82);
-  --tm-surface-3:       rgba(228,224,215,0.76);
-  --tm-border:          rgba(255,255,255,0.28);
-  --tm-border-2:        rgba(0,0,0,0.10);
-  --tm-shadow:          0 8px 40px rgba(0,0,0,0.13), 0 1px 3px rgba(0,0,0,0.08);
-  --tm-shadow-sm:       0 2px 12px rgba(0,0,0,0.10);
+  --tm-surface:         rgba(255,255,255,0.92);
+  --tm-surface-2:       rgba(248,248,248,0.88);
+  --tm-surface-3:       rgba(242,242,242,0.82);
+  --tm-border:          rgba(0,0,0,0.07);
+  --tm-border-2:        rgba(0,0,0,0.11);
+  --tm-shadow:          0 8px 40px rgba(0,0,0,0.14), 0 1px 3px rgba(0,0,0,0.07);
+  --tm-shadow-sm:       0 2px 12px rgba(0,0,0,0.09);
 
-  /* Dark glass (nav bars, sidebars) */
-  --tm-dark:            rgba(14,16,25,0.68);
-  --tm-dark-border:     rgba(255,255,255,0.09);
-  --tm-dark-text:       #f5f0e8;
-  --tm-dark-text-2:     rgba(245,240,232,0.60);
+  /* Light glass nav (Claude.ai style — frosted white) */
+  --tm-dark:            rgba(255,255,255,0.80);
+  --tm-dark-border:     rgba(0,0,0,0.07);
+  --tm-dark-text:       #1C1C1E;
+  --tm-dark-text-2:     rgba(28,28,30,0.52);
 
-  /* Text (on light glass panels) */
-  --tm-text:            #1a1a1a;
-  --tm-text-2:          #585858;
-  --tm-text-3:          #999999;
+  /* Text */
+  --tm-text:            #1C1C1E;
+  --tm-text-2:          #6E6E73;
+  --tm-text-3:          #AEAEB2;
 
-  /* Accent: lime/chartreuse */
-  --tm-accent:          #c4f542;
-  --tm-accent-dim:      #a3d436;
-  --tm-accent-deep:     #7ab020;
-  --tm-accent-muted:    rgba(196,245,66,0.16);
-  --tm-accent-glow:     rgba(196,245,66,0.32);
-  --tm-accent-text:     #14161f;
+  /* Accent: light copper */
+  --tm-accent:          #C47B3A;
+  --tm-accent-dim:      #A8622A;
+  --tm-accent-deep:     #8A5020;
+  --tm-accent-muted:    rgba(196,123,58,0.12);
+  --tm-accent-glow:     rgba(196,123,58,0.28);
+  --tm-accent-text:     #ffffff;
 
   /* Status */
   --tm-green:           #3ecf8e;

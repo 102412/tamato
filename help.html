@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Help · Tamato</title>
+<title>Help · Hasso</title>
 <link rel="icon" href="/icon.png?v=3">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/global.css">
@@ -22,7 +22,7 @@
 </style>
 </head>
 <body>
-<div class="db-topbar tm-shell"><a href="/index.html"><img src="/assets/tomato-icon.png" alt="Tamato" width="32" height="32" style="border-radius:6px"></a><a class="tm-btn tm-btn-ghost tm-btn-sm" href="/dashboard.html">Dashboard</a></div>
+<div class="db-topbar tm-shell"><a href="/index.html"><img src="/assets/tomato-icon.png" alt="Hasso" width="32" height="32" style="border-radius:6px"></a><a class="tm-btn tm-btn-ghost tm-btn-sm" href="/dashboard.html">Dashboard</a></div>
 
 <div class="help">
   <h1 style="font-size:32px;margin-bottom:var(--sp-4)">Help center</h1>
@@ -42,7 +42,7 @@
 
   <div class="faq-section">
     <h2>DMCA notices</h2>
-    <p class="tm-dim" style="font-size:14px">To file a copyright takedown, email <a href="mailto:support@tamato.design" style="color:var(--tm-accent)">support@tamato.design</a> with the subject "DMCA Notice." Include: identification of the copyrighted work, the infringing URL, your contact details, a good-faith statement, and a statement under penalty of perjury that you are authorized to act. We respond within 5 business days.</p>
+    <p class="tm-dim" style="font-size:14px">To file a copyright takedown, email <a href="mailto:support@hasso.design" style="color:var(--tm-accent)">support@hasso.design</a> with the subject "DMCA Notice." Include: identification of the copyrighted work, the infringing URL, your contact details, a good-faith statement, and a statement under penalty of perjury that you are authorized to act. We respond within 5 business days.</p>
   </div>
 </div>
 
@@ -52,7 +52,7 @@
 import { toast } from '/js/supabase.js';
 const FAQ = {
   General: [
-    ['What is Tamato?', 'Tamato is one platform with three AI tools — Build (websites), AI (chat with live preview), and Studio (design system extraction) — sharing one login, one credit balance, and one design language.'],
+    ['What is Hasso?', 'Hasso is one platform with three AI tools — Build (websites), AI (chat with live preview), and Studio (design system extraction) — sharing one login, one credit balance, and one design language.'],
     ['What does "you own it yours" mean?', 'Every site you build can be exported as clean HTML you host anywhere. No platform lock-in. Your code is yours forever.'],
     ['Are credits shared across products?', 'Yes. Standard plans use one shared credit pool across Build, AI, and Studio. Brand Wide splits into an AI pool and a Studio pool.'],
     ['Do credits expire?', 'No. Credits never expire and roll over.'],
@@ -60,7 +60,7 @@ const FAQ = {
   Build: [
     ['Is every site really unique?', 'Yes. There are no templates. Each generation produces a structurally different site, even for the same prompt.'],
     ['What are the models?', 'Pythm-4.5o mini (free), Pythm 4.5 (1 credit/unit), Metrio 4.6 (3 credits/unit), Megisto 4.8 (8 credits/unit), and Krator 5 (28 credits/unit generation, 22 credits/unit editing).'],
-    ['What is Krator 5?', 'Krator 5 is Tamato\'s frontier-class model, built on Claude Fable 5 — more capable than Megisto for the most demanding generation and editing tasks. Available on Pro + Krator 5, all Agency plans, and Brand Wide.'],
+    ['What is Krator 5?', 'Krator 5 is Hasso\'s frontier-class model, built on Claude Fable 5 — more capable than Megisto for the most demanding generation and editing tasks. Available on Pro + Krator 5, all Agency plans, and Brand Wide.'],
     ['How do I edit my site?', 'Click any text to edit it inline, or describe a change in the prompt bar and the AI rewrites the full page. Dev Mode gives you direct code access.'],
     ['What is Dev Mode?', 'A full code editor alongside the canvas. Included on Pro and Agency; a $5 one-time add-on on Single Site.'],
   ],
@@ -80,11 +80,11 @@ const FAQ = {
     ['Can I buy credits without a subscription?', 'Yes. Credit packs from 100 to 2,000 credits are available to any account.'],
   ],
   Melio: [
-    ['What is Melio?', 'A free year of Tamato (unlimited Pythm-4.5o mini, 10 sites, 1 design system) given to early-stage builders, reviewed personally by Ryland.'],
+    ['What is Melio?', 'A free year of Hasso (unlimited Pythm-4.5o mini, 10 sites, 1 design system) given to early-stage builders, reviewed personally by Ryland.'],
     ['How do I apply?', 'Fill out the short application on the Melio page. You\'ll hear back by email.'],
   ],
   API: [
-    ['What is the Tamato API?', 'A programmatic endpoint to generate sites with Megisto 4.8. Pay per token, no monthly fee.'],
+    ['What is the Hasso API?', 'A programmatic endpoint to generate sites with Megisto 4.8. Pay per token, no monthly fee.'],
     ['Where do I get a key?', 'Generate a tm-meg- key from your account page. It\'s shown once — copy it immediately.'],
   ],
   Legal: [
@@ -108,7 +108,7 @@ document.getElementById('search').addEventListener('input', e => render(e.target
 
 document.getElementById('abuseForm').addEventListener('submit', e => {
   e.preventDefault();
-  // Routed to support@tamato.design in production.
+  // Routed to support@hasso.design in production.
   toast('Report submitted. Thank you.', 'success');
   e.target.reset();
 });

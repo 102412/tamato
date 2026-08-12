@@ -1,27 +1,27 @@
 /* ═══════════════════════════════════════════════════════════════════
-   TAMATO — SITEWIDE REBRAND OVERRIDES
-   Loaded last on every non-landing page. Applies glass/lime design
-   system over any component-level CSS with !important enforcement.
+   HASSO — SITEWIDE DESIGN OVERRIDES
+   Loaded last on every non-landing page. Copper accent, white glass,
+   frosted-white nav. Claude.ai-inspired clarity over scenic backdrop.
 ═══════════════════════════════════════════════════════════════════ */
 
-/* ── Ensure new tokens win everywhere ──────────────────────────── */
+/* ── Token enforcement ─────────────────────────────────────────── */
 :root,
 :root[data-theme="dark"],
 :root[data-theme="light"] {
   --tm-bg:           transparent !important;
-  --tm-surface:      rgba(250,248,244,0.88) !important;
-  --tm-surface-2:    rgba(240,237,230,0.82) !important;
-  --tm-surface-3:    rgba(228,224,215,0.76) !important;
-  --tm-border:       rgba(255,255,255,0.28) !important;
-  --tm-border-2:     rgba(0,0,0,0.10) !important;
-  --tm-text:         #1a1a1a !important;
-  --tm-text-2:       #585858 !important;
-  --tm-text-3:       #999999 !important;
-  --tm-accent:       #c4f542 !important;
-  --tm-accent-dim:   #a3d436 !important;
-  --tm-accent-deep:  #7ab020 !important;
-  --tm-accent-muted: rgba(196,245,66,0.16) !important;
-  --tm-accent-glow:  rgba(196,245,66,0.32) !important;
+  --tm-surface:      rgba(255,255,255,0.92) !important;
+  --tm-surface-2:    rgba(248,248,248,0.88) !important;
+  --tm-surface-3:    rgba(242,242,242,0.82) !important;
+  --tm-border:       rgba(0,0,0,0.07) !important;
+  --tm-border-2:     rgba(0,0,0,0.11) !important;
+  --tm-text:         #1C1C1E !important;
+  --tm-text-2:       #6E6E73 !important;
+  --tm-text-3:       #AEAEB2 !important;
+  --tm-accent:       #C47B3A !important;
+  --tm-accent-dim:   #A8622A !important;
+  --tm-accent-deep:  #8A5020 !important;
+  --tm-accent-muted: rgba(196,123,58,0.12) !important;
+  --tm-accent-glow:  rgba(196,123,58,0.28) !important;
   --tm-green:        #3ecf8e !important;
   --tm-red:          #f87171 !important;
   --font-display:    'Playfair Display', Georgia, serif !important;
@@ -32,23 +32,19 @@
   --r-pill:          999px !important;
 }
 
-/* ── Kill old background layers ────────────────────────────────── */
-.db-bg,
-.db-bg-img,
-.db-bg-overlay,
-.db-ambient,
-.lp-grain,
+/* ── Kill old background / decoration layers ───────────────────── */
+.db-bg, .db-bg-img, .db-bg-overlay, .db-ambient, .lp-grain,
 .tm-theme-toggle { display: none !important; }
 
-/* ── Body base ─────────────────────────────────────────────────── */
-html { background: #0d1124 !important; }
+/* ── Body ──────────────────────────────────────────────────────── */
+html { background: #1a1510 !important; }
 body {
   background: transparent !important;
   color: var(--tm-text) !important;
   font-family: var(--font-ui) !important;
 }
 
-/* ── Dark glass nav / topbars ──────────────────────────────────── */
+/* ── Frosted-white nav bars (Claude.ai style) ──────────────────── */
 .db-topbar,
 .bd-top,
 .ai-topbar,
@@ -56,202 +52,145 @@ body {
 .ai-sidebar,
 .ai-sb-head,
 .bd-sidebar,
-.st-sidebar,
-nav.tm-glass-dark {
-  background: rgba(14,16,25,0.72) !important;
-  backdrop-filter: blur(28px) saturate(1.5) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(1.5) !important;
-  border-color: rgba(255,255,255,0.09) !important;
-  color: #f5f0e8 !important;
+.st-sidebar {
+  background: rgba(255,255,255,0.82) !important;
+  backdrop-filter: blur(32px) saturate(1.6) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(1.6) !important;
+  border-color: rgba(0,0,0,0.06) !important;
+  color: #1C1C1E !important;
 }
 
-/* Text inside dark bars */
-.db-topbar *,
-.bd-top *,
-.ai-topbar *,
-.st-top *,
-.ai-sb-head * {
+/* Text inside light nav bars */
+.db-topbar *, .bd-top *, .ai-topbar *, .st-top *, .ai-sb-head * {
   color: inherit;
 }
 
 /* Active nav indicator */
-.db-nav-item.active,
-.ai-nav-item.active,
-.st-nav-item.active {
-  background: var(--tm-accent-muted) !important;
-  color: var(--tm-accent-deep) !important;
-  border-color: rgba(196,245,66,0.25) !important;
+.db-nav-item.active, .ai-nav-item.active, .st-nav-item.active {
+  background: rgba(196,123,58,0.12) !important;
+  color: #8A5020 !important;
+  border-color: rgba(196,123,58,0.22) !important;
 }
 
-/* ── Light glass content surfaces ──────────────────────────────── */
-.tm-card,
-.tm-panel,
-.tm-modal,
-.auth-card,
-.db-panel,
-.plan-card,
-.consent-box,
-.dev-modal,
-.bd-prompt-wrap,
-.st-panel,
-.ai-thread,
-.ai-msg.assistant {
-  background: rgba(250,248,244,0.88) !important;
-  backdrop-filter: blur(24px) saturate(130%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(130%) !important;
-  border: 1px solid rgba(255,255,255,0.28) !important;
-  color: #1a1a1a !important;
+/* ── White glass content surfaces ──────────────────────────────── */
+.tm-card, .tm-panel, .tm-modal, .auth-card, .db-panel,
+.plan-card, .consent-box, .dev-modal, .bd-prompt-wrap,
+.st-panel, .ai-thread, .ai-msg.assistant {
+  background: rgba(255,255,255,0.92) !important;
+  backdrop-filter: blur(28px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(1.4) !important;
+  border: 1px solid rgba(0,0,0,0.07) !important;
+  color: #1C1C1E !important;
 }
 
 /* ── Modal overlay ─────────────────────────────────────────────── */
 .tm-modal-overlay {
-  background: rgba(0,0,0,0.50) !important;
-  backdrop-filter: blur(6px) !important;
-  -webkit-backdrop-filter: blur(6px) !important;
+  background: rgba(0,0,0,0.40) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
 }
 
 /* ── Inputs ────────────────────────────────────────────────────── */
-.tm-input,
-.tm-textarea,
-.tm-select,
-input[type="text"],
-input[type="email"],
-input[type="password"],
-textarea {
-  background: rgba(255,255,255,0.72) !important;
+.tm-input, .tm-textarea, .tm-select,
+input[type="text"], input[type="email"], input[type="password"], textarea {
+  background: rgba(255,255,255,0.90) !important;
   border: 1px solid rgba(0,0,0,0.10) !important;
   border-radius: 10px !important;
-  color: #1a1a1a !important;
+  color: #1C1C1E !important;
   font-family: var(--font-ui) !important;
 }
-.tm-input:focus,
-.tm-textarea:focus,
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-textarea:focus {
-  border-color: #a3d436 !important;
-  box-shadow: 0 0 0 3px rgba(196,245,66,0.30) !important;
-  background: rgba(255,255,255,0.92) !important;
+.tm-input:focus, .tm-textarea:focus,
+input[type="text"]:focus, input[type="email"]:focus,
+input[type="password"]:focus, textarea:focus {
+  border-color: #C47B3A !important;
+  box-shadow: 0 0 0 3px rgba(196,123,58,0.22) !important;
+  background: rgba(255,255,255,0.98) !important;
 }
-.tm-input::placeholder,
-.tm-textarea::placeholder,
-input::placeholder,
-textarea::placeholder {
-  color: #999999 !important;
+.tm-input::placeholder, .tm-textarea::placeholder,
+input::placeholder, textarea::placeholder {
+  color: #AEAEB2 !important;
 }
 
 /* ── All buttons → pill radius ─────────────────────────────────── */
-.tm-btn,
-.btn,
-.btn-hot,
-.btn-chrome,
-button[class*="btn"],
-a[class*="btn"] {
+.tm-btn, .btn, .btn-hot, .btn-chrome,
+button[class*="btn"], a[class*="btn"] {
   border-radius: 999px !important;
 }
 
-/* ── Primary / CTA buttons → lime ─────────────────────────────── */
-.tm-btn-primary,
-.btn-hot {
-  background: #c4f542 !important;
-  color: #14161f !important;
+/* ── Primary CTA → copper ──────────────────────────────────────── */
+.tm-btn-primary, .btn-hot {
+  background: #C47B3A !important;
+  color: #ffffff !important;
   border-color: transparent !important;
   font-weight: 600 !important;
 }
-.tm-btn-primary:hover,
-.btn-hot:hover {
-  background: #a3d436 !important;
-  box-shadow: 0 0 0 3px rgba(196,245,66,0.32) !important;
+.tm-btn-primary:hover, .btn-hot:hover {
+  background: #A8622A !important;
+  box-shadow: 0 0 0 3px rgba(196,123,58,0.28) !important;
 }
 
-/* Chrome/secondary buttons */
+/* Ghost / secondary */
 .btn-chrome {
-  background: rgba(255,255,255,0.12) !important;
-  color: #f5f0e8 !important;
-  border: 1px solid rgba(255,255,255,0.22) !important;
+  background: rgba(255,255,255,0.70) !important;
+  color: #1C1C1E !important;
+  border: 1px solid rgba(0,0,0,0.12) !important;
   backdrop-filter: blur(10px) !important;
 }
-.btn-chrome:hover {
-  background: rgba(255,255,255,0.20) !important;
-}
+.btn-chrome:hover { background: rgba(255,255,255,0.90) !important; }
 
-/* Danger button */
+/* Danger */
 .tm-btn-danger {
-  background: rgba(248,113,113,0.14) !important;
+  background: rgba(248,113,113,0.10) !important;
   color: #f87171 !important;
-  border-color: rgba(248,113,113,0.25) !important;
+  border-color: rgba(248,113,113,0.22) !important;
 }
-.tm-btn-danger:hover {
-  background: #f87171 !important;
-  color: #fff !important;
-}
+.tm-btn-danger:hover { background: #f87171 !important; color: #fff !important; }
 
-/* ── Typography overrides ──────────────────────────────────────── */
-h1, h2, h3, h4, h5, h6,
-.tm-modal-title,
-.auth-title {
+/* ── Typography ────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6, .tm-modal-title, .auth-title {
   font-family: 'Playfair Display', Georgia, serif !important;
-  color: #1a1a1a !important;
+  color: #1C1C1E !important;
   background: none !important;
   -webkit-text-fill-color: initial !important;
   background-clip: initial !important;
   -webkit-background-clip: initial !important;
 }
 
-/* ── Auth card specific ─────────────────────────────────────────── */
+/* ── Auth card ─────────────────────────────────────────────────── */
 .auth-card {
-  border-top: 3px solid #c4f542 !important;
+  border-top: 3px solid #C47B3A !important;
   border-radius: var(--r-modal) !important;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.20) !important;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.16) !important;
 }
 
-/* ── Wordmark ────────────────────────────────────────────────────── */
+/* ── Wordmark ──────────────────────────────────────────────────── */
 .tm-wordmark {
   font-family: 'Playfair Display', Georgia, serif !important;
-  color: #f5f0e8 !important;
   font-style: italic !important;
+  color: #1C1C1E !important;
   background: none !important;
-  -webkit-text-fill-color: #f5f0e8 !important;
-  background-clip: initial !important;
-  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: #1C1C1E !important;
 }
 
-/* On light panels the wordmark should be dark */
-.tm-glass .tm-wordmark,
-.tm-card .tm-wordmark,
-.auth-wrap .tm-wordmark {
-  color: #1a1a1a !important;
-  -webkit-text-fill-color: #1a1a1a !important;
-}
-
-/* ── Credit pill ─────────────────────────────────────────────────── */
+/* ── Credit pill ───────────────────────────────────────────────── */
 .tm-credit-pill {
-  background: rgba(255,255,255,0.50) !important;
-  border: 1px solid rgba(196,245,66,0.30) !important;
-  color: #1a1a1a !important;
+  background: rgba(255,255,255,0.70) !important;
+  border: 1px solid rgba(196,123,58,0.25) !important;
+  color: #1C1C1E !important;
   border-radius: 999px !important;
 }
 
-/* ── Accent highlights ───────────────────────────────────────────── */
-.tm-accent { color: #7ab020 !important; }
+/* ── Accent highlights ─────────────────────────────────────────── */
+.tm-accent { color: #8A5020 !important; }
 .tm-badge-accent {
-  background: rgba(196,245,66,0.16) !important;
-  color: #7ab020 !important;
-  border-color: rgba(196,245,66,0.28) !important;
+  background: rgba(196,123,58,0.12) !important;
+  color: #8A5020 !important;
+  border-color: rgba(196,123,58,0.25) !important;
 }
 
-/* ── Mobile canvas container ─────────────────────────────────────── */
-.bd-canvas-wrap,
-.bd-mobile-frame {
-  background: transparent !important;
-}
-
-/* ── Build prompt bar ────────────────────────────────────────────── */
-.bd-prompt-wrap {
-  border-radius: 20px !important;
-}
+/* ── Build prompt bar ──────────────────────────────────────────── */
+.bd-prompt-wrap { border-radius: 20px !important; }
 .bd-prompt-bar {
-  background: rgba(250,248,244,0.92) !important;
-  border-color: rgba(255,255,255,0.28) !important;
+  background: rgba(255,255,255,0.94) !important;
+  border-color: rgba(0,0,0,0.07) !important;
 }

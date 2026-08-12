@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════
+﻿/* ═══════════════════════════════════════════════════════════════════
    TAMATO AI — LIVE HTML PREVIEW
    Detect complete HTML in a response and render it inline below the
    message with Send-to-Build / Regenerate / Copy actions.
@@ -30,7 +30,7 @@ export function mountPreview(container, html, { onRegenerate } = {}) {
   const bar = document.createElement('div');
   bar.className = 'ai-preview-bar';
   bar.innerHTML = `
-    <button class="tm-btn tm-btn-primary tm-btn-sm" data-act="build">Send to Tamato.build</button>
+    <button class="tm-btn tm-btn-primary tm-btn-sm" data-act="build">Send to Hasso.build</button>
     <button class="tm-btn tm-btn-ghost tm-btn-sm" data-act="regen">Regenerate</button>
     <button class="tm-btn tm-btn-ghost tm-btn-sm" data-act="copy">Copy HTML</button>`;
   wrap.append(frame, bar);
@@ -41,7 +41,7 @@ export function mountPreview(container, html, { onRegenerate } = {}) {
   });
   bar.querySelector('[data-act="regen"]').addEventListener('click', () => onRegenerate && onRegenerate());
   bar.querySelector('[data-act="build"]').addEventListener('click', async () => {
-    const site = await createSite({ name: 'From Tamato AI', desktop_html: html, mobile_html: html, model_used: 'ai' });
+    const site = await createSite({ name: 'From Hasso AI', desktop_html: html, mobile_html: html, model_used: 'ai' });
     if (site) { toast('Sent to Build.', 'success'); window.open('/build/?site=' + site.id, '_blank'); }
     else toast('Could not send to Build.', 'error');
   });

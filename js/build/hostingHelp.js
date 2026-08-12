@@ -1,10 +1,10 @@
-/* ═══════════════════════════════════════════════════════════════════
+﻿/* ═══════════════════════════════════════════════════════════════════
    TAMATO BUILD — HOSTING HELP CHAT
    Slides in from the right after export. Pythm-4.5o mini (free).
 ═══════════════════════════════════════════════════════════════════ */
 import { callModel } from '/js/models.js';
 
-const SYS = `You are Tamato's hosting assistant. User just downloaded index.html (desktop) and mobile.html. Help them go live. Recommend free hosting first: Netlify, GitHub Pages, Cloudflare Pages. Step-by-step instructions. Assume zero technical knowledge. Be encouraging and clear.`;
+const SYS = `You are Hasso's hosting assistant. User just downloaded index.html (desktop) and mobile.html. Help them go live. Recommend free hosting first: Netlify, GitHub Pages, Cloudflare Pages. Step-by-step instructions. Assume zero technical knowledge. Be encouraging and clear.`;
 
 const QUICK = ['Host it free', 'Connect a domain', 'Share it now', 'I need help'];
 

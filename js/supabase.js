@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════
+﻿/* ═══════════════════════════════════════════════════════════════════
    TAMATO — SUPABASE CLIENT + AUTH + DATA LAYER
    One instance for all four products.
 ═══════════════════════════════════════════════════════════════════ */
@@ -8,8 +8,8 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 export const SUPABASE_URL = 'https://kjqavfpaxvpgjrulruok.supabase.co';
 export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtqcWF2ZnBheHZwZ2pydWxydW9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MTEwNzQsImV4cCI6MjA5NzI4NzA3NH0.JMuENr0Hk9JpvkXYascE7t4HeYHr0Ciqt9Dh6-Tzb_U';
 
-export const SUPPORT_EMAIL = 'support@tamato.design';
-export const ADMIN_EMAIL = 'ryland@tamato.design';
+export const SUPPORT_EMAIL = 'support@hasso.design';
+export const ADMIN_EMAIL = 'ryland@hasso.design';
 export const ADMIN_CODES = ['ryland-admin', 'admin-2'];
 export const MELIO_EXPIRY_DAYS = 365;
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Create account · Tamato</title>
+<title>Create account · Hasso</title>
 <link rel="icon" href="/icon.png?v=3">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/global.css">
@@ -15,7 +15,7 @@
 <body>
 <div class="auth-wrap">
   <div class="auth-card auth-card-wide" id="card">
-    <div class="auth-logo"><a href="/index.html"><img src="/assets/tomato-icon.png" alt="Tamato" width="72" height="72"></a></div>
+    <div class="auth-logo"><a href="/index.html"><img src="/assets/tomato-icon.png" alt="Hasso" width="72" height="72"></a></div>
     <div class="step-dots">
       <span class="step-dot on" data-dot="1"></span>
       <span class="step-dot" data-dot="2"></span>
@@ -109,7 +109,7 @@ const TERMS_VERSION = '2026-06-28';
 
 document.getElementById('next1').addEventListener('click', () => {
   document.getElementById('err1').textContent = '';
-  if (!document.getElementById('age13').checked) return shake('err1', 'You must be 13 or older to use Tamato.');
+  if (!document.getElementById('age13').checked) return shake('err1', 'You must be 13 or older to use Hasso.');
   if (!document.getElementById('acceptTerms').checked) return shake('err1', 'You must agree to the Terms of Service and Privacy Policy.');
   if (!email.value.includes('@')) return shake('err1', 'Enter a valid email.');
   if (password.value.length < 8) return shake('err1', 'Password must be at least 8 characters.');
@@ -171,7 +171,7 @@ document.getElementById('finish').addEventListener('click', async () => {
   await updateProfile(patch).catch(() => {});
 
   if (state.plan === 'free') {
-    toast('Welcome to Tamato!', 'success');
+    toast('Welcome to Hasso!', 'success');
     location.href = '/dashboard.html';
     return;
   }

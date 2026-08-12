@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════
+﻿/* ═══════════════════════════════════════════════════════════════════
    TAMATO BUILD — GENERATION CORE
    Exports: generate, aiEdit, switchView, setCurrentModel, getCurrentState
    Two streaming calls per generation (desktop then mobile). Credits
@@ -101,7 +101,7 @@ export async function generate(prompt) {
 
   // 1. safety (silent)
   const safe = await classifySafety(prompt, profile);
-  if (safe === 'BLOCKED') { handlers.blocked && handlers.blocked("This prompt violates Tamato's acceptable use policy."); return; }
+  if (safe === 'BLOCKED') { handlers.blocked && handlers.blocked("This prompt violates Hasso's acceptable use policy."); return; }
   if (profile.account_suspended) { handlers.blocked && handlers.blocked('Your account is suspended.'); return; }
 
   // 2. tier + credit gate
@@ -211,7 +211,7 @@ export async function aiEdit(instruction, target = 'both') {
 }
 
 /* ── Chat (free, no credits) ───────────────────────────────────── */
-const CHAT_SYS = (prompt, tier) => `You are Tamato's AI assistant in a website builder. Help users build better websites and grow their businesses. You know their current site and business context. Answer questions about design, content, SEO, hosting, business strategy. Be concise, direct, genuinely helpful. Never generic. Never verbose.
+const CHAT_SYS = (prompt, tier) => `You are Hasso's AI assistant in a website builder. Help users build better websites and grow their businesses. You know their current site and business context. Answer questions about design, content, SEO, hosting, business strategy. Be concise, direct, genuinely helpful. Never generic. Never verbose.
 Current site prompt: ${prompt || '(none yet)'}
 User tier: ${tier}`;
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>API · Tamato</title>
+<title>API · Hasso</title>
 <link rel="icon" href="/icon.png?v=3">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/global.css">
@@ -25,14 +25,14 @@
 </style>
 </head>
 <body>
-<div class="db-topbar tm-shell"><a href="/index.html"><img src="/assets/tomato-icon.png" alt="Tamato" width="32" height="32" style="border-radius:6px"></a><a class="tm-btn tm-btn-ghost tm-btn-sm" href="/account.html">Manage keys</a></div>
+<div class="db-topbar tm-shell"><a href="/index.html"><img src="/assets/tomato-icon.png" alt="Hasso" width="32" height="32" style="border-radius:6px"></a><a class="tm-btn tm-btn-ghost tm-btn-sm" href="/account.html">Manage keys</a></div>
 
 <div class="doc">
   <h1>Tamato Megisto API</h1>
   <p>Generate complete, unique websites programmatically. Powered by Megisto 4.8 (Claude Opus 4.8). No monthly fee — pay only for tokens.</p>
 
   <h2>Endpoint</h2>
-  <pre>POST https://api.tamato.design/v1/generate</pre>
+  <pre>POST https://api.hasso.design/v1/generate</pre>
 
   <h2>Authentication</h2>
   <p>Pass your API key (generate one in your <a href="/account.html" style="color:var(--tm-accent)">account</a>) as a Bearer token.</p>
@@ -63,7 +63,7 @@ Content-Type: application/json</pre>
     <div class="tab" data-ex="py">Python</div>
     <div class="tab" data-ex="curl">curl</div>
   </div>
-  <pre class="ex active" id="ex-js">const res = await fetch('https://api.tamato.design/v1/generate', {
+  <pre class="ex active" id="ex-js">const res = await fetch('https://api.hasso.design/v1/generate', {
   method: 'POST',
   headers: {
     'Authorization': 'Bearer tm-meg-xxxxxxxxxx',
@@ -76,13 +76,13 @@ console.log(data.desktop_html);</pre>
   <pre class="ex" id="ex-py">import requests
 
 res = requests.post(
-    "https://api.tamato.design/v1/generate",
+    "https://api.hasso.design/v1/generate",
     headers={"Authorization": "Bearer tm-meg-xxxxxxxxxx"},
     json={"prompt": "A bakery in Lisbon", "mode": "both"},
 )
 data = res.json()
 print(data["desktop_html"])</pre>
-  <pre class="ex" id="ex-curl">curl https://api.tamato.design/v1/generate \
+  <pre class="ex" id="ex-curl">curl https://api.hasso.design/v1/generate \
   -H "Authorization: Bearer tm-meg-xxxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{"prompt":"A bakery in Lisbon","mode":"both"}'</pre>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hasso Monjo — Autonomous Code Intelligence</title>
-<meta name="description" content="Monjo reads your codebase, plans every change, and ships it — without you touching a file. The autonomous coding agent that runs on your machine.">
+<meta name="description" content="Monjo is an autonomous coding agent with full terminal, filesystem, and command-line access. Tiered bypass permissions. Powered exclusively by Anthropic models. For developers who ship.">
 <link rel="icon" href="/icon.png?v=3">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/global.css">
@@ -383,7 +383,7 @@
     Autonomous code<br><em>intelligence.</em>
   </h1>
 
-  <p>Monjo reads your codebase, plans every change, and ships it — without you touching a single file. Every action is visible. Every step is reversible.</p>
+  <p>Monjo reads your entire codebase, plans the work, and executes — with full terminal, filesystem, and command-line access. Built for developers who ship, not tools that ask permission.</p>
 
   <div class="mj-cta-row">
     <a class="btn btn-hot" href="#waitlist">Join the waitlist</a>
@@ -404,16 +404,13 @@
       <div class="mj-line-step">  → Scanned 847 files across /src</div>
       <div class="mj-line-step">  → Located auth module: 14 relevant files</div>
       <div class="mj-line-step">  → Identified 6 targeted edits required</div>
-      <div class="mj-line-ok">✓ Plan ready. Awaiting approval.</div>
-      <div style="margin-top:12px;margin-bottom:4px;font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:0.06em;text-transform:uppercase">Proposed changes</div>
-      <div class="mj-line-step">  [1] src/auth/index.js — replace session tokens with JWT</div>
-      <div class="mj-line-step">  [2] src/middleware/auth.js — update validation logic</div>
-      <div class="mj-line-step">  [3] src/routes/user.js — attach decoded claims</div>
-      <div class="mj-line-await">  [4–6] 3 more files…</div>
-      <div class="mj-approve-row">
-        <button class="mj-btn-approve">Approve all (6)</button>
-        <button class="mj-btn-review">Review each →</button>
-      </div>
+      <div class="mj-line-ok">✓ Executing [bypass: elevated]</div>
+      <div style="margin-top:12px;margin-bottom:4px;font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:0.06em;text-transform:uppercase">Live execution</div>
+      <div class="mj-line-step">  [1/6] Rewriting src/auth/index.js <span style="color:#3ecf8e">✓</span></div>
+      <div class="mj-line-step">  [2/6] Updating src/middleware/auth.js <span style="color:#3ecf8e">✓</span></div>
+      <div class="mj-line-step">  [3/6] $ npm install jsonwebtoken --save <span style="color:#3ecf8e">✓</span></div>
+      <div class="mj-line-step">  [4/6] Patching src/routes/user.js <span style="color:#3ecf8e">✓</span></div>
+      <div class="mj-line-await">  [5–6] running…<span class="s1-cursor"></span></div>
     </div>
   </div>
 </header>
@@ -441,19 +438,19 @@
       <p>Monjo maps your entire project before acting — understanding imports, dependencies, and architecture before proposing a single change.</p>
     </div>
     <div class="mj-feat">
-      <span class="mj-feat-icon">✦</span>
-      <h3>Plan-then-approve workflow</h3>
-      <p>Every session generates a detailed plan first. You review each proposed edit, approve all or selectively — nothing ships without your sign-off.</p>
+      <span class="mj-feat-icon">⚙️</span>
+      <h3>Tiered bypass permissions</h3>
+      <p>Set your access level before each session. Standard handles file edits; Elevated unlocks terminal, CMD, and package managers; Full grants complete autonomous execution with no interruptions.</p>
     </div>
     <div class="mj-feat">
       <span class="mj-feat-icon">⚡</span>
-      <h3>Autonomous execution</h3>
-      <p>Once approved, Monjo executes every change with precision — opening files, editing, saving, and running test commands automatically.</p>
+      <h3>True autonomous execution</h3>
+      <p>Monjo doesn't simulate — it runs. Edits files, executes shell commands, installs packages, triggers build scripts, and controls processes in your actual environment.</p>
     </div>
     <div class="mj-feat">
-      <span class="mj-feat-icon">↩</span>
-      <h3>Full reversibility</h3>
-      <p>Every session creates an automatic checkpoint. Roll back any change, any session, any time — with one click or a single command.</p>
+      <span class="mj-feat-icon">🖥</span>
+      <h3>Full terminal + CMD access</h3>
+      <p>At elevated bypass, Monjo has real command-line access. It can run npm, pip, git, compilers, test runners, and any CLI tool your project depends on — without asking twice.</p>
     </div>
     <div class="mj-feat">
       <span class="mj-feat-icon">🔒</span>
@@ -473,29 +470,29 @@
 <!-- HOW IT WORKS -->
 <section class="mj-section centered">
   <span class="mj-section-label">How it works</span>
-  <h2 class="mj-section-head">Four steps from task to shipped.</h2>
-  <p class="mj-section-sub">Monjo follows a strict plan-approve-execute cycle — so you're always in control, even when the agent is doing the work.</p>
+  <h2 class="mj-section-head">How Monjo operates.</h2>
+  <p class="mj-section-sub">Monjo is not a chatbot with file access — it is an autonomous agent that understands your project and executes at the level you authorise.</p>
 
   <div class="mj-steps">
     <div class="mj-step">
       <div class="mj-step-num">01</div>
-      <h4>Describe the task</h4>
-      <p>Tell Monjo what to do in plain language. Refactor, add a feature, fix a bug — describe it like you'd tell a senior dev.</p>
+      <h4>Define the task</h4>
+      <p>Describe the work in plain language — refactor, new feature, bug fix, dependency upgrade. Monjo treats it as a real engineering brief, not a prompt.</p>
     </div>
     <div class="mj-step">
       <div class="mj-step-num">02</div>
-      <h4>Monjo reads the code</h4>
-      <p>Monjo scans your entire codebase and maps the relevant files, imports, and dependencies before doing anything.</p>
+      <h4>Codebase analysis</h4>
+      <p>Monjo indexes your entire project — files, imports, dependency graph, build config — before touching anything. It understands the codebase the way a senior engineer would.</p>
     </div>
     <div class="mj-step">
       <div class="mj-step-num">03</div>
-      <h4>Review the plan</h4>
-      <p>A detailed list of every proposed change is shown. Approve all, reject any, or ask Monjo to revise the plan.</p>
+      <h4>Set bypass level</h4>
+      <p>Choose your permission tier: Standard (file edits only), Elevated (+ terminal, CMD, package managers), or Full (complete autonomous control). Monjo operates within what you grant — nothing more.</p>
     </div>
     <div class="mj-step">
       <div class="mj-step-num">04</div>
-      <h4>Watch it execute</h4>
-      <p>Monjo edits, saves, and runs tests automatically. Every action is logged in real time. Roll back any time.</p>
+      <h4>Autonomous execution</h4>
+      <p>Monjo executes. Edits code, runs commands, installs packages, triggers builds — all logged in real time. This is real access to your real environment.</p>
     </div>
   </div>
 </section>
@@ -559,8 +556,8 @@
       <ul>
         <li>1 machine license</li>
         <li>Autonomous code agent</li>
-        <li>Plan + approve workflow</li>
-        <li>Full reversibility</li>
+        <li>Tiered bypass permissions</li>
+        <li>Full terminal + CMD access</li>
         <li>Windows Electron app</li>
       </ul>
       <a class="btn btn-chrome" href="#waitlist" style="width:100%;text-align:center;display:block">Join waitlist</a>
@@ -584,7 +581,7 @@
       <ul>
         <li>3 machine licenses</li>
         <li>Shared session history</li>
-        <li>Admin approval controls</li>
+        <li>Team bypass policy controls</li>
         <li>Agency 3 plan included</li>
       </ul>
       <a class="btn btn-chrome" href="#waitlist" style="width:100%;text-align:center;display:block">Join waitlist</a>

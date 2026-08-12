@@ -538,6 +538,7 @@
   <div class="tnav-center">
     <a href="/index.html#products">Products</a>
     <a href="/monjo/index.html" style="color:var(--accent,#C47B3A)">Monjo</a>
+    <a href="/use-cases/index.html">Use Cases</a>
     <a href="/pricing.html">Pricing</a>
     <a href="/help.html">Docs</a>
   </div>
@@ -578,22 +579,22 @@
     </div>
     <div class="mj-dual-cols">
       <div class="mj-col mj-col-sandbox">
-        <div class="mj-col-head">Sandbox model — reasoning</div>
+        <div class="mj-col-head">Sandbox — design + planning</div>
         <div class="mj-line-dim">$ indexing /src…</div>
         <div class="mj-line-step">→ 847 files mapped</div>
-        <div class="mj-line-step">→ auth module: 14 files</div>
-        <div class="mj-line-task">✦ Planning 6 edits</div>
-        <div class="mj-line-step">→ plan → exec model ↓</div>
-        <div class="mj-line-dim" style="margin-top:6px">verifying output…</div>
-        <div class="mj-line-ok">✓ logic confirmed</div>
+        <div class="mj-line-task">✦ writing styles</div>
+        <div class="mj-line-step">→ auth.css updated</div>
+        <div class="mj-line-step">→ tokens.css patched</div>
+        <div class="mj-line-step">→ JS plan → exec ↓</div>
+        <div class="mj-line-dim" style="margin-top:4px">verifying output…</div>
+        <div class="mj-line-ok">✓ styles confirmed</div>
       </div>
       <div class="mj-col-divider"></div>
       <div class="mj-col mj-col-exec">
-        <div class="mj-col-head">Exec model — full access</div>
+        <div class="mj-col-head">Exec — logic + terminal</div>
         <div class="mj-line-dim">[standing by]</div>
         <div class="mj-line-dim">…</div>
-        <div class="mj-line-dim">…</div>
-        <div class="mj-line-task">✦ plan received</div>
+        <div class="mj-line-task">✦ JS plan received</div>
         <div class="mj-line-step">[1] auth/index.js <span style="color:#3ecf8e">✓</span></div>
         <div class="mj-line-step">[2] $ npm i jsonwebtoken <span style="color:#3ecf8e">✓</span></div>
         <div class="mj-line-step">[3] middleware/auth.js <span style="color:#3ecf8e">✓</span></div>
@@ -630,16 +631,17 @@
 
       <div class="mj-arch-model mj-arch-sandbox">
         <div class="mj-arch-model-label">Sandbox Model</div>
-        <div class="mj-arch-model-sub">Anthropic frontier · no system access</div>
-        <div class="mj-arch-model-head">Pure intelligence.<br>Zero execution risk.</div>
+        <div class="mj-arch-model-sub">Anthropic frontier · design + planning layer</div>
+        <div class="mj-arch-model-head">Design language.<br>Architecture. Style.</div>
         <ul class="mj-arch-list">
-          <li>Full codebase indexing &amp; mapping</li>
-          <li>Architecture &amp; dependency analysis</li>
-          <li>Task planning &amp; sequencing</li>
-          <li>Code generation &amp; rewriting</li>
+          <li>Full codebase indexing &amp; analysis</li>
+          <li>Task planning &amp; edit sequencing</li>
+          <li>All CSS — styles, animations, tokens</li>
+          <li>HTML structure &amp; markup</li>
+          <li>Design system &amp; visual language code</li>
           <li>Output review &amp; verification</li>
         </ul>
-        <div class="mj-arch-footer">Operates in a sandboxed context — no filesystem writes, no terminal, no network calls. Pure reasoning.</div>
+        <div class="mj-arch-footer">Writes the entire visual layer — CSS, HTML, design tokens, component markup — while coordinating the exec model in parallel. No terminal access needed.</div>
       </div>
 
       <div class="mj-arch-connector">
@@ -650,16 +652,17 @@
 
       <div class="mj-arch-model mj-arch-exec">
         <div class="mj-arch-model-label">Executive Model</div>
-        <div class="mj-arch-model-sub">Anthropic frontier · full system access</div>
-        <div class="mj-arch-model-head">Real access.<br>Real execution.</div>
+        <div class="mj-arch-model-sub">Anthropic frontier · logic + execution layer</div>
+        <div class="mj-arch-model-head">Heavy code.<br>Real execution.</div>
         <ul class="mj-arch-list">
+          <li>JavaScript &amp; TypeScript logic</li>
+          <li>Backend languages — Python, Go, Rust…</li>
           <li>Terminal &amp; CMD execution</li>
           <li>Package managers (npm, pip, cargo…)</li>
-          <li>Build systems &amp; compilers</li>
-          <li>Test runners &amp; scripts</li>
-          <li>Process control &amp; file writes</li>
+          <li>Build systems, compilers &amp; test runners</li>
+          <li>Process control &amp; scripting</li>
         </ul>
-        <div class="mj-arch-footer">Receives plans from the sandbox model and executes with the bypass level you set. No reasoning overhead — pure execution speed.</div>
+        <div class="mj-arch-footer">Writes all JS/TS logic and heavy code, then executes directly in your environment — terminal, packages, builds — at the bypass level you set.</div>
       </div>
 
     </div>
@@ -683,7 +686,7 @@
     <div class="mj-feat" style="border-color:rgba(196,123,58,0.22);background:rgba(196,123,58,0.04)">
       <span class="mj-feat-icon">⚡</span>
       <h3>Simultaneous dual-model execution</h3>
-      <p>Both models run in parallel — the sandbox model reasons and generates while the exec model carries out the previous instruction. No waiting between think and do.</p>
+      <p>The sandbox model writes CSS, HTML, and design language code while simultaneously planning the JS logic for the exec model. The exec model handles all JavaScript, backend languages, and terminal commands. Both run at the same time — one builds the visual layer, one builds the logic layer.</p>
     </div>
     <div class="mj-feat">
       <span class="mj-feat-icon">🗺</span>
@@ -729,18 +732,18 @@
     </div>
     <div class="mj-step">
       <div class="mj-step-num">02</div>
-      <h4>Sandbox model activates</h4>
-      <p>The sandboxed Anthropic model indexes your codebase, maps architecture, and plans the full sequence of changes — with zero system access, zero risk.</p>
+      <h4>Sandbox writes the visual layer</h4>
+      <p>The sandboxed model indexes the codebase, plans all changes, and immediately starts writing — CSS, HTML, design tokens, animations, component markup. The full visual layer, no terminal needed.</p>
     </div>
     <div class="mj-step">
       <div class="mj-step-num">03</div>
-      <h4>Exec model fires in parallel</h4>
-      <p>As the sandbox model plans, the executive model begins executing the completed steps — writing files, running terminal commands, installing packages — simultaneously, not sequentially.</p>
+      <h4>Exec writes logic + runs terminal</h4>
+      <p>Simultaneously, the executive model receives the JS/TS plan and executes — writing application logic, backend code, running npm installs, build scripts, and any terminal commands the task requires.</p>
     </div>
     <div class="mj-step">
       <div class="mj-step-num">04</div>
-      <h4>Continuous coordination</h4>
-      <p>The two models coordinate throughout the session — sandbox verifies exec output, flags issues, and adjusts the plan. Work ships while verification is still running.</p>
+      <h4>Continuous cross-model coordination</h4>
+      <p>The sandbox verifies exec output, catches logic errors, and adjusts styles to match new code structure — all in real time. Both models stay in sync throughout the entire session.</p>
     </div>
   </div>
 </section>

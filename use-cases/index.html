@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Use Cases · Hasso</title>
+<meta name="description" content="See how Hasso's products work alone and together — from design system extraction to autonomous code delivery with Monjo's dual-model engine.">
+<link rel="icon" href="/icon.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/landing.css">
+<style>
+/* ── Page scaffold ──────────────────────────────────────────────── */
+.uc-hero {
+  padding: clamp(120px,16vh,180px) clamp(24px,5vw,80px) clamp(60px,8vh,100px);
+  text-align: center;
+  position: relative;
+}
+.uc-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent,#C47B3A);
+  margin-bottom: 24px;
+  padding: 6px 16px;
+  border: 1px solid rgba(196,123,58,0.28);
+  border-radius: 999px;
+  background: rgba(196,123,58,0.08);
+}
+.uc-hero h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(40px,7vw,84px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #f5f0e8;
+  margin-bottom: 20px;
+}
+.uc-hero h1 em { font-style: italic; color: var(--accent,#C47B3A); }
+.uc-hero > p {
+  font-size: clamp(15px,2vw,18px);
+  color: rgba(245,240,232,0.50);
+  max-width: 540px;
+  margin: 0 auto;
+  line-height: 1.65;
+}
+
+/* ── Section scaffold ───────────────────────────────────────────── */
+.uc-section { padding: clamp(56px,8vh,100px) clamp(24px,5vw,80px); }
+.uc-section.centered { text-align: center; }
+.uc-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.30);
+  display: block;
+  margin-bottom: 14px;
+}
+.uc-head {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(28px,4vw,46px);
+  font-weight: 800;
+  color: #f5f0e8;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+.uc-sub {
+  font-size: 15px;
+  color: rgba(245,240,232,0.48);
+  line-height: 1.65;
+  max-width: 580px;
+  margin: 0 auto 52px;
+}
+
+/* ── FEATURED PIPELINE ──────────────────────────────────────────── */
+.pipeline-wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.pipeline-label-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.pipeline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(196,123,58,0.12);
+  border: 1px solid rgba(196,123,58,0.30);
+  color: #C47B3A;
+}
+.pipeline-title-line { flex:1; height:1px; background:rgba(255,255,255,0.07); }
+
+/* Flow steps row */
+.pipeline-flow {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr) auto;
+  align-items: stretch;
+  gap: 0;
+  background: rgba(12,14,22,0.75);
+  backdrop-filter: blur(28px) saturate(1.4);
+  -webkit-backdrop-filter: blur(28px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.pipeline-step {
+  padding: 28px 22px;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+.pipeline-step:last-of-type { border-right: none; }
+
+/* Arrow between steps */
+.pipeline-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2px;
+  color: rgba(196,123,58,0.45);
+  font-size: 18px;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  min-width: 28px;
+}
+
+.pipeline-step-num {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.22);
+  margin-bottom: 10px;
+}
+.pipeline-product-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+  width: fit-content;
+}
+.chip-studio  { background: rgba(94,172,215,0.14); color: #5eacd7; border: 1px solid rgba(94,172,215,0.25); }
+.chip-ai      { background: rgba(155,105,230,0.14); color: #9b69e6; border: 1px solid rgba(155,105,230,0.22); }
+.chip-build   { background: rgba(196,123,58,0.14);  color: #C47B3A; border: 1px solid rgba(196,123,58,0.28); }
+.chip-monjo   { background: rgba(62,207,142,0.12);  color: #3ecf8e; border: 1px solid rgba(62,207,142,0.22); }
+.chip-ship    { background: rgba(245,240,232,0.07); color: rgba(245,240,232,0.60); border: 1px solid rgba(255,255,255,0.10); }
+
+.pipeline-step-head {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #f5f0e8;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.pipeline-step-body {
+  font-size: 12px;
+  color: rgba(245,240,232,0.42);
+  line-height: 1.55;
+  flex: 1;
+}
+
+/* Full story strip beneath the flow */
+.pipeline-story {
+  margin-top: 20px;
+  padding: 20px 28px;
+  background: rgba(196,123,58,0.06);
+  border: 1px solid rgba(196,123,58,0.16);
+  border-radius: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.pipeline-story-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.pipeline-story-text { font-size: 13px; color: rgba(245,240,232,0.55); line-height: 1.65; }
+.pipeline-story-text strong { color: rgba(245,240,232,0.85); font-weight: 600; }
+
+/* Mobile: stack pipeline */
+@media (max-width: 900px) {
+  .pipeline-flow {
+    grid-template-columns: 1fr;
+    border-radius: 16px;
+  }
+  .pipeline-step { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .pipeline-arrow { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 12px 22px; justify-content: flex-start; }
+}
+
+/* ── USE CASE CARDS GRID ─────────────────────────────────────────── */
+.uc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+@media (max-width: 900px) { .uc-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 560px) { .uc-grid { grid-template-columns: 1fr; } }
+
+.uc-card {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 28px 26px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: border-color 160ms, transform 160ms, background 160ms;
+  text-decoration: none;
+}
+.uc-card:hover {
+  border-color: rgba(196,123,58,0.28);
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.06);
+}
+.uc-card-products {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.uc-card-head {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #f5f0e8;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+.uc-card-body {
+  font-size: 13px;
+  color: rgba(245,240,232,0.45);
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 20px;
+}
+.uc-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.uc-card-products-count {
+  font-size: 11px;
+  color: rgba(245,240,232,0.28);
+  font-family: ui-monospace, monospace;
+  letter-spacing: 0.04em;
+}
+.uc-card-arrow {
+  font-size: 14px;
+  color: rgba(196,123,58,0.55);
+  transition: color 160ms, transform 160ms;
+}
+.uc-card:hover .uc-card-arrow { color: #C47B3A; transform: translateX(3px); }
+
+/* ── CTA ────────────────────────────────────────────────────────── */
+.uc-cta {
+  text-align: center;
+  padding: clamp(56px,8vh,100px) clamp(24px,5vw,80px);
+}
+.uc-cta h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(28px,4vw,48px);
+  font-weight: 800;
+  color: #f5f0e8;
+  letter-spacing: -0.03em;
+  margin-bottom: 14px;
+}
+.uc-cta p {
+  font-size: 15px;
+  color: rgba(245,240,232,0.45);
+  max-width: 480px;
+  margin: 0 auto 32px;
+  line-height: 1.65;
+}
+.uc-cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+</style>
+</head>
+<body class="landing-page">
+
+<!-- NAV -->
+<nav class="tnav">
+  <a class="wordmark" href="/index.html"><img src="/assets/wordmark-full.png" alt="Hasso" width="38" height="38"></a>
+  <div class="tnav-center">
+    <a href="/index.html#products">Products</a>
+    <a href="/monjo/index.html">Monjo</a>
+    <a href="/use-cases/index.html" style="color:var(--accent,#C47B3A)">Use Cases</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/help.html">Docs</a>
+  </div>
+  <div class="tnav-right">
+    <a class="btn btn-chrome" href="/login.html">Sign in</a>
+    <a class="btn btn-hot" href="/signup.html">Get started</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="uc-hero">
+  <div class="leak leak-red" aria-hidden="true" style="opacity:0.45"></div>
+  <div class="leak leak-purple" aria-hidden="true" style="opacity:0.28"></div>
+
+  <div class="uc-eyebrow">
+    <span style="width:6px;height:6px;background:#C47B3A;border-radius:50%;flex-shrink:0"></span>
+    Workflows · Product combinations
+  </div>
+  <h1>One platform.<br><em>Every workflow.</em></h1>
+  <p>Each Hasso product is powerful alone. Combined, they form an end-to-end pipeline that takes you from brand extraction to shipped, production-ready code — powered by frontier models at every step.</p>
+</header>
+
+<div class="wrap"><div class="hr-chrome"></div></div>
+
+<!-- FEATURED: THE FULL PIPELINE -->
+<section class="uc-section">
+  <div class="pipeline-wrap">
+
+    <div class="pipeline-label-row">
+      <div class="pipeline-badge">⚡ Flagship workflow</div>
+      <div class="pipeline-title-line"></div>
+      <span style="font-size:11px;color:rgba(245,240,232,0.25);white-space:nowrap">All 4 products · frontier models end-to-end</span>
+    </div>
+
+    <div style="margin-bottom:20px">
+      <div class="uc-head" style="margin-bottom:8px">The Full Pipeline.</div>
+      <p style="font-size:15px;color:rgba(245,240,232,0.48);max-width:640px;line-height:1.65">Design system to deployed codebase — built entirely with AI. This is the workflow that puts every part of Hasso to work at once, with Monjo's dual-model engine closing the loop.</p>
+    </div>
+
+    <div class="pipeline-flow">
+
+      <div class="pipeline-step">
+        <div class="pipeline-step-num">Step 01</div>
+        <div class="pipeline-product-chip chip-studio">/studio</div>
+        <div class="pipeline-step-head">Extract the design system</div>
+        <div class="pipeline-step-body">Drop any URL into Studio. Hasso pulls the full design language — colors, typography, spacing scale, component tokens — ready to use across every tool.</div>
+      </div>
+
+      <div class="pipeline-arrow">→</div>
+
+      <div class="pipeline-step">
+        <div class="pipeline-step-num">Step 02</div>
+        <div class="pipeline-product-chip chip-ai">/ai</div>
+        <div class="pipeline-step-head">Craft the perfect prompt</div>
+        <div class="pipeline-step-body">Use AI with your extracted design system as context. Iterate on the concept, refine the brief, and build the exact prompt that will drive /build — with full model intelligence behind it.</div>
+      </div>
+
+      <div class="pipeline-arrow">→</div>
+
+      <div class="pipeline-step">
+        <div class="pipeline-step-num">Step 03</div>
+        <div class="pipeline-product-chip chip-build">/build</div>
+        <div class="pipeline-step-head">Generate the rough build</div>
+        <div class="pipeline-step-body">Send the AI-crafted prompt to Build. Get a unique, brand-matched site — desktop and mobile — generated in real time. Clean HTML, CSS, and JS. Yours from the first render.</div>
+      </div>
+
+      <div class="pipeline-arrow">→</div>
+
+      <div class="pipeline-step">
+        <div class="pipeline-step-num">Step 04</div>
+        <div class="pipeline-product-chip chip-monjo">Monjo</div>
+        <div class="pipeline-step-head">Final polish + hard logic</div>
+        <div class="pipeline-step-body">Feed the build into Monjo. The sandbox model refines styles and design language while the exec model rewrites JS logic, fixes bugs, and handles anything complex — both running simultaneously.</div>
+      </div>
+
+      <div class="pipeline-arrow">→</div>
+
+      <div class="pipeline-step" style="border-right:none">
+        <div class="pipeline-step-num">Step 05</div>
+        <div class="pipeline-product-chip chip-ship">→ Ship</div>
+        <div class="pipeline-step-head">Export and push via Monjo</div>
+        <div class="pipeline-step-body">Monjo's exec model exports the final build and pushes directly to your repo via terminal — git add, commit, push. Entire codebase shipped by frontier models. No hand-holding required.</div>
+      </div>
+
+    </div>
+
+    <div class="pipeline-story">
+      <div class="pipeline-story-icon">✦</div>
+      <div class="pipeline-story-text">
+        <strong>The result:</strong> You've built an entire production codebase — brand-matched, logic-complete, tested, and pushed to GitHub — using frontier AI models at every single step. Studio handled the design intelligence, /ai shaped the concept, /build generated the foundation, and Monjo's dual Anthropic models finished and shipped it. This workflow doesn't exist anywhere else.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="wrap"><div class="hr-chrome"></div></div>
+
+<!-- OTHER USE CASES GRID -->
+<section class="uc-section centered">
+  <span class="uc-label">More workflows</span>
+  <h2 class="uc-head">Every way to use Hasso.</h2>
+  <p class="uc-sub">Mix and match products for your workflow — each one is a complete tool on its own, and every combination unlocks something new.</p>
+
+  <div class="uc-grid">
+
+    <div class="uc-card">
+      <div class="uc-card-products">
+        <span class="pipeline-product-chip chip-studio" style="margin-bottom:0">/studio</span>
+        <span class="pipeline-product-chip chip-build" style="margin-bottom:0">/build</span>
+      </div>
+      <div class="uc-card-head">The Brand Sprint</div>
+      <div class="uc-card-body">Extract a client's design system in Studio, then feed it straight into Build. Generate a brand-matched site in minutes — colors, fonts, and spacing perfectly inherited. Hand it off as clean, owned code.</div>
+      <div class="uc-card-footer">
+        <span class="uc-card-products-count">2 products</span>
+        <span class="uc-card-arrow">→</span>
+      </div>
+    </div>
+
+    <div class="uc-card">
+      <div class="uc-card-products">
+        <span class="pipeline-product-chip chip-monjo" style="margin-bottom:0">Monjo</span>
+      </div>
+      <div class="uc-card-head">The Deep Refactor</div>
+      <div class="uc-card-body">Point Monjo at a legacy codebase. The sandbox model maps the architecture and rewrites styles and markup; the exec model handles the JS, runs the migration scripts, and pushes the result. Large-scale changes without a sprint.</div>
+      <div class="uc-card-footer">
+        <span class="uc-card-products-count">Monjo only</span>
+        <span class="uc-card-arrow">→</span>
+      </div>
+    </div>
+
+    <div class="uc-card">
+      <div class="uc-card-products">
+        <span class="pipeline-product-chip chip-ai" style="margin-bottom:0">/ai</span>
+        <span class="pipeline-product-chip chip-build" style="margin-bottom:0">/build</span>
+      </div>
+      <div class="uc-card-head">The AI Ideation Loop</div>
+      <div class="uc-card-body">Use /ai to rapidly iterate concepts — ask questions, reshape the brief, explore layouts. The moment a direction clicks, send the refined prompt straight to /build and have a real site in seconds.</div>
+      <div class="uc-card-footer">
+        <span class="uc-card-products-count">2 products</span>
+        <span class="uc-card-arrow">→</span>
+      </div>
+    </div>
+
+    <div class="uc-card">
+      <div class="uc-card-products">
+        <span class="pipeline-product-chip chip-build" style="margin-bottom:0">/build</span>
+        <span class="pipeline-product-chip chip-monjo" style="margin-bottom:0">Monjo</span>
+      </div>
+      <div class="uc-card-head">Build → Ship</div>
+      <div class="uc-card-body">Generate a rough site in Build — then hand it directly to Monjo for production hardening. Monjo's dual-model engine adds JS logic, fixes edge cases, handles responsive breakpoints, and pushes to your repo.</div>
+      <div class="uc-card-footer">
+        <span class="uc-card-products-count">2 products</span>
+        <span class="uc-card-arrow">→</span>
+      </div>
+    </div>
+
+    <div class="uc-card">
+      <div class="uc-card-products">
+        <span class="pipeline-product-chip chip-studio" style="margin-bottom:0">/studio</span>
+        <span class="pipeline-product-chip chip-ai" style="margin-bottom:0">/ai</span>
+        <span class="pipeline-product-chip chip-build" style="margin-bottom:0">/build</span>
+      </div>
+      <div class="uc-card-head">The Agency Concept</div>
+      <div class="uc-card-body">Extract the client's brand, use /ai to brainstorm directions and generate brief variations, then Build to produce multiple distinct concepts fast. Present 3 different sites by end of day — all brand-accurate, all client-owned.</div>
+      <div class="uc-card-footer">
+        <span class="uc-card-products-count">3 products</span>
+        <span class="uc-card-arrow">→</span>
+      </div>
+    </div>
+
+    <div class="uc-card">
+      <div class="uc-card-products">
+        <span class="pipeline-product-chip chip-ai" style="margin-bottom:0">/ai</span>
+        <span class="pipeline-product-chip chip-monjo" style="margin-bottom:0">Monjo</span>
+      </div>
+      <div class="uc-card-head">The Dev Handoff</div>
+      <div class="uc-card-body">Use /ai with live preview to flesh out complex feature requirements — architecture decisions, API structures, edge cases. Hand the full spec to Monjo, which implements it autonomously across your codebase using both frontier models.</div>
+      <div class="uc-card-footer">
+        <span class="uc-card-products-count">2 products</span>
+        <span class="uc-card-arrow">→</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="wrap"><div class="hr-chrome"></div></div>
+
+<!-- CTA -->
+<section class="uc-cta">
+  <h2>Start anywhere.<br>Ship everything.</h2>
+  <p>Every workflow above starts with a free account. Unlock the full pipeline with a Pro or Monjo plan.</p>
+  <div class="uc-cta-row">
+    <a class="btn btn-hot" href="/signup.html">Create free account</a>
+    <a class="btn btn-chrome" href="/pricing.html">Compare plans</a>
+    <a class="btn btn-chrome" href="/monjo/index.html">Learn about Monjo →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="tfoot">
+  <div class="tfoot-row">
+    <a class="wordmark" href="/index.html"><span class="chrome-text">Hasso</span></a>
+    <div class="tfoot-links">
+      <a href="/index.html">Home</a>
+      <a href="/monjo/index.html">Monjo</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/help.html">Docs</a>
+    </div>
+    <div class="tfoot-copy">© 2026 Hasso Design, Inc.</div>
+  </div>
+</footer>
+
+</body>
+</html>

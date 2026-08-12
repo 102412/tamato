@@ -1,0 +1,10 @@
+<svg viewBox="0 0 224 188" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- H left vertical -->
+  <line x1="38" y1="16" x2="20" y2="172" stroke="#C47B3A" stroke-width="22" stroke-linecap="round"/>
+  <!-- H right vertical / A left leg — shared stroke, apex at top -->
+  <line x1="92" y1="16" x2="74" y2="172" stroke="#C47B3A" stroke-width="22" stroke-linecap="round"/>
+  <!-- Crossbar -->
+  <line x1="20" y1="96" x2="98" y2="96" stroke="#C47B3A" stroke-width="22" stroke-linecap="round"/>
+  <!-- A right leg: from apex down to lower right -->
+  <line x1="92" y1="16" x2="202" y2="172" stroke="#C47B3A" stroke-width="22" stroke-linecap="round"/>
+</svg>

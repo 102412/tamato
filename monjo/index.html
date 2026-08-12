@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hasso Monjo — Autonomous Code Intelligence</title>
-<meta name="description" content="Monjo is an autonomous coding agent with full terminal, filesystem, and command-line access. Tiered bypass permissions. Powered exclusively by Anthropic models. For developers who ship.">
+<title>Hasso Monjo — Dual-Model Autonomous Coding Agent</title>
+<meta name="description" content="Monjo runs two frontier Anthropic models simultaneously on your codebase — one sandboxed for deep reasoning, one with full terminal and system access for execution. A workflow that doesn't exist anywhere else.">
 <link rel="icon" href="/icon.png?v=3">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/global.css">
@@ -336,6 +336,184 @@
 .mj-spec-val { color: #f5f0e8; font-weight: 600; }
 .mj-spec-val.copper { color: #C47B3A; }
 
+/* ── Dual-model terminal ──────────────────────────────────────── */
+.mj-dual-cols {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+}
+.mj-col { padding: 18px 20px 22px; font-size: 12px; }
+.mj-col-divider { background: rgba(255,255,255,0.07); }
+.mj-col-head {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.mj-col-sandbox .mj-col-head { color: rgba(196,123,58,0.70); }
+.mj-col-exec    .mj-col-head { color: rgba(62,207,142,0.65); }
+
+/* ── Architecture diagram ─────────────────────────────────────── */
+.mj-arch-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+}
+.mj-arch-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.mj-arch-title-row span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.28);
+}
+.mj-arch-title-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+}
+.mj-arch-grid {
+  display: grid;
+  grid-template-columns: 1fr 56px 1fr;
+  align-items: stretch;
+  gap: 0;
+}
+.mj-arch-model {
+  padding: 28px 26px 24px;
+  border-radius: 16px;
+  text-align: left;
+  border: 1px solid;
+}
+.mj-arch-sandbox {
+  border-color: rgba(196,123,58,0.28);
+  background: rgba(196,123,58,0.06);
+}
+.mj-arch-exec {
+  border-color: rgba(62,207,142,0.22);
+  background: rgba(62,207,142,0.05);
+}
+.mj-arch-model-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.mj-arch-sandbox .mj-arch-model-label { color: #C47B3A; }
+.mj-arch-exec    .mj-arch-model-label { color: #3ecf8e; }
+.mj-arch-model-sub {
+  font-size: 11px;
+  color: rgba(245,240,232,0.28);
+  margin-bottom: 18px;
+  font-family: ui-monospace, monospace;
+}
+.mj-arch-model-head {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #f5f0e8;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+.mj-arch-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.mj-arch-list li {
+  font-size: 13px;
+  color: rgba(245,240,232,0.65);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.4;
+}
+.mj-arch-list li::before {
+  content: '→';
+  color: rgba(245,240,232,0.22);
+  font-size: 11px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.mj-arch-footer {
+  font-size: 11px;
+  color: rgba(245,240,232,0.25);
+  font-family: ui-monospace, monospace;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  line-height: 1.4;
+}
+.mj-arch-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 4px;
+}
+.mj-arch-connector-line {
+  width: 2px;
+  flex: 1;
+  max-height: 60px;
+  background: linear-gradient(to bottom, rgba(196,123,58,0.45), rgba(62,207,142,0.40));
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+.mj-arch-connector-line::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: 0; right: 0;
+  height: 30%;
+  background: rgba(255,255,255,0.55);
+  border-radius: 2px;
+  animation: connPulse 2.2s ease-in-out infinite;
+}
+@keyframes connPulse {
+  0%   { top: -30%; opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { top: 130%; opacity: 0; }
+}
+.mj-arch-connector-icon {
+  font-size: 14px;
+  color: rgba(245,240,232,0.30);
+}
+.mj-arch-beneath {
+  margin-top: 16px;
+  padding: 14px 20px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 12px;
+  color: rgba(245,240,232,0.35);
+  font-family: ui-monospace, monospace;
+}
+.mj-arch-beneath span { color: rgba(245,240,232,0.18); font-size: 16px; }
+
+@media (max-width: 640px) {
+  .mj-arch-grid { grid-template-columns: 1fr; gap: 12px; }
+  .mj-arch-connector { flex-direction: row; padding: 4px 0; }
+  .mj-arch-connector-line { width: 100%; height: 2px; flex: none; max-height: none; }
+  .mj-dual-cols { grid-template-columns: 1fr; }
+  .mj-col-divider { height: 1px; width: auto; }
+}
+
 /* Placeholder banner */
 .mj-placeholder-banner {
   display: flex;
@@ -376,41 +554,51 @@
 
   <div class="mj-eyebrow">
     <span style="width:6px;height:6px;background:#C47B3A;border-radius:50%;flex-shrink:0"></span>
-    Hasso Monjo · Early Access
+    Hasso Monjo · Flagship Product · Early Access
   </div>
 
   <h1>
-    Autonomous code<br><em>intelligence.</em>
+    Two frontier models.<br><em>One codebase.</em>
   </h1>
 
-  <p>Monjo reads your entire codebase, plans the work, and executes — with full terminal, filesystem, and command-line access. Built for developers who ship, not tools that ask permission.</p>
+  <p>Monjo runs two Anthropic frontier models simultaneously on your project — one sandboxed for deep reasoning and planning, one with full terminal and system access for execution. This workflow doesn't exist anywhere else.</p>
 
   <div class="mj-cta-row">
     <a class="btn btn-hot" href="#waitlist">Join the waitlist</a>
     <a class="btn btn-chrome" href="/pricing.html#monjo">See Monjo pricing</a>
   </div>
 
-  <!-- Terminal mock -->
-  <div class="mj-terminal">
+  <!-- Dual-model terminal mock -->
+  <div class="mj-terminal" style="max-width:760px">
     <div class="mj-term-chrome">
       <div class="mj-term-dot" style="background:#FF5F57"></div>
       <div class="mj-term-dot" style="background:#FFBD2E"></div>
       <div class="mj-term-dot" style="background:#28CA41"></div>
-      <span>Monjo · planning session</span>
+      <span>Monjo · dual-model session · bypass: elevated</span>
     </div>
-    <div class="mj-term-body">
-      <div class="mj-line-dim">$ monjo start --task "refactor auth to JWT"</div>
-      <div class="mj-line-task">✦ Reading codebase…</div>
-      <div class="mj-line-step">  → Scanned 847 files across /src</div>
-      <div class="mj-line-step">  → Located auth module: 14 relevant files</div>
-      <div class="mj-line-step">  → Identified 6 targeted edits required</div>
-      <div class="mj-line-ok">✓ Executing [bypass: elevated]</div>
-      <div style="margin-top:12px;margin-bottom:4px;font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:0.06em;text-transform:uppercase">Live execution</div>
-      <div class="mj-line-step">  [1/6] Rewriting src/auth/index.js <span style="color:#3ecf8e">✓</span></div>
-      <div class="mj-line-step">  [2/6] Updating src/middleware/auth.js <span style="color:#3ecf8e">✓</span></div>
-      <div class="mj-line-step">  [3/6] $ npm install jsonwebtoken --save <span style="color:#3ecf8e">✓</span></div>
-      <div class="mj-line-step">  [4/6] Patching src/routes/user.js <span style="color:#3ecf8e">✓</span></div>
-      <div class="mj-line-await">  [5–6] running…<span class="s1-cursor"></span></div>
+    <div class="mj-dual-cols">
+      <div class="mj-col mj-col-sandbox">
+        <div class="mj-col-head">Sandbox model — reasoning</div>
+        <div class="mj-line-dim">$ indexing /src…</div>
+        <div class="mj-line-step">→ 847 files mapped</div>
+        <div class="mj-line-step">→ auth module: 14 files</div>
+        <div class="mj-line-task">✦ Planning 6 edits</div>
+        <div class="mj-line-step">→ plan → exec model ↓</div>
+        <div class="mj-line-dim" style="margin-top:6px">verifying output…</div>
+        <div class="mj-line-ok">✓ logic confirmed</div>
+      </div>
+      <div class="mj-col-divider"></div>
+      <div class="mj-col mj-col-exec">
+        <div class="mj-col-head">Exec model — full access</div>
+        <div class="mj-line-dim">[standing by]</div>
+        <div class="mj-line-dim">…</div>
+        <div class="mj-line-dim">…</div>
+        <div class="mj-line-task">✦ plan received</div>
+        <div class="mj-line-step">[1] auth/index.js <span style="color:#3ecf8e">✓</span></div>
+        <div class="mj-line-step">[2] $ npm i jsonwebtoken <span style="color:#3ecf8e">✓</span></div>
+        <div class="mj-line-step">[3] middleware/auth.js <span style="color:#3ecf8e">✓</span></div>
+        <div class="mj-line-await">[4–6] running…<span class="s1-cursor"></span></div>
+      </div>
     </div>
   </div>
 </header>
@@ -425,42 +613,102 @@
   </div>
 </div>
 
-<!-- FEATURES -->
+<!-- ARCHITECTURE — the centrepiece -->
+<section class="mj-section centered">
+  <span class="mj-section-label">Architecture</span>
+  <h2 class="mj-section-head">The dual-model engine.</h2>
+  <p class="mj-section-sub">No other AI coding tool runs two frontier models simultaneously on one codebase. Monjo separates intelligence from execution by design — one model thinks, one acts, both run at the same time.</p>
+
+  <div class="mj-arch-wrap">
+    <div class="mj-arch-title-row">
+      <div class="mj-arch-title-line"></div>
+      <span>Simultaneous · Anthropic frontier only</span>
+      <div class="mj-arch-title-line"></div>
+    </div>
+
+    <div class="mj-arch-grid">
+
+      <div class="mj-arch-model mj-arch-sandbox">
+        <div class="mj-arch-model-label">Sandbox Model</div>
+        <div class="mj-arch-model-sub">Anthropic frontier · no system access</div>
+        <div class="mj-arch-model-head">Pure intelligence.<br>Zero execution risk.</div>
+        <ul class="mj-arch-list">
+          <li>Full codebase indexing &amp; mapping</li>
+          <li>Architecture &amp; dependency analysis</li>
+          <li>Task planning &amp; sequencing</li>
+          <li>Code generation &amp; rewriting</li>
+          <li>Output review &amp; verification</li>
+        </ul>
+        <div class="mj-arch-footer">Operates in a sandboxed context — no filesystem writes, no terminal, no network calls. Pure reasoning.</div>
+      </div>
+
+      <div class="mj-arch-connector">
+        <div class="mj-arch-connector-line"></div>
+        <div class="mj-arch-connector-icon">⟷</div>
+        <div class="mj-arch-connector-line"></div>
+      </div>
+
+      <div class="mj-arch-model mj-arch-exec">
+        <div class="mj-arch-model-label">Executive Model</div>
+        <div class="mj-arch-model-sub">Anthropic frontier · full system access</div>
+        <div class="mj-arch-model-head">Real access.<br>Real execution.</div>
+        <ul class="mj-arch-list">
+          <li>Terminal &amp; CMD execution</li>
+          <li>Package managers (npm, pip, cargo…)</li>
+          <li>Build systems &amp; compilers</li>
+          <li>Test runners &amp; scripts</li>
+          <li>Process control &amp; file writes</li>
+        </ul>
+        <div class="mj-arch-footer">Receives plans from the sandbox model and executes with the bypass level you set. No reasoning overhead — pure execution speed.</div>
+      </div>
+
+    </div>
+
+    <div class="mj-arch-beneath">
+      <span>⌗</span>
+      Your codebase — local, never uploaded, never shared
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="hr-chrome"></div></div>
+
+<!-- CAPABILITIES -->
 <section class="mj-section centered">
   <span class="mj-section-label">Capabilities</span>
-  <h2 class="mj-section-head">Built for the way developers actually work.</h2>
-  <p class="mj-section-sub">Monjo doesn't just generate code — it understands your project, proposes a plan, and waits for your go-ahead before touching anything.</p>
+  <h2 class="mj-section-head">What Monjo can actually do.</h2>
+  <p class="mj-section-sub">This is not a coding assistant. Monjo is an autonomous agent with real system access — the gap between "suggests changes" and "ships them" is the entire point.</p>
 
   <div class="mj-features">
+    <div class="mj-feat" style="border-color:rgba(196,123,58,0.22);background:rgba(196,123,58,0.04)">
+      <span class="mj-feat-icon">⚡</span>
+      <h3>Simultaneous dual-model execution</h3>
+      <p>Both models run in parallel — the sandbox model reasons and generates while the exec model carries out the previous instruction. No waiting between think and do.</p>
+    </div>
     <div class="mj-feat">
       <span class="mj-feat-icon">🗺</span>
-      <h3>Full codebase awareness</h3>
-      <p>Monjo maps your entire project before acting — understanding imports, dependencies, and architecture before proposing a single change.</p>
+      <h3>Deep codebase awareness</h3>
+      <p>The sandbox model maps your entire project — imports, dependency graph, build config, test suites — before touching a single file. It understands your architecture the way a senior engineer would.</p>
     </div>
     <div class="mj-feat">
       <span class="mj-feat-icon">⚙️</span>
       <h3>Tiered bypass permissions</h3>
-      <p>Set your access level before each session. Standard handles file edits; Elevated unlocks terminal, CMD, and package managers; Full grants complete autonomous execution with no interruptions.</p>
-    </div>
-    <div class="mj-feat">
-      <span class="mj-feat-icon">⚡</span>
-      <h3>True autonomous execution</h3>
-      <p>Monjo doesn't simulate — it runs. Edits files, executes shell commands, installs packages, triggers build scripts, and controls processes in your actual environment.</p>
+      <p>Standard: file edits only. Elevated: + terminal, CMD, and package managers. Full: complete autonomous system control. Monjo operates exactly within what you grant.</p>
     </div>
     <div class="mj-feat">
       <span class="mj-feat-icon">🖥</span>
       <h3>Full terminal + CMD access</h3>
-      <p>At elevated bypass, Monjo has real command-line access. It can run npm, pip, git, compilers, test runners, and any CLI tool your project depends on — without asking twice.</p>
+      <p>At elevated bypass, the exec model has real shell access — npm, pip, git, compilers, test runners, build scripts, any CLI your project needs. It runs them, not simulates them.</p>
     </div>
     <div class="mj-feat">
       <span class="mj-feat-icon">🔒</span>
-      <h3>Runs fully local</h3>
-      <p>Your code never leaves your machine. Monjo runs as a native Windows Electron app — no cloud sync, no code upload, no surprises.</p>
+      <h3>Fully local — code never leaves</h3>
+      <p>Monjo is a native Windows Electron app. Your codebase is never uploaded, synced, or sent to any server. Only AI inference calls leave your machine.</p>
     </div>
     <div class="mj-feat">
       <span class="mj-feat-icon">🔗</span>
-      <h3>Hasso integration</h3>
-      <p>Combine Monjo with Hasso Build and AI for a complete design-to-code pipeline — from prompt to deployed site to production-ready component.</p>
+      <h3>Hasso ecosystem integration</h3>
+      <p>Pair Monjo with Hasso Build and AI for a complete pipeline — from AI-generated site to production-ready codebase, all within one platform.</p>
     </div>
   </div>
 </section>
@@ -470,29 +718,29 @@
 <!-- HOW IT WORKS -->
 <section class="mj-section centered">
   <span class="mj-section-label">How it works</span>
-  <h2 class="mj-section-head">How Monjo operates.</h2>
-  <p class="mj-section-sub">Monjo is not a chatbot with file access — it is an autonomous agent that understands your project and executes at the level you authorise.</p>
+  <h2 class="mj-section-head">How the dual-model engine runs.</h2>
+  <p class="mj-section-sub">Both models fire simultaneously from the moment you start a session. The sandbox model never slows the exec model down — they operate in parallel, coordinating in real time.</p>
 
   <div class="mj-steps">
     <div class="mj-step">
       <div class="mj-step-num">01</div>
       <h4>Define the task</h4>
-      <p>Describe the work in plain language — refactor, new feature, bug fix, dependency upgrade. Monjo treats it as a real engineering brief, not a prompt.</p>
+      <p>Give Monjo an engineering brief in plain language. It treats it as a real task — not a chat message. Set your bypass level before execution begins.</p>
     </div>
     <div class="mj-step">
       <div class="mj-step-num">02</div>
-      <h4>Codebase analysis</h4>
-      <p>Monjo indexes your entire project — files, imports, dependency graph, build config — before touching anything. It understands the codebase the way a senior engineer would.</p>
+      <h4>Sandbox model activates</h4>
+      <p>The sandboxed Anthropic model indexes your codebase, maps architecture, and plans the full sequence of changes — with zero system access, zero risk.</p>
     </div>
     <div class="mj-step">
       <div class="mj-step-num">03</div>
-      <h4>Set bypass level</h4>
-      <p>Choose your permission tier: Standard (file edits only), Elevated (+ terminal, CMD, package managers), or Full (complete autonomous control). Monjo operates within what you grant — nothing more.</p>
+      <h4>Exec model fires in parallel</h4>
+      <p>As the sandbox model plans, the executive model begins executing the completed steps — writing files, running terminal commands, installing packages — simultaneously, not sequentially.</p>
     </div>
     <div class="mj-step">
       <div class="mj-step-num">04</div>
-      <h4>Autonomous execution</h4>
-      <p>Monjo executes. Edits code, runs commands, installs packages, triggers builds — all logged in real time. This is real access to your real environment.</p>
+      <h4>Continuous coordination</h4>
+      <p>The two models coordinate throughout the session — sandbox verifies exec output, flags issues, and adjusts the plan. Work ships while verification is still running.</p>
     </div>
   </div>
 </section>
@@ -527,12 +775,24 @@
       <span class="mj-spec-val copper">✓ Always local</span>
     </div>
     <div class="mj-spec-row">
-      <span class="mj-spec-key">AI model</span>
-      <span class="mj-spec-val">Placeholder — TBD at launch</span>
+      <span class="mj-spec-key">AI architecture</span>
+      <span class="mj-spec-val copper">Dual frontier model (simultaneous)</span>
+    </div>
+    <div class="mj-spec-row">
+      <span class="mj-spec-key">Model provider</span>
+      <span class="mj-spec-val">Anthropic only — no other providers</span>
+    </div>
+    <div class="mj-spec-row">
+      <span class="mj-spec-key">Sandbox model</span>
+      <span class="mj-spec-val">Reasoning · planning · no system access</span>
+    </div>
+    <div class="mj-spec-row">
+      <span class="mj-spec-key">Executive model</span>
+      <span class="mj-spec-val">Full terminal · CMD · file system</span>
     </div>
     <div class="mj-spec-row">
       <span class="mj-spec-key">Internet required</span>
-      <span class="mj-spec-val">For AI calls only</span>
+      <span class="mj-spec-val">For Anthropic API calls only</span>
     </div>
     <div class="mj-spec-row">
       <span class="mj-spec-key">macOS / Linux</span>
